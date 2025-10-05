@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
   // It is highly recommended to keep this enabled.
   reactStrictMode: true,
 
+  // Output mode for Docker deployment
+  // Generates a standalone build that includes only necessary files
+  output: 'standalone',
+
   // Configuration for the ESLint linter.
   eslint: {
     // By default, Next.js lints the `pages`, `app`, `components`, `lib`, and `src` directories.

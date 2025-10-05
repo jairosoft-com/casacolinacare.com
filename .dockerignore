@@ -1,0 +1,141 @@
+# .dockerignore for Next.js 15 Application
+# Prevents unnecessary files from being sent to Docker build context
+
+# ============================================================
+# DEPENDENCIES (556MB) - Critical to exclude
+# ============================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# NPM package lock (keep package.json, exclude others)
+# Note: package.json is NEEDED for npm install
+# Note: package-lock.json is NEEDED for reproducible builds
+# yarn.lock
+
+# ============================================================
+# BUILD OUTPUTS (22MB) - Must exclude
+# ============================================================
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# ============================================================
+# GIT & VERSION CONTROL (340KB) - Should exclude
+# ============================================================
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# ============================================================
+# TESTING (varies) - Exclude (not needed at runtime)
+# ============================================================
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# ============================================================
+# ENVIRONMENT FILES - Critical for security
+# ============================================================
+# Exclude all env files
+.env
+.env.*
+
+# Exception: You might want to include .env.example as documentation
+# !.env.example
+
+# ============================================================
+# IDE & EDITOR FILES - Should exclude
+# ============================================================
+.vscode/
+.idea/
+.cursor/
+.claude/
+*.swp
+*.swo
+*~
+*.code-workspace
+
+# ============================================================
+# OS FILES - Should exclude
+# ============================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+Desktop.ini
+.Trash-*
+
+# ============================================================
+# DOCUMENTATION (124KB) - Optional
+# ============================================================
+# Option 1: Exclude all (smaller image)
+README.md
+docs/
+ai_docs/
+*.md
+
+# Option 2: Keep specific docs (uncomment if needed)
+# !README.md
+# !docs/deployment.md
+
+# ============================================================
+# DEVELOPMENT TOOLS - Should exclude
+# ============================================================
+.husky/
+.eslintcache
+.stylelintcache
+
+# ============================================================
+# DOCKER FILES - Exclude from build context
+# ============================================================
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# ============================================================
+# LOGS & TEMPORARY FILES - Should exclude
+# ============================================================
+*.log
+logs/
+*.tmp
+*.temp
+.cache/
+
+# ============================================================
+# CERTIFICATES & SECRETS - Critical to exclude
+# ============================================================
+*.pem
+*.key
+*.cert
+*.crt
+*-key.json
+
+# ============================================================
+# VERCEL & DEPLOYMENT - Exclude
+# ============================================================
+.vercel/
+
+# ============================================================
+# OPTIONAL: Keep these if you want them in image
+# ============================================================
+# Source code - KEEP (needed for build)
+# src/           # ✓ Keep
+# public/        # ✓ Keep
+# package.json   # ✓ Keep
+# package-lock.json  # ✓ Keep
+# tsconfig.json  # ✓ Keep
+# next.config.ts # ✓ Keep
+# All *.config.* # ✓ Keep

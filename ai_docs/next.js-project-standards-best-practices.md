@@ -7,7 +7,8 @@ alwaysApply: false
 # Project Structure And App Router
 
 - Use the App Router (`app` directory) in Next.js 15
-- Co-locate route handlers, loading and error states, and page-level components within the `app` directory
+- Co-locate route handlers, loading and error states, and page-level components
+  within the `app` directory
 - Use route groups (parentheses) to organize without affecting URLs
 - Use parallel or intercepting routes for complex layouts and modals
 - Place API route handlers in `app/api`
@@ -21,13 +22,16 @@ alwaysApply: false
 - Prefer `fetch` with `revalidate` options for caching in Server Components
 - Implement `generateStaticParams` for static builds of dynamic routes
 - Use `unstable_noStore` for fully dynamic, non-cached rendering
-- Use `Promise.all` for parallel data fetching and `React.cache` for request deduplication
+- Use `Promise.all` for parallel data fetching and `React.cache` for request
+  deduplication
 
 # Client Components
 
 - Mark Client Components with `"use client"` at the top
-- Use `next/navigation` hooks such as `useRouter` and `usePathname` instead of `next/router`
-- Handle form state with `useFormStatus`, `useFormState`, and `useOptimistic` when using Server Actions
+- Use `next/navigation` hooks such as `useRouter` and `usePathname` instead of
+  `next/router`
+- Handle form state with `useFormStatus`, `useFormState`, and `useOptimistic`
+  when using Server Actions
 - Include client-specific logic like user interaction and browser APIs here
 
 # Data Fetching
@@ -48,12 +52,14 @@ alwaysApply: false
 
 - Define Server Actions with the `use server` directive
 - Call them from both Server and Client Components for data mutations
-- Use `useFormStatus` and `useFormState` in Client Components to track form submissions
+- Use `useFormStatus` and `useFormState` in Client Components to track form
+  submissions
 - Use `useOptimistic` to update the UI optimistically before server confirmation
 
 # Middleware And Edge Runtime
 
-- Use `middleware.ts` for route interception, authentication, redirects, and rewrites
+- Use `middleware.ts` for route interception, authentication, redirects, and
+  rewrites
 - Use the Edge Runtime for faster startup and location-based personalization
 - Handle cookies, headers, and dynamic rewrites in `middleware`
 - Be mindful of constraints when running at the edge
@@ -68,7 +74,8 @@ alwaysApply: false
 
 - Use streaming and `Suspense` for faster initial rendering
 - Dynamically import large dependencies in Client Components
-- Use `React.useMemo` and `React.useCallback` in Client Components to avoid re-renders
+- Use `React.useMemo` and `React.useCallback` in Client Components to avoid
+  re-renders
 - Use `fetch` caching and revalidation carefully
 
 # Deployment

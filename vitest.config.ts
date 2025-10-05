@@ -16,7 +16,7 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'html', 'lcov'],
       exclude: [
         'node_modules/',
         'tests/',
@@ -25,7 +25,16 @@ export default defineConfig({
         '**/*.config.*',
         '**/main.ts',
         '**/types.ts',
+        '**/*.d.ts',
+        '**/index.ts', // Re-export files
       ],
+      // 60% coverage threshold
+      thresholds: {
+        lines: 60,
+        functions: 60,
+        branches: 60,
+        statements: 60,
+      },
     },
   },
 });
