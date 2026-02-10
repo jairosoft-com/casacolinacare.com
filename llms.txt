@@ -11,11 +11,7 @@ Important notes:
 ## Docs
 
 - [AGENTS.md](AGENTS.md): Repository instructions for coding agent
-
-## Optional
-
-- [AGENTS.md](https://agents.md/): The reference specification for AGENTS.md
-- [LLMSTXT.org](https://llmstxt.org): The reference specification for llms.txt
+- [CLAUDE.md](CLAUDE.md): AI assistant guidance with dev commands, architecture, and code standards
 - [A Contextual Prompt for Agent](ai_docs/A_Contextual_Prompt_for_Agent.md): Contextual prompt guidance for AI agents
 - [AI Collaborative Architecture](ai_docs/AI_Collaborative_Architecture_The_Definitive_Project_Template_for_Next.js_15.md): Definitive project template for Next.js 15
 - [Branching & Merging Strategy](ai_docs/branching-merging-strategy.md): Git branching and merging strategy
@@ -23,3 +19,20 @@ Important notes:
 - [Next.js Project Standards](ai_docs/next.js-project-standards-best-practices.md): Next.js project standards and best practices
 - [Test-Driven Development TypeScript](ai_docs/test-driven-development-typescript.md): TDD practices for TypeScript
 - [Universal Coding Principles](ai_docs/univeral_coding_principle.md): Universal coding principles
+- [Website PRD](prd/002_init_design/prd-casacolinacare-website.md): Product requirements for the Casa Colina Care website
+- [Website SPEC](prd/002_init_design/SPEC.md): Engineering specification for the website
+
+## Optional
+
+- [AGENTS.md](https://agents.md/): The reference specification for AGENTS.md
+- [LLMSTXT.org](https://llmstxt.org): The reference specification for llms.txt
+- [API Design Guide](docs/API_DESIGN_GUIDE.md): Server Actions vs Route Handlers patterns
+- [Authentication Guide](docs/AUTHENTICATION_GUIDE.md): Auth setup with Clerk
+- [Cleanup Guide](docs/CLEANUP_GUIDE.md): Safe file removal procedures
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md): Vercel and Docker deployment
+- [Dockerignore Review](docs/DOCKERIGNORE_REVIEW.md): Docker build optimization
+- [ESLint Configuration](docs/ESLINT_CONFIGURATION.md): ESLint setup and plugins
+- [Gitignore Review](docs/GITIGNORE_REVIEW.md): What to track vs ignore
+- [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md): Complete project overview
+- [State Management Guide](docs/STATE_MANAGEMENT_GUIDE.md): State management patterns
+- [Testing Strategy](docs/TESTING_STRATEGY.md): 60% coverage testing approach
