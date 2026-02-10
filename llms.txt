@@ -16,3 +16,10 @@ Important notes:
 
 - [AGENTS.md](https://agents.md/): The reference specification for AGENTS.md
 - [LLMSTXT.org](https://llmstxt.org): The reference specification for llms.txt
+- [A Contextual Prompt for Agent](ai_docs/A_Contextual_Prompt_for_Agent.md): Contextual prompt guidance for AI agents
+- [AI Collaborative Architecture](ai_docs/AI_Collaborative_Architecture_The_Definitive_Project_Template_for_Next.js_15.md): Definitive project template for Next.js 15
+- [Branching & Merging Strategy](ai_docs/branching-merging-strategy.md): Git branching and merging strategy
+- [General AI Behaviour](ai_docs/general_ai_behaviour.md): General AI behaviour guidelines
+- [Next.js Project Standards](ai_docs/next.js-project-standards-best-practices.md): Next.js project standards and best practices
+- [Test-Driven Development TypeScript](ai_docs/test-driven-development-typescript.md): TDD practices for TypeScript
+- [Universal Coding Principles](ai_docs/univeral_coding_principle.md): Universal coding principles
