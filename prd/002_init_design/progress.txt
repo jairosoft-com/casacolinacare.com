@@ -9,6 +9,7 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - `components.json` aliases utils to `@/utils` (not `@/utils/cn`)
 - The project uses `md:` breakpoint (768px) for desktop/mobile nav toggle
 - `lucide-react` and `class-variance-authority` are not included in the starter — must be installed when adding shadcn components that use them
+- Nav links array (`navLinks`) is duplicated in `header.tsx` and `footer.tsx` — consider extracting to shared constant if adding more nav items
 
 ---
 
@@ -30,4 +31,20 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - The starter template has no lucide-react or cva installed — these are peer deps for shadcn components
   - `next lint` must be run from the project root (it needs to find app/ directory)
   - `ralph` and `ralph.d` binaries exist as untracked files — exclude from commits
+---
+
+## 2026-02-10 - US-002 Footer
+- Implemented footer component with three-column layout (business info, navigation, contact)
+- Business name and address displayed in first column
+- Navigation links matching header (Home, About Us, FAQ, Contact) in second column
+- Phone (click-to-call tel: link) and email (mailto: link) in third column
+- Copyright line with dynamic current year
+- Added Footer import and render in root layout below {children}
+- Files changed:
+  - `src/components/layout/footer.tsx` (new)
+  - `src/app/layout.tsx` (modified — added Footer import and render)
+- **Learnings for future iterations:**
+  - Footer is a server component (no `'use client'` needed) — it has no interactive state
+  - Nav links are duplicated between header and footer — consider extracting to a shared constant in a future refactor
+  - The `md:grid-cols-3` pattern works well for responsive footer columns (stacks on mobile)
 ---
