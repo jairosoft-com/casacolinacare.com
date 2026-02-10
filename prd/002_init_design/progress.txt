@@ -1,3 +1,33 @@
 # Ralph Progress Log
 Started: 2026-02-09 20:20:30.483996 -08:00
 ---
+
+## Codebase Patterns
+- Shadcn components import `cn` from `@/utils` — barrel file at `src/utils/index.ts` re-exports from `./cn`
+- Use `ZDOTDIR=/dev/null bash -c 'cd /path && command'` to avoid zoxide shell hook errors
+- Shadcn components generated with double quotes and no semicolons — run `npx next lint --fix` to auto-format to project style (single quotes, semicolons, sorted imports)
+- `components.json` aliases utils to `@/utils` (not `@/utils/cn`)
+- The project uses `md:` breakpoint (768px) for desktop/mobile nav toggle
+- `lucide-react` and `class-variance-authority` are not included in the starter — must be installed when adding shadcn components that use them
+
+---
+
+## 2026-02-10 - US-001 Header & Navigation
+- Implemented sticky header with desktop navigation and mobile Sheet-based menu
+- Installed shadcn Button and Sheet components (plus lucide-react, class-variance-authority)
+- Created `src/utils/index.ts` barrel for shadcn cn import compatibility
+- Active page link highlighting via `usePathname()`
+- Files changed:
+  - `src/components/layout/header.tsx` (new)
+  - `src/components/layout/mobile-nav.tsx` (new)
+  - `src/components/ui/button.tsx` (new, shadcn)
+  - `src/components/ui/sheet.tsx` (new, shadcn)
+  - `src/utils/index.ts` (new)
+  - `src/app/layout.tsx` (modified — added Header import and render)
+  - `package.json` / `package-lock.json` (updated deps)
+- **Learnings for future iterations:**
+  - Shadcn install generates files with double quotes — always run lint --fix afterward
+  - The starter template has no lucide-react or cva installed — these are peer deps for shadcn components
+  - `next lint` must be run from the project root (it needs to find app/ directory)
+  - `ralph` and `ralph.d` binaries exist as untracked files — exclude from commits
+---
