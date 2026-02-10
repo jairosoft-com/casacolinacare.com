@@ -1,0 +1,18 @@
+# CasaColinaCare.com
+
+> CasaColinaCare.com is a website for a care home facility in Hawaii.
+
+Important notes:
+
+- The postal address of the facility is 189 Anapalua Street, Hawaii
+- It is own and operated by Casa Colina Care LLC
+- Established in 2026
+
+## Docs
+
+- [AGENTS.md](AGENTS.md): Repository instructions for coding agent
+
+## Optional
+
+- [AGENTS.md](https://agents.md/): The reference specification for AGENTS.md
+- [LLMSTXT.org](https://llmstxt.org): The reference specification for llms.txt
