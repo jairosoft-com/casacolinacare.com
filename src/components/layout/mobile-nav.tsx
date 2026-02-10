@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { cn } from '@/utils/cn';
+import { cn } from '@/utils';
 
 const navLinks = [
   { href: '/', label: 'Home' },
