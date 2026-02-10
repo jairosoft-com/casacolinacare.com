@@ -210,6 +210,172 @@ See [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) for complete instructions.
 
 ---
 
+## 🚀 **Docker Management with Taskfile**
+
+This project uses [Task](https://taskfile.dev) as a task runner to simplify Docker operations. Taskfile provides convenient shortcuts for common Docker and Docker Compose commands.
+
+### Prerequisites
+
+1. **Docker Engine 20.10+** and **Docker Compose v2.0+** must be installed
+   - [Install Docker Desktop](https://www.docker.com/products/docker-desktop) (macOS, Windows)
+   - [Install Docker Engine](https://docs.docker.com/engine/install/) (Linux)
+
+2. **Task v3.0.0+** must be installed
+
+#### Install Task
+
+**macOS (Homebrew):**
+```bash
+brew install go-task/tap/go-task
+```
+
+**Linux:**
+```bash
+sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+```
+
+**Windows (PowerShell):**
+```powershell
+choco install go-task
+```
+
+For other installation methods, see [Task Installation Guide](https://taskfile.dev/installation/).
+
+### Quick Start
+
+```bash
+# List all available tasks
+task --list
+
+# Build the Docker image
+task docker:build
+
+# Start development environment (with logs)
+task docker:dev:up
+
+# In another terminal, view container status
+task docker:status
+
+# Stop development environment
+# (Press Ctrl+C in the terminal running docker:dev:up)
+
+# Start production environment (background)
+task docker:prod:up
+
+# View logs
+task docker:logs
+
+# Stop production environment
+task docker:prod:down
+```
+
+### Available Tasks
+
+#### Build Tasks
+
+- `task docker:build` - Build the Docker image using cache
+- `task docker:build:no-cache` - Build the image without cache (clean build)
+
+#### Development Workflow
+
+- `task docker:dev:up` - Start containers in foreground with logs
+- `task docker:dev:down` - Stop and remove development containers
+
+#### Production Workflow
+
+- `task docker:prod:up` - Start containers in background (detached mode)
+- `task docker:prod:down` - Stop and remove production containers
+
+#### Container Lifecycle
+
+- `task docker:start` - Start existing stopped containers
+- `task docker:stop` - Stop running containers
+- `task docker:restart` - Restart containers
+
+#### Cleanup Operations
+
+- `task docker:clean` - Remove project containers, images, and volumes
+- `task docker:clean:all` - **Deep clean** all Docker resources system-wide
+- `task docker:clean:cache` - Remove build cache only
+- `task docker:clean:volumes` - Remove unused volumes
+
+#### Monitoring
+
+- `task docker:status` - Show container status and ports
+- `task docker:logs` - View all container logs
+- `task docker:logs:follow` - Stream logs in real-time
+
+### Common Workflows
+
+**Complete Development Cycle:**
+```bash
+# Build and start development environment
+task docker:build
+task docker:dev:up
+
+# Make code changes... (auto-reload if configured)
+
+# Stop (Ctrl+C in the terminal)
+```
+
+**Production Deployment:**
+```bash
+# Build and start production environment
+task docker:build
+task docker:prod:up
+
+# Check status
+task docker:status
+
+# View logs
+task docker:logs:follow
+
+# Stop when needed
+task docker:prod:down
+```
+
+**Clean Start:**
+```bash
+# Remove everything and start fresh
+task docker:clean:all
+task docker:build
+task docker:dev:up
+```
+
+### Troubleshooting
+
+**Problem: "Task not found"**
+- Ensure Task is installed: `task --version`
+- Ensure you're in the project root directory
+
+**Problem: "Cannot connect to Docker daemon"**
+- Ensure Docker Desktop is running (macOS/Windows)
+- Ensure Docker service is running: `sudo systemctl start docker` (Linux)
+
+**Problem: "Port already in use"**
+- Stop existing containers: `task docker:stop`
+- Or check what's using the port: `lsof -i :3000` (macOS/Linux)
+
+**Problem: Build errors or outdated cache**
+- Try a clean build: `task docker:build:no-cache`
+- Or full cleanup: `task docker:clean:all`
+
+### Best Practices
+
+1. **Use dev mode for development**: `task docker:dev:up` shows logs immediately
+2. **Regular cleanup**: Run `task docker:clean` periodically to free disk space
+3. **Check status before debugging**: Use `task docker:status` to verify container state
+4. **Use clean builds sparingly**: `task docker:build:no-cache` is slow; use only when necessary
+
+### Getting Help
+
+- View all tasks: `task --list`
+- View task details: `task --summary docker:build`
+- Task documentation: [taskfile.dev](https://taskfile.dev)
+- Docker documentation: [docs.docker.com](https://docs.docker.com)
+
+---
+
 ## 🧪 **Testing**
 
 ### **Unit Tests (Vitest)**

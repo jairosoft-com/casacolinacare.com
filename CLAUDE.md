@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with
-code in this repository.
+code in this repository (myapp6 - Next.js 15 Starter Project).
 
 ## Development Commands
 
@@ -52,6 +52,13 @@ docker build -t nextjs-starter .    # Build Docker image
 docker run -p 3000:3000 nextjs-starter  # Run container
 docker-compose up -d                # Use Docker Compose
 vercel --prod                       # Deploy to Vercel
+
+# If Taskfile.yml is implemented (see prd/001_taskfile_yml/):
+task docker:build               # Build Docker image
+task docker:dev:up              # Start dev environment
+task docker:prod:up             # Start production (detached)
+task docker:clean:all           # Deep clean Docker resources
+task --list                     # List all available tasks
 ```
 
 ## Architecture Overview
@@ -101,6 +108,8 @@ a centralized API client (no direct database access).
 - Coverage thresholds are set at 60% for lines, functions, branches, and
   statements
 - Coverage reports available in text, JSON, HTML, and LCOV formats
+- Coverage excludes: config files, type definitions, index files, and test
+  setup files (see vitest.config.ts for full exclusion list)
 
 ### Code Standards
 
@@ -232,6 +241,13 @@ npm run lint -- --fix   # Fix all auto-fixable issues
 npm run type-check      # Ensure no TypeScript errors
 npm test -- --run       # Quick test run
 ```
+
+## Current Development Notes
+
+- **Taskfile Implementation**: A comprehensive Taskfile.yml for Docker management
+  is planned (see `/prd/001_taskfile_yml/` for design docs)
+- **Git Status**: The project uses conventional commits with Commitizen and
+  Commitlint for consistent commit messages
 
 ## Comprehensive Documentation
 

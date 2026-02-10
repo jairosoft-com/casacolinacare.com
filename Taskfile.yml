@@ -1,0 +1,169 @@
+version: '3'
+
+# =============================================================================
+# Taskfile for Docker Management - Next.js 15 Starter Project
+# =============================================================================
+# This Taskfile provides convenient shortcuts for common Docker operations.
+# All tasks use the 'docker:' prefix for namespace organization.
+#
+# Quick Start:
+#   - List all tasks: task --list
+#   - Build image: task docker:build
+#   - Start dev: task docker:dev:up
+#   - Clean up: task docker:clean
+#
+# Requirements:
+#   - Task v3.0.0+ (https://taskfile.dev)
+#   - Docker Engine 20.10+
+#   - Docker Compose v2.0+
+# =============================================================================
+
+tasks:
+  # ===========================================================================
+  # BUILD TASKS
+  # ===========================================================================
+
+  docker:build:
+    desc: "Build the Docker image for the Next.js application"
+    cmds:
+      # Uses docker-compose.yml to build the image with cache for faster builds
+      - docker-compose build
+
+  docker:build:no-cache:
+    desc: "Build the Docker image without using cache (clean build)"
+    cmds:
+      # Forces a fresh build ignoring all cached layers
+      # Useful when cache corruption is suspected or after major changes
+      - docker-compose build --no-cache
+
+  # ===========================================================================
+  # DEVELOPMENT TASKS
+  # ===========================================================================
+
+  docker:dev:up:
+    desc: "Start containers in development mode (foreground with logs)"
+    cmds:
+      # Starts containers and streams logs to terminal
+      # Press Ctrl+C to stop containers
+      - docker-compose up
+
+  docker:dev:down:
+    desc: "Stop and remove development containers"
+    cmds:
+      # Stops containers and removes networks
+      # Volumes are preserved unless explicitly removed
+      - docker-compose down
+
+  # ===========================================================================
+  # PRODUCTION TASKS
+  # ===========================================================================
+
+  docker:prod:up:
+    desc: "Start containers in production mode (detached, runs in background)"
+    cmds:
+      # Starts containers in detached mode
+      # Use 'task docker:logs' to view logs
+      - docker-compose up -d
+
+  docker:prod:down:
+    desc: "Stop and remove production containers"
+    cmds:
+      # Stops containers and removes networks
+      - docker-compose down
+
+  # ===========================================================================
+  # LIFECYCLE TASKS
+  # ===========================================================================
+
+  docker:start:
+    desc: "Start existing stopped containers"
+    cmds:
+      # Starts previously created containers without recreating them
+      # Containers must have been created by 'up' command previously
+      - docker-compose start
+
+  docker:stop:
+    desc: "Stop running containers (graceful shutdown)"
+    cmds:
+      # Sends SIGTERM to containers for graceful shutdown
+      # Containers remain and can be started again with 'docker:start'
+      - docker-compose stop
+
+  docker:restart:
+    desc: "Restart containers (stop then start)"
+    cmds:
+      # Performs a graceful restart of all containers
+      - docker-compose restart
+
+  # ===========================================================================
+  # CLEANUP TASKS
+  # ===========================================================================
+
+  docker:clean:
+    desc: "Remove project-specific containers, images, and volumes"
+    cmds:
+      # Stops containers, removes them, their volumes, and locally built images
+      # -v: remove named volumes
+      # --rmi local: remove images built from local Dockerfile
+      - docker-compose down -v --rmi local
+
+  docker:clean:all:
+    desc: "Deep clean ALL Docker resources system-wide (containers, images, volumes, cache)"
+    cmds:
+      - echo "🧹 Starting deep Docker cleanup..."
+      # Remove all stopped containers
+      - docker container prune -f
+      # Remove all unused images (not just dangling)
+      # -a: remove all unused images, not just dangling ones
+      - docker image prune -a -f
+      # Remove all unused volumes
+      - docker volume prune -f
+      # Remove all build cache
+      # -a: remove all cache, not just dangling
+      - docker builder prune -a -f
+      - echo "✓ Deep cleanup complete!"
+      # Show disk space reclaimed
+      - echo "📊 Current Docker disk usage:"
+      - docker system df
+
+  docker:clean:cache:
+    desc: "Remove Docker build cache only (leaves containers and images intact)"
+    cmds:
+      # Removes all build cache to free up disk space
+      # -a: remove all cache, not just dangling
+      # -f: force, no confirmation prompt
+      - docker builder prune -a -f
+      - echo "✓ Build cache cleared"
+
+  docker:clean:volumes:
+    desc: "Remove unused Docker volumes"
+    cmds:
+      # Removes volumes not currently used by any container
+      # -f: force, no confirmation prompt
+      - docker volume prune -f
+      - echo "✓ Unused volumes removed"
+
+  # ===========================================================================
+  # MONITORING TASKS
+  # ===========================================================================
+
+  docker:status:
+    desc: "Show status of all containers (running and stopped)"
+    cmds:
+      # Displays container names, status, and port mappings
+      - docker-compose ps
+
+  docker:logs:
+    desc: "View container logs (all historical logs)"
+    cmds:
+      # Shows all logs from all containers
+      # Add service name to view specific service: docker-compose logs <service>
+      - docker-compose logs
+
+  docker:logs:follow:
+    desc: "Follow container logs in real-time (streaming)"
+    cmds:
+      # Streams logs from all containers in real-time
+      # Press Ctrl+C to stop following
+      # -f: follow mode (stream)
+      - docker-compose logs -f

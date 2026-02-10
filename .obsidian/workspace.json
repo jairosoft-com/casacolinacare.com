@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "prd/001_taskfile_yml/prd.md",
+                "file": "prd/001_taskfile_yml/tech_001.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "prd"
+              "title": "tech_001"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "prd/001_taskfile_yml/prd.md",
+                "file": "prd/001_taskfile_yml/tech_001.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for prd"
+              "title": "Backlinks for tech_001"
             }
           },
           {
@@ -142,21 +142,21 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "prd/001_taskfile_yml/prd.md",
+                "file": "prd/001_taskfile_yml/tech_001.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of prd"
+              "title": "Outline of tech_001"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -169,10 +169,13 @@
       "bases:Create new base": false
     }
   },
-  "active": "d2e2721b363c6ed8",
+  "active": "42c7cde52ed8a632",
   "lastOpenFiles": [
-    "prd/001_taskfile_yml/req.md",
+    "Taskfile.yml",
+    "CLAUDE.md",
+    "prd/001_taskfile_yml/tech_001.md",
     "prd/001_taskfile_yml/prd.md",
+    "prd/001_taskfile_yml/req.md",
     "prd/001_taskfile_yml/bprd.md",
     "prd/001_taskfile_yml/brd_prd.md",
     "docs/DOCKERIGNORE_REVIEW.md",
@@ -189,7 +192,6 @@
     "ai_docs/general_ai_behaviour.md",
     "ai_docs/AI_Collaborative_Architecture_The_Definitive_Project_Template_for_Next.js_15.md",
     "ai_docs/A_Contextual_Prompt_for_Agent.md",
-    "CLAUDE.md",
     "docs/ESLINT_CONFIGURATION.md",
     "node_modules/@esbuild/android-arm",
     "TODO.md",
