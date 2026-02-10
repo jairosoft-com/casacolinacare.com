@@ -10,6 +10,10 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - The project uses `md:` breakpoint (768px) for desktop/mobile nav toggle
 - `lucide-react` and `class-variance-authority` are not included in the starter — must be installed when adding shadcn components that use them
 - Nav links array (`navLinks`) is duplicated in `header.tsx` and `footer.tsx` — consider extracting to shared constant if adding more nav items
+- Brand colors are set as HSL CSS variables in `src/styles/globals.css` — use `hsl(var(--primary))` etc. via Tailwind utility classes
+- Fonts: Inter (body/`font-sans`) and Playfair Display (headings/`font-heading`) configured via `next/font/google` CSS variables in layout.tsx and Tailwind fontFamily config
+- Headings h1-h3 automatically get `font-heading` via globals.css base layer
+- Metadata uses `title.template` pattern — child pages can set `title: 'Page Name'` and it becomes `Page Name | Casa Colina Care`
 
 ---
 
@@ -47,4 +51,24 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Footer is a server component (no `'use client'` needed) — it has no interactive state
   - Nav links are duplicated between header and footer — consider extracting to a shared constant in a future refactor
   - The `md:grid-cols-3` pattern works well for responsive footer columns (stacks on mobile)
+---
+
+## 2026-02-10 - US-003 Root Layout
+- Replaced Geist fonts with Playfair Display (headings) and Inter (body) via `next/font/google`
+- Added Tailwind fontFamily config: `font-sans` (Inter) and `font-heading` (Playfair Display)
+- Added base CSS rule applying `font-heading` to h1, h2, h3 elements automatically
+- Updated CSS variables with Casa Colina brand colors (Ocean Teal primary, Warm Sand secondary, Sunset Coral accent, Ivory background, Deep Charcoal foreground, Soft Sage muted)
+- Removed dark mode CSS block (not needed for this project)
+- Added skip-to-content link as first focusable element
+- Wrapped children in `<main id="main-content">` for skip-to-content target
+- Set default metadata with title template, description, and Open Graph base tags
+- Files changed:
+  - `src/app/layout.tsx` (modified — replaced fonts, added metadata, skip-to-content, main wrapper)
+  - `src/styles/globals.css` (modified — replaced CSS variables with brand colors, added heading font rule)
+  - `tailwind.config.ts` (modified — added fontFamily config)
+- **Learnings for future iterations:**
+  - `next/font/google` Playfair_Display uses underscored name for import (not hyphenated)
+  - Use `title.template: '%s | Casa Colina Care'` so child pages just set a simple title string
+  - The skip-to-content link uses `sr-only` + `focus:not-sr-only` pattern for accessibility
+  - Brand HSL values: primary 182 80% 26%, secondary 34 63% 89%, accent 13 68% 63%, background 60 23% 97%, foreground 240 28% 14%
 ---
