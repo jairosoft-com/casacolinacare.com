@@ -70,8 +70,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 4,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-10. Hero section with gradient background, Playfair Display heading, two CTA buttons (Request a Consultation, Learn About Us), section-heading shared component created."
     },
     {
       "id": "US-005",

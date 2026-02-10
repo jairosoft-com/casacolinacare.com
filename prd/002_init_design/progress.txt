@@ -14,6 +14,9 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Fonts: Inter (body/`font-sans`) and Playfair Display (headings/`font-heading`) configured via `next/font/google` CSS variables in layout.tsx and Tailwind fontFamily config
 - Headings h1-h3 automatically get `font-heading` via globals.css base layer
 - Metadata uses `title.template` pattern — child pages can set `title: 'Page Name'` and it becomes `Page Name | Casa Colina Care`
+- Section components live in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+- Use `SectionHeading` from `@/components/shared/section-heading` for consistent section titles across pages
+- Hero height uses `min-h-[calc(100vh-4rem)]` to account for sticky header (h-16 = 4rem)
 
 ---
 
@@ -71,4 +74,21 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Use `title.template: '%s | Casa Colina Care'` so child pages just set a simple title string
   - The skip-to-content link uses `sr-only` + `focus:not-sr-only` pattern for accessibility
   - Brand HSL values: primary 182 80% 26%, secondary 34 63% 89%, accent 13 68% 63%, background 60 23% 97%, foreground 240 28% 14%
+---
+
+## 2026-02-10 - US-004 Home Page — Hero Section
+- Replaced default Next.js starter page content with hero section
+- Created `src/components/sections/hero.tsx` — full-viewport hero with gradient background, Playfair Display heading, subtitle, and two CTA buttons
+- Created `src/components/shared/section-heading.tsx` — reusable section heading component with optional subtitle and centering
+- Updated `src/app/page.tsx` to render the Hero component
+- Files changed:
+  - `src/components/sections/hero.tsx` (new)
+  - `src/components/shared/section-heading.tsx` (new)
+  - `src/app/page.tsx` (modified — replaced starter content with Hero)
+- **Learnings for future iterations:**
+  - Section components go in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+  - Hero uses `min-h-[calc(100vh-4rem)]` to account for the sticky header height (h-16 = 4rem)
+  - The `bg-gradient-to-br from-primary/10 via-background to-secondary/30` gradient creates a subtle brand-colored hero background
+  - Button component supports `asChild` prop with `<Link>` for navigation buttons via shadcn's Slot pattern
+  - Browser verified: desktop (1440px) and mobile (375px) — hero renders correctly at both breakpoints
 ---
