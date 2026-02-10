@@ -19,8 +19,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   // Opt out of parallel tests on CI.
   workers: process.env.CI ? 1 : undefined,
-  // Reporter to use.
-  reporter: 'html',
+  // Reporter: use list for local (fast, inline), html for CI (detailed report).
+  reporter: process.env.CI ? 'html' : 'list',
 
   // Shared settings for all the projects below.
   use: {
@@ -31,21 +31,28 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  // Configure projects for major browsers.
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-  ],
+  // Local: Chromium only for speed. CI: all 3 browsers for cross-browser coverage.
+  projects: process.env.CI
+    ? [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
+        {
+          name: 'firefox',
+          use: { ...devices['Desktop Firefox'] },
+        },
+        {
+          name: 'webkit',
+          use: { ...devices['Desktop Safari'] },
+        },
+      ]
+    : [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
+      ],
 
   // Run a local dev server before starting the tests.
   webServer: {
