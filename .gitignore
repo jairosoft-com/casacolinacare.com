@@ -157,3 +157,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Obsidian
+.obsidian/
+
+# ralph agent
+ralph*
