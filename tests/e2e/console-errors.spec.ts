@@ -26,8 +26,8 @@ test.describe('Console Error Check', () => {
     // Wait for page to be fully loaded
     await page.waitForLoadState('domcontentloaded');
 
-    // Check for the Next.js logo to ensure page rendered
-    await expect(page.locator('img[alt="Next.js logo"]')).toBeVisible();
+    // Check for the header logo to ensure page rendered
+    await expect(page.getByText('Casa Colina Care').first()).toBeVisible();
 
     // Report findings
     console.log('\n📊 Console Check Results:');
