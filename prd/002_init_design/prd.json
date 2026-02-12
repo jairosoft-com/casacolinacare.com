@@ -52,8 +52,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-10. Root layout with Playfair Display (headings) and Inter (body) fonts, brand color CSS variables, skip-to-content link, default metadata with Open Graph tags, main element wrapping children."
     },
     {
       "id": "US-004",
