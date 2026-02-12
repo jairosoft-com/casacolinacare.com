@@ -17,7 +17,10 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Section components live in `src/components/sections/`, shared/reusable components in `src/components/shared/`
 - Use `SectionHeading` from `@/components/shared/section-heading` for consistent section titles across pages
 - Hero height uses `min-h-[calc(100vh-4rem)]` to account for sticky header (h-16 = 4rem)
-
+- Follow [NextJS best practices and standards](../../ai_docs/next.js-project-standards-best-practices.md)
+- Follow [TDD protocol](../../ai_docs/test-driven-development-typescript.md)
+- Study the agent instructions found in [AGENTS.md](../../AGENTS.md)
+- Study the project structure found in [CLAUDE.md](../../CLAUDE.md)
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
