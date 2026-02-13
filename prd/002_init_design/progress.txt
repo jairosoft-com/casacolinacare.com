@@ -24,6 +24,8 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - `CtaBanner` component (`src/components/sections/cta-banner.tsx`) is reusable — accepts `heading`, `description`, `buttonText`, `buttonHref` props for use on About, FAQ, Contact pages
 - `bg-secondary` = Warm Sand (#F5E6D3), `bg-primary` = Ocean Teal (#0D7377) — use these for alternating section backgrounds
 - Shadcn Accordion installed — use `type="multiple"` for independent expand/collapse per item
+- Resend email: use `src/lib/email.ts` for HTML builder, `RESEND_API_KEY` env var required, dev sender `onboarding@resend.dev`
+- `.env.example` requires `git add -f` due to `.env*` gitignore pattern
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
@@ -211,4 +213,27 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - `lg:grid-cols-2` breakpoint works well for form + info two-column layout
   - Lucide icons `Phone`, `Mail`, `MapPin`, `Clock` match contact info semantics well
   - Map iframe uses `loading="lazy"` and `referrerPolicy="no-referrer-when-downgrade"` for performance and security
+---
+
+## 2026-02-12 - US-011 Contact Form API Route & Resend Integration
+- Installed `resend` npm package
+- Created `src/lib/email.ts` — HTML email builder with branded styling (Ocean Teal header), table layout for form fields, newline-to-br conversion for message field
+- Created `src/app/api/contact/route.ts` — POST handler with:
+  - Server-side re-validation of all fields matching client-side rules
+  - 400 response with joined error messages for invalid input
+  - Resend email send: from `Casa Colina Care <onboarding@resend.dev>`, to `kriss@casacolinacare.com`, reply-to submitter's email
+  - 200 response with success message on send
+  - 500 response with user-friendly error on Resend failure
+- Created `.env.example` documenting `RESEND_API_KEY` env var
+- Files changed:
+  - `src/app/api/contact/route.ts` (new)
+  - `src/lib/email.ts` (new)
+  - `.env.example` (new)
+  - `package.json` / `package-lock.json` (added resend)
+- **Learnings for future iterations:**
+  - `.env.example` is caught by `.env*` in .gitignore — use `git add -f` to force-add it
+  - Resend dev sender is `onboarding@resend.dev` — must be changed to verified domain sender for production
+  - Server-side validation should mirror client-side validation exactly for consistency
+  - `resend.emails.send()` returns `{ data, error }` — check for error to handle failures
+  - Email HTML uses inline styles (not Tailwind) since email clients don't support CSS classes
 ---
