@@ -170,3 +170,27 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - FAQ data structure: array of `{ category, questions: [{ question, answer }] }` works well for grouped accordion layout
   - The `last:mb-0` utility on category containers removes bottom margin from the last group
 ---
+
+## 2026-02-12 - US-009 Contact Page — Form Component
+- Installed Shadcn Input, Textarea, and Label components
+- Created `src/components/sections/contact-form.tsx` — client component with:
+  - 6 form fields: First Name (required, max 50), Last Name (required, max 50), Email (required, valid format), Phone (optional, valid format), Relationship to Resident (optional, max 100), Message (required, max 2000)
+  - Client-side validation with inline error messages
+  - 4 UI states: Idle (button enabled), Loading (spinner + "Sending..."), Success (green message + form cleared), Error (red message + form preserved)
+  - POSTs to /api/contact and handles JSON response
+- Created minimal `src/app/contact/page.tsx` for browser testing (will be expanded in US-010)
+- Files changed:
+  - `src/components/sections/contact-form.tsx` (new)
+  - `src/components/ui/input.tsx` (new, shadcn)
+  - `src/components/ui/textarea.tsx` (new, shadcn)
+  - `src/components/ui/label.tsx` (new, shadcn)
+  - `src/app/contact/page.tsx` (new, minimal — to be expanded in US-010)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-label)
+- **Learnings for future iterations:**
+  - `'use client'` is required for form components with useState/event handlers
+  - Shadcn Label installs `@radix-ui/react-label` — Input and Textarea have no extra deps
+  - Use `noValidate` on `<form>` to disable native browser validation and use custom inline errors
+  - The `Loader2` icon from lucide-react with `animate-spin` works well for loading spinners
+  - Phone validation regex `^\+?[\d\s().-]{7,20}$` handles international formats
+  - `aria-invalid` and `aria-describedby` attributes connect error messages for screen readers
+---

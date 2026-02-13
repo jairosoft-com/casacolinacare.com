@@ -161,8 +161,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 9,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-12. Contact form with 6 fields (4 required), client-side validation with inline errors, 4 UI states (idle/loading/success/error), POSTs to /api/contact. Shadcn Input/Textarea/Label installed. Browser verified with validation test."
     },
     {
       "id": "US-010",
