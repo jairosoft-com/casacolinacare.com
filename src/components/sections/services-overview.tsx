@@ -1,4 +1,5 @@
 import { ClipboardList, Palmtree, Shield, UtensilsCrossed } from 'lucide-react';
+import Image from 'next/image';
 
 import { SectionHeading } from '@/components/shared/section-heading';
 
@@ -31,8 +32,21 @@ const services = [
 
 export function ServicesOverview() {
   return (
-    <section className="bg-muted/50 py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden py-16 sm:py-24">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/services-background.webp"
+          alt="Casa Colina Care services"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-background/90" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading title="How We Care for Your Family" />
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {services.map(service => (

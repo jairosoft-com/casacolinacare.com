@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { SectionHeading } from '@/components/shared/section-heading';
@@ -7,11 +8,15 @@ export function Intro() {
     <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
-          {/* Image placeholder */}
-          <div className="aspect-[4/3] rounded-lg bg-muted" aria-hidden="true">
-            <div className="flex h-full items-center justify-center text-muted-foreground">
-              <span className="text-sm">Image Placeholder</span>
-            </div>
+          {/* Image */}
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+            <Image
+              src="/images/intro-facility.webp"
+              alt="Casa Colina Care facility in Hawaii Kai"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
 
           {/* Text content */}
