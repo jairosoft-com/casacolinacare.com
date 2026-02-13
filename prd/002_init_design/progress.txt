@@ -26,6 +26,9 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Shadcn Accordion installed — use `type="multiple"` for independent expand/collapse per item
 - Resend email: use `src/lib/email.ts` for HTML builder, `RESEND_API_KEY` env var required, dev sender `onboarding@resend.dev`
 - `.env.example` requires `git add -f` due to `.env*` gitignore pattern
+- JSON-LD structured data: define object, render with `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+- `robots.ts` and `sitemap.ts` in `src/app/` use `MetadataRoute.Robots` and `MetadataRoute.Sitemap` return types
+- Per-page OG tags override root layout OG tags — child pages should set og:title, og:description, og:url specifically
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
@@ -236,4 +239,21 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Server-side validation should mirror client-side validation exactly for consistency
   - `resend.emails.send()` returns `{ data, error }` — check for error to handle failures
   - Email HTML uses inline styles (not Tailwind) since email clients don't support CSS classes
+---
+
+## 2026-02-12 - US-012: SEO, Metadata & Structured Data
+- Added per-page metadata descriptions matching SPEC.md section 4 on all 4 pages
+- Added Open Graph tags (og:title, og:description, og:url) on all pages, including root layout OG base with url
+- Added JSON-LD LocalBusiness structured data to root layout with: business name, address, phone, email, geo coordinates, opening hours, area served
+- Created `src/app/robots.ts` — generates robots.txt allowing all crawlers, linking to sitemap
+- Created `src/app/sitemap.ts` — generates sitemap.xml with all 4 pages (/, /about, /faq, /contact)
+- Verified semantic HTML: single h1 per page, sequential h2/h3 hierarchy with no skips
+- Home page metadata uses root layout defaults (title.default), child pages use title template
+- Files changed: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/faq/page.tsx`, `src/app/contact/page.tsx`, `src/app/robots.ts` (new), `src/app/sitemap.ts` (new)
+- **Learnings for future iterations:**
+  - Next.js Metadata API merges child page metadata with root layout — child pages only need to set fields that differ
+  - Root layout `title.template` pattern means child pages just set `title: 'Page Name'` and get `Page Name | Casa Colina Care` automatically
+  - JSON-LD in Next.js App Router: use `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+  - `MetadataRoute.Robots` and `MetadataRoute.Sitemap` are the correct return types for robots.ts and sitemap.ts
+  - OG tags set on child pages override root layout OG tags for those specific fields
 ---
