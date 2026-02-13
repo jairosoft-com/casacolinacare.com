@@ -143,8 +143,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 8,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-12. FAQ page with page header, Shadcn Accordion (4 categories, 12 questions, type=multiple), reused CTA Banner. Metadata: 'Frequently Asked Questions | Casa Colina Care'. Browser verified."
     },
     {
       "id": "US-009",
