@@ -194,3 +194,21 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Phone validation regex `^\+?[\d\s().-]{7,20}$` handles international formats
   - `aria-invalid` and `aria-describedby` attributes connect error messages for screen readers
 ---
+
+## 2026-02-12 - US-010 Contact Page — Info Column, Map & Page Assembly
+- Expanded `src/app/contact/page.tsx` with full two-column layout:
+  - Page header with gradient banner ("Contact Us")
+  - Left column: "Send Us a Message" heading + ContactForm component
+  - Right column: "Get in Touch" heading + contact info (Phone, Email, Address, Hours) with Lucide icons + Google Maps iframe embed
+- Created `src/components/shared/map-embed.tsx` — Google Maps iframe embed with placeholder coordinates
+- Page metadata: `title: 'Contact Us'` → "Contact Us | Casa Colina Care"
+- Files changed:
+  - `src/app/contact/page.tsx` (modified — expanded from minimal to full layout)
+  - `src/components/shared/map-embed.tsx` (new)
+- **Learnings for future iterations:**
+  - Contact info items use `flex items-start gap-4` with `shrink-0` icons for consistent alignment
+  - Google Maps embed uses placeholder coordinates — update with real ones when available
+  - `lg:grid-cols-2` breakpoint works well for form + info two-column layout
+  - Lucide icons `Phone`, `Mail`, `MapPin`, `Clock` match contact info semantics well
+  - Map iframe uses `loading="lazy"` and `referrerPolicy="no-referrer-when-downgrade"` for performance and security
+---
