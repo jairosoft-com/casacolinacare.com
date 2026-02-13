@@ -131,3 +131,21 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Home page doesn't need explicit metadata export — root layout default title already matches the requirement
   - When branching for dependent stories, branch from the predecessor branch (not main) to avoid merge conflicts
 ---
+
+## 2026-02-12 - US-007 About Us Page
+- Created About Us page at `src/app/about/page.tsx` with 5 sections:
+  1. Page header with gradient banner ("About Casa Colina Care")
+  2. Our Story section with 3 paragraphs of placeholder content
+  3. Mission & Values section with 4 value cards in 2x2 grid (Aloha Spirit, Dignity & Independence, Family First, Community Connection)
+  4. Meet Our Team section with 3 placeholder team cards (circular photo placeholder, name, role, bio)
+  5. Reused CtaBanner with heading "Have Questions? We're Here to Help."
+- Page metadata uses title template: `title: 'About Us'` → "About Us | Casa Colina Care"
+- Files changed:
+  - `src/app/about/page.tsx` (new)
+- **Learnings for future iterations:**
+  - Child pages only need `title: 'Page Name'` — the root layout template appends `| Casa Colina Care`
+  - Page header sections reuse the same gradient as the hero (`from-primary/10 via-background to-secondary/30`) but with shorter padding (`py-16 sm:py-24` vs `min-h-[calc(100vh-4rem)]`)
+  - Value/card data arrays with `.map()` keep page components clean — define data objects at module level, render in JSX
+  - Team member placeholder uses `h-32 w-32 rounded-full bg-muted` for circular photo placeholders
+  - CtaBanner reuse confirmed working — just pass `heading` prop, defaults handle the rest
+---

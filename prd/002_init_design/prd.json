@@ -124,8 +124,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 7,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-12. About page with page header, Our Story, Mission & Values (4 cards), Meet Our Team (3 placeholder cards), reused CTA Banner. Metadata: 'About Us | Casa Colina Care'. Browser verified."
     },
     {
       "id": "US-008",
