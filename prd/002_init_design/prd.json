@@ -87,8 +87,8 @@
         "Verify in browser using dev-browser skill"
       ],
       "priority": 5,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented 2026-02-12. Introduction section (two-column: image placeholder + welcome text) and Services Overview section (4 icon cards in responsive grid). Browser verified."
     },
     {
       "id": "US-006",
