@@ -95,3 +95,19 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Button component supports `asChild` prop with `<Link>` for navigation buttons via shadcn's Slot pattern
   - Browser verified: desktop (1440px) and mobile (375px) — hero renders correctly at both breakpoints
 ---
+
+## 2026-02-12 - US-005 Home Page — Introduction & Services Overview Sections
+- Created Introduction section (`src/components/sections/intro.tsx`) with two-column layout: image placeholder left, welcome text right, "Read more about us" link to /about
+- Created Services Overview section (`src/components/sections/services-overview.tsx`) with 4 icon cards in responsive grid: Personalized Care Plans (ClipboardList), 24/7 Professional Support (Shield), Home-Cooked Meals (UtensilsCrossed), Beautiful Surroundings (Palmtree)
+- Updated `src/app/page.tsx` to render Hero, Intro, ServicesOverview in order
+- Files changed:
+  - `src/components/sections/intro.tsx` (new)
+  - `src/components/sections/services-overview.tsx` (new)
+  - `src/app/page.tsx` (modified — added Intro and ServicesOverview imports/renders)
+- **Learnings for future iterations:**
+  - `Palmtree` icon exists in lucide-react v0.563.0 — use it directly (no need for `TreePalm` alternative)
+  - `bg-muted/50` creates a subtle alternating section background that visually separates content areas
+  - Service cards use dynamic component rendering (`<service.icon />`) from a data array — keeps the markup DRY
+  - SectionHeading `centered={false}` works well for two-column layouts where the heading aligns with text content
+  - Browser verified at 1440px desktop — all sections render correctly with proper spacing
+---
