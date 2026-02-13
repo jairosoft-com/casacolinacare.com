@@ -21,6 +21,8 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Follow [TDD protocol](../../ai_docs/test-driven-development-typescript.md)
 - Study the agent instructions found in [AGENTS.md](../../AGENTS.md)
 - Study the project structure found in [CLAUDE.md](../../CLAUDE.md)
+- `CtaBanner` component (`src/components/sections/cta-banner.tsx`) is reusable — accepts `heading`, `description`, `buttonText`, `buttonHref` props for use on About, FAQ, Contact pages
+- `bg-secondary` = Warm Sand (#F5E6D3), `bg-primary` = Ocean Teal (#0D7377) — use these for alternating section backgrounds
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
@@ -110,4 +112,22 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Service cards use dynamic component rendering (`<service.icon />`) from a data array — keeps the markup DRY
   - SectionHeading `centered={false}` works well for two-column layouts where the heading aligns with text content
   - Browser verified at 1440px desktop — all sections render correctly with proper spacing
+---
+
+## 2026-02-12 - US-006 Home Page — Testimonial, CTA Banner & Page Assembly
+- Created Testimonial section (`src/components/sections/testimonial.tsx`) with blockquote on warm sand (secondary) background, Quote icon from lucide-react
+- Created reusable CTA Banner (`src/components/sections/cta-banner.tsx`) with configurable props: `heading`, `description`, `buttonText`, `buttonHref` — defaults to "Schedule Your Visit Today" with phone, email, and "Request Consultation" button on primary (teal) background
+- Updated `src/app/page.tsx` to render all 5 sections in order: Hero, Introduction, Services Overview, Testimonial, CTA Banner
+- Page metadata uses root layout default title: "Casa Colina Care | Compassionate Care Home in Hawaii Kai"
+- Files changed:
+  - `src/components/sections/testimonial.tsx` (new)
+  - `src/components/sections/cta-banner.tsx` (new)
+  - `src/app/page.tsx` (modified — added Testimonial and CtaBanner imports/renders)
+- **Learnings for future iterations:**
+  - `bg-secondary` maps directly to warm sand (#F5E6D3) — no need for custom hex values
+  - CTA Banner uses `variant="secondary"` Button on primary background for good contrast
+  - The `Quote` icon from lucide-react works well for testimonial decoration
+  - CTA Banner is designed to be reused on About, FAQ, and Contact pages with custom `heading` prop
+  - Home page doesn't need explicit metadata export — root layout default title already matches the requirement
+  - When branching for dependent stories, branch from the predecessor branch (not main) to avoid merge conflicts
 ---
