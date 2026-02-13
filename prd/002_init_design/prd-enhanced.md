@@ -1823,12 +1823,12 @@ export const contactFormSchema = z.object({
   
   phone: z
     .string()
-    .optional()
-    .transform((val) => val?.replace(/[\s()\-\.]/g, '') || val)
+    .transform((val) => val.replace(/[\s()\-\.]/g, ''))
     .refine(
-      (val) => !val || /^\+?[1-9]\d{1,14}$/.test(val),
+      (val) => /^\+?[1-9]\d{1,14}$/.test(val),
       'Please enter a valid phone number'
-    ),
+    )
+    .optional(),
   
   relationship: z
     .string()
