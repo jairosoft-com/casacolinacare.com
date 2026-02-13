@@ -1000,7 +1000,8 @@ Scenario: Phone field is displayed and validated
   Then they should see a "Phone" field
   And the field should be optional
   When a phone number is provided
-  Then it should validate E.164 phone format
+  Then formatting characters (spaces, parentheses, hyphens, dots) should be stripped
+  And the stripped value should validate E.164 phone format
 
 Scenario: Relationship field is displayed and validated
   Given a visitor views the contact form
@@ -1215,7 +1216,7 @@ Scenario: Server re-validates all fields using Zod
   And it should validate firstName as required, 1-50 chars, pattern /^[a-zA-Z\s'-]+$/
   And it should validate lastName as required, 1-50 chars, pattern /^[a-zA-Z\s'-]+$/
   And it should validate email as required with valid email format
-  And it should validate phone as optional with valid phone format if provided
+  And it should validate phone as optional, stripping formatting characters before validating E.164 format
   And it should validate relationship as optional with max 100 chars
   And it should validate message as required, 1-2000 chars
 
@@ -1823,6 +1824,7 @@ export const contactFormSchema = z.object({
   phone: z
     .string()
     .optional()
+    .transform((val) => val?.replace(/[\s()\-\.]/g, '') || val)
     .refine(
       (val) => !val || /^\+?[1-9]\d{1,14}$/.test(val),
       'Please enter a valid phone number'
