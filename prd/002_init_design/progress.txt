@@ -23,6 +23,7 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Study the project structure found in [CLAUDE.md](../../CLAUDE.md)
 - `CtaBanner` component (`src/components/sections/cta-banner.tsx`) is reusable — accepts `heading`, `description`, `buttonText`, `buttonHref` props for use on About, FAQ, Contact pages
 - `bg-secondary` = Warm Sand (#F5E6D3), `bg-primary` = Ocean Teal (#0D7377) — use these for alternating section backgrounds
+- Shadcn Accordion installed — use `type="multiple"` for independent expand/collapse per item
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
@@ -148,4 +149,24 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Value/card data arrays with `.map()` keep page components clean — define data objects at module level, render in JSX
   - Team member placeholder uses `h-32 w-32 rounded-full bg-muted` for circular photo placeholders
   - CtaBanner reuse confirmed working — just pass `heading` prop, defaults handle the rest
+---
+
+## 2026-02-12 - US-008 FAQ Page
+- Installed Shadcn Accordion component (`npx shadcn@latest add accordion --yes`) — added `@radix-ui/react-accordion` dep, accordion keyframes/animations in tailwind.config.ts
+- Created FAQ page at `src/app/faq/page.tsx` with:
+  1. Page header with gradient banner ("Frequently Asked Questions")
+  2. FAQ Accordion with 4 categories (General, Admissions & Getting Started, Daily Life, Care & Services), 3 questions each = 12 total
+  3. `type="multiple"` so each question expands/collapses independently
+  4. Reused CtaBanner with heading "Still Have Questions? Contact Us Directly."
+- Page metadata: `title: 'Frequently Asked Questions'` → "Frequently Asked Questions | Casa Colina Care"
+- Files changed:
+  - `src/app/faq/page.tsx` (new)
+  - `src/components/ui/accordion.tsx` (new, shadcn)
+  - `tailwind.config.ts` (modified — added accordion keyframes/animations, darkMode)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-accordion)
+- **Learnings for future iterations:**
+  - Shadcn Accordion install adds `darkMode: ['class']` and accordion keyframes to tailwind.config.ts — always run lint --fix after
+  - Use `type="multiple"` for independent expand/collapse, `type="single"` for single-item-at-a-time
+  - FAQ data structure: array of `{ category, questions: [{ question, answer }] }` works well for grouped accordion layout
+  - The `last:mb-0` utility on category containers removes bottom margin from the last group
 ---
