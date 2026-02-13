@@ -11,6 +11,14 @@ import {
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions',
+  description:
+    "Find answers to common questions about Casa Colina Care's services, admissions, and care home life in Hawaii Kai.",
+  openGraph: {
+    title: 'Frequently Asked Questions | Casa Colina Care',
+    description:
+      "Find answers to common questions about Casa Colina Care's services, admissions, and care home life in Hawaii Kai.",
+    url: 'https://casacolinacare.com/faq',
+  },
 };
 
 const faqCategories = [

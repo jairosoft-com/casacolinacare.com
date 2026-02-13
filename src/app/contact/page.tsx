@@ -6,6 +6,14 @@ import { MapEmbed } from '@/components/shared/map-embed';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
+  description:
+    'Get in touch with Casa Colina Care. Request a consultation, schedule a visit, or ask us any questions about our care home in Hawaii Kai.',
+  openGraph: {
+    title: 'Contact Us | Casa Colina Care',
+    description:
+      'Get in touch with Casa Colina Care. Request a consultation, schedule a visit, or ask us any questions about our care home in Hawaii Kai.',
+    url: 'https://casacolinacare.com/contact',
+  },
 };
 
 export default function ContactPage() {
