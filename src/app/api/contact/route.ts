@@ -3,7 +3,15 @@ import { Resend } from 'resend';
 
 import { buildContactEmailHtml } from '@/lib/email';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'RESEND_API_KEY is not set. Add it to your .env.local file.',
+    );
+  }
+  return new Resend(apiKey);
+}
 
 interface ContactFormBody {
   firstName?: string;
@@ -61,6 +69,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const resend = getResendClient();
     const { error } = await resend.emails.send({
       from: 'Casa Colina Care <onboarding@resend.dev>',
       to: 'kriss@casacolinacare.com',
