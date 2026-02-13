@@ -5,6 +5,14 @@ import { SectionHeading } from '@/components/shared/section-heading';
 
 export const metadata: Metadata = {
   title: 'About Us',
+  description:
+    'Learn about Casa Colina Care, our mission, values, and the dedicated team providing compassionate care in Hawaii Kai.',
+  openGraph: {
+    title: 'About Us | Casa Colina Care',
+    description:
+      'Learn about Casa Colina Care, our mission, values, and the dedicated team providing compassionate care in Hawaii Kai.',
+    url: 'https://casacolinacare.com/about',
+  },
 };
 
 const values = [
