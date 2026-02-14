@@ -1,0 +1,22 @@
+{
+  "project": "CasaColinaCare",
+  "branchName": "ralph/contact-info-update",
+  "description": "Update contact information (phone, fax, address) across the website and add unit + E2E tests",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Update Schema.org Structured Data — Phone, Fax, Address",
+      "description": "As a search engine crawler, I want accurate phone, fax, and address data in the JSON-LD structured data, so that Google Knowledge Panel and local search results display correct contact information.",
+      "acceptanceCriteria": [
+        "In src/app/layout.tsx, the jsonLd object telephone field is '+18082001840' (old value '+18008888888' does not exist)",
+        "In src/app/layout.tsx, a faxNumber property with value '+18086701163' exists after telephone and before email",
+        "In src/app/layout.tsx, the PostalAddress streetAddress is '189 Anapalau Street' (old value '189 Anapalua Street' does not exist) and does NOT contain '(Hawaii Kai)'",
+        "In src/app/layout.tsx, the PostalAddress addressLocality is 'Honolulu' (old value 'Hawaii Kai' does not exist in PostalAddress)",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}
