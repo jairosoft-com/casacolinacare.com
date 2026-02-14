@@ -48,7 +48,7 @@ Based on your requirements, here's what has been implemented:
   - UI store (sidebar, modals)
   - Notification store (toasts)
 
-- **Comprehensive Guide** (`/docs/STATE_MANAGEMENT_GUIDE.md`)
+- **Comprehensive Guide** (`/ai_docs/STATE_MANAGEMENT_GUIDE.md`)
   - URL State (for filters, search)
   - Server Components (for data fetching)
   - Local State (for component-specific)
@@ -62,7 +62,7 @@ Based on your requirements, here's what has been implemented:
 
 ### **Decision:** Use Clerk for fastest implementation
 
-✅ **Recommendation Document** (`/docs/AUTHENTICATION_GUIDE.md`)
+✅ **Recommendation Document** (`/ai_docs/AUTHENTICATION_GUIDE.md`)
 
 - **Clerk** - Recommended (10 minute setup)
 - **NextAuth.js** - Alternative (more control)
@@ -92,7 +92,7 @@ const token = await getToken();
 
 ### **Decision:** Use Server Actions for mutations, Route Handlers for webhooks
 
-✅ **Comprehensive Guide** (`/docs/API_DESIGN_GUIDE.md`)
+✅ **Comprehensive Guide** (`/ai_docs/API_DESIGN_GUIDE.md`)
 
 - **Server Actions** - For forms and mutations
 - **Route Handlers** - For REST APIs and webhooks
@@ -127,7 +127,7 @@ export async function POST(request) {
 
 ✅ **Vercel Setup:**
 
-- Documentation in `/docs/DEPLOYMENT_GUIDE.md`
+- Documentation in `/ai_docs/DEPLOYMENT_GUIDE.md`
 - Instant deployment guide
 - Environment variable setup
 - Preview deployments
@@ -162,7 +162,7 @@ docker-compose up -d
 - Vitest config updated with 60% thresholds
 - Coverage for: lines, functions, branches, statements
 
-✅ **Testing Strategy** (`/docs/TESTING_STRATEGY.md`)
+✅ **Testing Strategy** (`/ai_docs/TESTING_STRATEGY.md`)
 
 - What to test (utilities, services, logic)
 - What NOT to test (third-party, presentational)
@@ -192,7 +192,7 @@ src/lib/api/
 src/lib/store/
   └── index.ts               ✅ Zustand stores
 
-docs/
+ai_docs/
   ├── STATE_MANAGEMENT_GUIDE.md    ✅ Complete guide
   ├── AUTHENTICATION_GUIDE.md      ✅ Clerk setup
   ├── API_DESIGN_GUIDE.md          ✅ Server Actions guide
@@ -341,7 +341,7 @@ vercel --prod
 1. npm install @clerk/nextjs
 2. Sign up at clerk.com
 3. Add API keys to .env.local
-4. Follow /docs/AUTHENTICATION_GUIDE.md
+4. Follow /ai_docs/AUTHENTICATION_GUIDE.md
 ```
 
 ### **Phase 2: First Feature (1 hour)**
@@ -432,7 +432,7 @@ CLERK_SECRET_KEY=sk_...
 
 ### **3. Use the Guides**
 
-All the documentation is in `/docs/`:
+All the documentation is in `/ai_docs/`:
 
 - Stuck on state? → `STATE_MANAGEMENT_GUIDE.md`
 - Need auth? → `AUTHENTICATION_GUIDE.md`

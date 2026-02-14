@@ -54,8 +54,7 @@ These are essential project files that should be in version control:
 ✅ README.md                 # Project overview
 ✅ CLAUDE.md                 # AI assistant guidance
 ✅ TODO.md                   # Project roadmap
-✅ docs/                     # All documentation files
-✅ ai_docs/                  # AI collaboration docs
+✅ ai_docs/                  # All documentation files
 ```
 
 ### **Docker & Deployment** ✅
@@ -183,8 +182,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ```
 ✅ All markdown files (*.md)
-✅ All documentation in /docs/
-✅ All AI guidance in /ai_docs/
+✅ All documentation in /ai_docs/
 ```
 
 **Why:** Documentation is crucial for team collaboration and AI assistance.
@@ -211,7 +209,7 @@ M vitest.config.ts                    ← Added coverage thresholds
 ?? Dockerfile                         ← Docker configuration
 ?? .dockerignore                      ← Docker exclusions
 ?? docker-compose.yml                 ← Docker Compose setup
-?? docs/                              ← All new documentation
+?? ai_docs/                             ← All new documentation
 ?? src/lib/api/                       ← API client & services
 ?? src/lib/store/                     ← Zustand stores
 ?? tests/e2e/console-errors.spec.ts   ← Console error test
@@ -242,7 +240,7 @@ git diff .gitignore
 ```bash
 # Add all new project files
 git add Dockerfile .dockerignore docker-compose.yml
-git add docs/
+git add ai_docs/
 git add src/lib/api/ src/lib/store/
 git add tests/e2e/console-errors.spec.ts
 
@@ -391,7 +389,7 @@ Use this checklist before committing:
 - [ ] OS files are ignored (`.DS_Store`, `Thumbs.db`)
 - [ ] Test outputs are ignored (`coverage/`, `test-results/`)
 - [ ] No secrets in any tracked files
-- [ ] Documentation is tracked (`docs/`, `*.md`)
+- [ ] Documentation is tracked (`ai_docs/`, `*.md`)
 - [ ] Configuration files are tracked (`*.config.*`, `package.json`)
 - [ ] Source code is tracked (`src/`, `tests/`)
 

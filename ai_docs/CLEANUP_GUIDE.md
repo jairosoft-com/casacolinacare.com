@@ -51,8 +51,7 @@ tsconfig.tsbuildinfo   228KB   ← TypeScript incremental build cache
 
 ### **Documentation (228KB)**
 - `README.md`, `CLAUDE.md`, `TODO.md`
-- `docs/` - All guides
-- `ai_docs/` - AI collaboration docs
+- `ai_docs/` - All guides
 
 ### **Docker & Deployment (12KB)**
 - `Dockerfile`
@@ -114,7 +113,7 @@ Before removing files, ensure:
 ❌ tsconfig.json          # TS config
 ❌ next.config.ts         # Next.js config
 ❌ tests/                 # Test code (not artifacts)
-❌ docs/                  # Documentation
+❌ ai_docs/                 # Documentation
 ❌ .gitignore             # Git rules
 ❌ .husky/                # Git hooks
 ❌ All *.config.* files   # Configurations
@@ -204,7 +203,7 @@ These won't be committed even if they exist.
 ```
 src/
 tests/
-docs/
+ai_docs/
 public/
 All config files
 All documentation

@@ -17,7 +17,6 @@ Total build context: ~600MB+
 340KB  .git/              ← Git history
 231KB  tsconfig.tsbuildinfo
 124KB  ai_docs/
- 84KB  docs/
  16KB  tests/
 ```
 
@@ -143,7 +142,6 @@ playwright-report/
 #### **1. Documentation (208KB)**
 ```dockerfile
 README.md
-docs/
 ai_docs/
 *.md
 ```
@@ -278,7 +276,6 @@ FROM node:20-alpine AS runner  # Stage 3: Run app
 | `node_modules/` | ✅ Ignore | ✅ Ignore | Same: Both reinstall |
 | `.next/` | ✅ Ignore | ✅ Ignore | Same: Both rebuild |
 | `tests/` | ❌ Track | ✅ Ignore | Different: Tests in git, not in production image |
-| `docs/` | ❌ Track | ✅ Ignore | Different: Docs in git, not in image |
 | `.env.local` | ✅ Ignore | ✅ Ignore | Same: Never commit/build secrets |
 | `src/` | ❌ Track | ❌ Don't Ignore | Same: Source code needed |
 | `.git/` | N/A | ✅ Ignore | Docker-specific: Don't need git in image |
@@ -466,7 +463,6 @@ Final image: ~300-400MB (60% reduction)
 340KB  .git/              ✓
 231KB  tsconfig.tsbuildinfo ✓
 124KB  ai_docs/           ✓
- 84KB  docs/              ✓
  16KB  tests/             ✓
 ```
 

@@ -83,13 +83,12 @@ Desktop.ini
 # ============================================================
 # Option 1: Exclude all (smaller image)
 README.md
-docs/
 ai_docs/
 *.md
 
 # Option 2: Keep specific docs (uncomment if needed)
 # !README.md
-# !docs/deployment.md
+# !ai_docs/deployment.md
 
 # ============================================================
 # DEVELOPMENT TOOLS - Should exclude

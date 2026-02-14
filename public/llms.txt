@@ -26,13 +26,13 @@ Important notes:
 
 - [AGENTS.md](https://agents.md/): The reference specification for AGENTS.md
 - [LLMSTXT.org](https://llmstxt.org): The reference specification for llms.txt
-- [API Design Guide](docs/API_DESIGN_GUIDE.md): Server Actions vs Route Handlers patterns
-- [Authentication Guide](docs/AUTHENTICATION_GUIDE.md): Auth setup with Clerk
-- [Cleanup Guide](docs/CLEANUP_GUIDE.md): Safe file removal procedures
-- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md): Vercel and Docker deployment
-- [Dockerignore Review](docs/DOCKERIGNORE_REVIEW.md): Docker build optimization
-- [ESLint Configuration](docs/ESLINT_CONFIGURATION.md): ESLint setup and plugins
-- [Gitignore Review](docs/GITIGNORE_REVIEW.md): What to track vs ignore
-- [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md): Complete project overview
-- [State Management Guide](docs/STATE_MANAGEMENT_GUIDE.md): State management patterns
-- [Testing Strategy](docs/TESTING_STRATEGY.md): 60% coverage testing approach
+- [API Design Guide](ai_docs/API_DESIGN_GUIDE.md): Server Actions vs Route Handlers patterns
+- [Authentication Guide](ai_docs/AUTHENTICATION_GUIDE.md): Auth setup with Clerk
+- [Cleanup Guide](ai_docs/CLEANUP_GUIDE.md): Safe file removal procedures
+- [Deployment Guide](ai_docs/DEPLOYMENT_GUIDE.md): Vercel and Docker deployment
+- [Dockerignore Review](ai_docs/DOCKERIGNORE_REVIEW.md): Docker build optimization
+- [ESLint Configuration](ai_docs/ESLINT_CONFIGURATION.md): ESLint setup and plugins
+- [Gitignore Review](ai_docs/GITIGNORE_REVIEW.md): What to track vs ignore
+- [Implementation Summary](ai_docs/IMPLEMENTATION_SUMMARY.md): Complete project overview
+- [State Management Guide](ai_docs/STATE_MANAGEMENT_GUIDE.md): State management patterns
+- [Testing Strategy](ai_docs/TESTING_STRATEGY.md): 60% coverage testing approach

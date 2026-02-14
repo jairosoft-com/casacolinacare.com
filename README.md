@@ -63,8 +63,7 @@ nextjs_starter_project_2025/
 ├── tests/
 │   ├── unit/                # Vitest unit tests
 │   └── e2e/                 # Playwright E2E tests
-├── docs/                    # Comprehensive documentation
-├── ai_docs/                 # AI collaboration guides
+├── ai_docs/                 # Documentation and AI collaboration guides
 ├── public/                  # Static assets
 └── [config files]           # All configuration files
 ```
@@ -148,36 +147,25 @@ export async function createUser(data) {
 4. **React Context** - For small subtree state
 5. **Zustand** - For global state (auth, cart, notifications)
 
-See [State Management Guide](docs/STATE_MANAGEMENT_GUIDE.md) for details.
+See [State Management Guide](ai_docs/STATE_MANAGEMENT_GUIDE.md) for details.
 
 ---
 
 ## 📖 **Documentation**
 
-Comprehensive guides are available in the `/docs` directory:
+All guides are in the [`/ai_docs`](ai_docs/) directory:
 
-### **Core Guides**
-
-- [**State Management Guide**](docs/STATE_MANAGEMENT_GUIDE.md) - Complete state management patterns
-- [**API Design Guide**](docs/API_DESIGN_GUIDE.md) - Server Actions vs Route Handlers
-- [**Authentication Guide**](docs/AUTHENTICATION_GUIDE.md) - Quick auth setup with Clerk
-- [**Deployment Guide**](docs/DEPLOYMENT_GUIDE.md) - Vercel + Docker deployment
-- [**Testing Strategy**](docs/TESTING_STRATEGY.md) - 60% coverage approach
-- [**Implementation Summary**](docs/IMPLEMENTATION_SUMMARY.md) - Complete overview
-
-### **Development Guides**
-
-- [**ESLint Configuration**](docs/ESLINT_CONFIGURATION.md) - Complete ESLint setup & plugins
-- [**Gitignore Review**](docs/GITIGNORE_REVIEW.md) - What to track vs ignore
-- [**Dockerignore Review**](docs/DOCKERIGNORE_REVIEW.md) - Docker optimization
-- [**Cleanup Guide**](docs/CLEANUP_GUIDE.md) - Safe file removal
-
-### **AI Collaboration**
-
+- [**API Design Guide**](ai_docs/API_DESIGN_GUIDE.md) - Server Actions vs Route Handlers
+- [**Authentication Guide**](ai_docs/AUTHENTICATION_GUIDE.md) - Quick auth setup with Clerk
 - [**CLAUDE.md**](CLAUDE.md) - AI assistant guidance
-- [**AI Docs**](ai_docs/) - Architecture and best practices
-
-**Total Documentation:** 13,000+ words of comprehensive guides
+- [**Cleanup Guide**](ai_docs/CLEANUP_GUIDE.md) - Safe file removal
+- [**Deployment Guide**](ai_docs/DEPLOYMENT_GUIDE.md) - Vercel + Docker deployment
+- [**Dockerignore Review**](ai_docs/DOCKERIGNORE_REVIEW.md) - Docker optimization
+- [**ESLint Configuration**](ai_docs/ESLINT_CONFIGURATION.md) - Complete ESLint setup & plugins
+- [**Gitignore Review**](ai_docs/GITIGNORE_REVIEW.md) - What to track vs ignore
+- [**Implementation Summary**](ai_docs/IMPLEMENTATION_SUMMARY.md) - Complete overview
+- [**State Management Guide**](ai_docs/STATE_MANAGEMENT_GUIDE.md) - Complete state management patterns
+- [**Testing Strategy**](ai_docs/TESTING_STRATEGY.md) - 60% coverage approach
 
 ---
 
@@ -206,7 +194,7 @@ npm install -g vercel
 vercel --prod
 ```
 
-See [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) for complete instructions.
+See [Deployment Guide](ai_docs/DEPLOYMENT_GUIDE.md) for complete instructions.
 
 ---
 
@@ -628,9 +616,8 @@ npx cz
 
 ### **Documentation**
 
-- Read the [docs/](docs/) directory for comprehensive guides
+- Read the [ai_docs/](ai_docs/) directory for comprehensive guides
 - Check [CLAUDE.md](CLAUDE.md) for AI assistant guidance
-- Review [ai_docs/](ai_docs/) for architecture details
 
 ### **External Resources**
 
@@ -673,7 +660,7 @@ npm install
 npm run dev
 ```
 
-See [Cleanup Guide](docs/CLEANUP_GUIDE.md) for details.
+See [Cleanup Guide](ai_docs/CLEANUP_GUIDE.md) for details.
 
 ---
 
@@ -696,10 +683,10 @@ Built with:
 
 ## 📞 **Support**
 
-- 📖 **Documentation:** [docs/](docs/)
+- 📖 **Documentation:** [ai_docs/](ai_docs/)
 - 🤖 **AI Guidance:** [CLAUDE.md](CLAUDE.md)
 - 📋 **Issues:** Check documentation first
-- 💬 **Questions:** Review [docs/IMPLEMENTATION_SUMMARY.md](docs/IMPLEMENTATION_SUMMARY.md)
+- 💬 **Questions:** Review [ai_docs/IMPLEMENTATION_SUMMARY.md](ai_docs/IMPLEMENTATION_SUMMARY.md)
 
 ---
 

@@ -79,8 +79,7 @@ a centralized API client (no direct database access).
 - `/src/utils/` - Utility functions and helpers
 - `/src/types/` - TypeScript type definitions
 - `/tests/` - Test files (unit tests in `/unit/`, E2E in `/e2e/`)
-- `/docs/` - Comprehensive documentation (13,000+ words)
-- `/ai_docs/` - AI collaboration guides
+- `/ai_docs/` - Documentation and AI collaboration guides
 
 ### Core Architecture Patterns
 
@@ -249,21 +248,18 @@ npm test -- --run       # Quick test run
 - **Git Status**: The project uses conventional commits with Commitizen and
   Commitlint for consistent commit messages
 
-## Comprehensive Documentation
+## Documentation (`ai_docs/`)
 
-The `/docs/` directory contains 13,000+ words of detailed guides:
+The `/ai_docs/` directory contains all project documentation:
 
-- **Core Guides**:
-  - `STATE_MANAGEMENT_GUIDE.md` - Complete state management patterns
-  - `API_DESIGN_GUIDE.md` - Server Actions vs Route Handlers
-  - `AUTHENTICATION_GUIDE.md` - Quick auth setup with Clerk
-  - `DEPLOYMENT_GUIDE.md` - Vercel + Docker deployment
-  - `TESTING_STRATEGY.md` - 60% coverage approach
-  - `IMPLEMENTATION_SUMMARY.md` - Complete project overview
-
-- **Development Guides**:
-  - `ESLINT_CONFIGURATION.md` - Complete ESLint setup & plugins
-  - `GITIGNORE_REVIEW.md` - What to track vs ignore
-  - `CLEANUP_GUIDE.md` - Safe file removal
+- `API_DESIGN_GUIDE.md` - Server Actions vs Route Handlers
+- `AUTHENTICATION_GUIDE.md` - Quick auth setup with Clerk
+- `CLEANUP_GUIDE.md` - Safe file removal
+- `DEPLOYMENT_GUIDE.md` - Vercel + Docker deployment
+- `ESLINT_CONFIGURATION.md` - Complete ESLint setup & plugins
+- `GITIGNORE_REVIEW.md` - What to track vs ignore
+- `IMPLEMENTATION_SUMMARY.md` - Complete project overview
+- `STATE_MANAGEMENT_GUIDE.md` - Complete state management patterns
+- `TESTING_STRATEGY.md` - 60% coverage approach
 
 Refer to these guides for detailed implementation patterns and best practices.

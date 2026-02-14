@@ -153,25 +153,22 @@ tests/
 - [Website PRD](prd/002_init_design/prd-casacolinacare-website.md) — Product requirements for the Casa Colina Care website
 - [Website SPEC](prd/002_init_design/SPEC.md) — Engineering specification for the website
 
-### AI Collaboration Guides (`ai_docs/`)
+### Documentation (`ai_docs/`)
 
 - [A Contextual Prompt for Agent](ai_docs/A_Contextual_Prompt_for_Agent.md)
 - [AI Collaborative Architecture](ai_docs/AI_Collaborative_Architecture_The_Definitive_Project_Template_for_Next.js_15.md)
+- [API Design Guide](ai_docs/API_DESIGN_GUIDE.md) — Server Actions vs Route Handlers
+- [Authentication Guide](ai_docs/AUTHENTICATION_GUIDE.md) — Auth setup with Clerk
 - [Branching & Merging Strategy](ai_docs/branching-merging-strategy.md)
+- [Cleanup Guide](ai_docs/CLEANUP_GUIDE.md) — Safe file removal procedures
+- [Deployment Guide](ai_docs/DEPLOYMENT_GUIDE.md) — Vercel and Docker deployment
+- [Dockerignore Review](ai_docs/DOCKERIGNORE_REVIEW.md) — Docker build optimization
+- [ESLint Configuration](ai_docs/ESLINT_CONFIGURATION.md) — ESLint setup and plugins
 - [General AI Behaviour](ai_docs/general_ai_behaviour.md)
+- [Gitignore Review](ai_docs/GITIGNORE_REVIEW.md) — What to track vs ignore
+- [Implementation Summary](ai_docs/IMPLEMENTATION_SUMMARY.md) — Complete project overview
 - [Next.js Project Standards](ai_docs/next.js-project-standards-best-practices.md)
+- [State Management Guide](ai_docs/STATE_MANAGEMENT_GUIDE.md) — State management patterns
 - [Test-Driven Development TypeScript](ai_docs/test-driven-development-typescript.md)
+- [Testing Strategy](ai_docs/TESTING_STRATEGY.md) — 60% coverage testing approach
 - [Universal Coding Principles](ai_docs/univeral_coding_principle.md)
-
-### Development Guides (`docs/`)
-
-- [API Design Guide](docs/API_DESIGN_GUIDE.md) — Server Actions vs Route Handlers
-- [Authentication Guide](docs/AUTHENTICATION_GUIDE.md) — Auth setup with Clerk
-- [Cleanup Guide](docs/CLEANUP_GUIDE.md) — Safe file removal procedures
-- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) — Vercel and Docker deployment
-- [Dockerignore Review](docs/DOCKERIGNORE_REVIEW.md) — Docker build optimization
-- [ESLint Configuration](docs/ESLINT_CONFIGURATION.md) — ESLint setup and plugins
-- [Gitignore Review](docs/GITIGNORE_REVIEW.md) — What to track vs ignore
-- [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md) — Complete project overview
-- [State Management Guide](docs/STATE_MANAGEMENT_GUIDE.md) — State management patterns
-- [Testing Strategy](docs/TESTING_STRATEGY.md) — 60% coverage testing approach
