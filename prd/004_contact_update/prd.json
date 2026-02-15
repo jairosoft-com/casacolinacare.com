@@ -12,6 +12,9 @@
         "In src/app/layout.tsx, a faxNumber property with value '+18086701163' exists after telephone and before email",
         "In src/app/layout.tsx, the PostalAddress streetAddress is '189 Anapalau Street' (old value '189 Anapalua Street' does not exist) and does NOT contain '(Hawaii Kai)'",
         "In src/app/layout.tsx, the PostalAddress addressLocality is 'Honolulu' (old value 'Hawaii Kai' does not exist in PostalAddress)",
+        "New unit test added to verification suite",
+        "New e2e test added to verification suite",
+        "Tests passes",
         "Typecheck passes"
       ],
       "priority": 1,
