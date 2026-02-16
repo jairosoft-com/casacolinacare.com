@@ -69,11 +69,23 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Phone</p>
                     <a
-                      href="tel:+18008888888"
+                      href="tel:+18082001840"
                       className="text-muted-foreground transition-colors hover:text-primary"
                     >
-                      +1 (800) 888-8888
+                      +1 (808) 200-1840
                     </a>
+                  </div>
+                </div>
+
+                {/* Fax */}
+                <div className="flex items-start gap-4">
+                  <Phone
+                    className="mt-1 h-5 w-5 shrink-0 text-primary"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-medium">Fax</p>
+                    <p className="text-muted-foreground">+1 (808) 670-1163</p>
                   </div>
                 </div>
 
@@ -101,9 +113,9 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Address</p>
                     <p className="text-muted-foreground">
-                      189 Anapalua Street
+                      189 Anapalau Street (Hawaii Kai)
                       <br />
-                      Hawaii Kai, HI 96825
+                      Honolulu, HI 96825
                     </p>
                   </div>
                 </div>
