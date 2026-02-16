@@ -1,6 +1,7 @@
 {
   "project": "CasaColinaCare",
-  "branchName": "ralph/004-contact-update",
+  "featureName": "contact-information-update-fax-addition",
+  "featureId": "12345",
   "description": "Contact Information Update & Fax Addition — Fix placeholder phone, add fax number, correct street spelling and postal city across all pages",
   "detailedPrdPath": "PRD.md",
   "technicalSpecPath": "TECH_SPEC.md",
@@ -45,6 +46,27 @@
       "priority": 2,
       "passes": true,
       "notes": "Completed 2026-02-16. Updated phone, added fax block, corrected street/city. Unit (6/6) and E2E (3/3) tests pass."
+    },
+    {
+      "id": "US-003",
+      "title": "Update Footer — Phone, Fax, and Address",
+      "description": "As a visitor on any page, I want the footer to show the correct phone number, fax number, street address, and city so that I have accurate contact and location information available site-wide",
+      "technicalSpecSection": "#34-us-003-update-footer--phone-fax-and-address",
+      "acceptanceCriteria": [
+        "Footer phone link `href` is `'tel:+18082001840'` and display text is `'+1 (808) 200-1840'`; old phone does not exist",
+        "Footer fax entry exists with display text `'+1 (808) 670-1163'` and label `\"Fax\"`",
+        "Footer fax number is rendered as plain text (NOT wrapped in an `<a>` tag) and is NOT a clickable link",
+        "Footer street address displays `'189 Anapalau Street (Hawaii Kai)'`; old street does not exist",
+        "Footer city displays `'Honolulu, HI 96825'`; old value `'Hawaii Kai, HI 96825'` does not exist",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/footer.test.tsx`) and passes",
+        "E2E test added (`tests/e2e/footer-contact.spec.ts`) and passes",
+        "Verified in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Completed 2026-02-16. Updated phone, added fax entry, corrected street/city. Unit (10/10) and E2E (3/3) tests pass."
     }
   ]
 }

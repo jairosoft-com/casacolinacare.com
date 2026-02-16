@@ -18,8 +18,8 @@ export function Footer() {
               Casa Colina Care
             </h3>
             <address className="mt-3 space-y-1 text-sm not-italic text-muted-foreground">
-              <p>189 Anapalua Street</p>
-              <p>Hawaii Kai, HI 96825</p>
+              <p>189 Anapalau Street (Hawaii Kai)</p>
+              <p>Honolulu, HI 96825</p>
             </address>
           </div>
 
@@ -49,11 +49,15 @@ export function Footer() {
             <div className="mt-3 space-y-2 text-sm text-muted-foreground">
               <p>
                 <a
-                  href="tel:+18008888888"
+                  href="tel:+18082001840"
                   className="transition-colors hover:text-primary"
                 >
-                  +1 (800) 888-8888
+                  +1 (808) 200-1840
                 </a>
+              </p>
+              <p>
+                <span className="text-foreground">Fax: </span>
+                +1 (808) 670-1163
               </p>
               <p>
                 <a
