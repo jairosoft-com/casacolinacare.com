@@ -1,0 +1,278 @@
+# Ralph Progress Log
+Started: 2026-02-09 20:20:30.483996 -08:00
+---
+
+## Codebase Patterns
+- Shadcn components import `cn` from `@/utils` — barrel file at `src/utils/index.ts` re-exports from `./cn`
+- Use `ZDOTDIR=/dev/null bash -c 'cd /path && command'` to avoid zoxide shell hook errors
+- Shadcn components generated with double quotes and no semicolons — run `npx next lint --fix` to auto-format to project style (single quotes, semicolons, sorted imports)
+- `components.json` aliases utils to `@/utils` (not `@/utils/cn`)
+- The project uses `md:` breakpoint (768px) for desktop/mobile nav toggle
+- `lucide-react` and `class-variance-authority` are not included in the starter — must be installed when adding shadcn components that use them
+- Nav links array (`navLinks`) is duplicated in `header.tsx` and `footer.tsx` — consider extracting to shared constant if adding more nav items
+- Brand colors are set as HSL CSS variables in `src/styles/globals.css` — use `hsl(var(--primary))` etc. via Tailwind utility classes
+- Fonts: Inter (body/`font-sans`) and Playfair Display (headings/`font-heading`) configured via `next/font/google` CSS variables in layout.tsx and Tailwind fontFamily config
+- Headings h1-h3 automatically get `font-heading` via globals.css base layer
+- Metadata uses `title.template` pattern — child pages can set `title: 'Page Name'` and it becomes `Page Name | Casa Colina Care`
+- Section components live in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+- Use `SectionHeading` from `@/components/shared/section-heading` for consistent section titles across pages
+- Hero height uses `min-h-[calc(100vh-4rem)]` to account for sticky header (h-16 = 4rem)
+- Follow [NextJS best practices and standards](../../ai_docs/next.js-project-standards-best-practices.md)
+- Follow [TDD protocol](../../ai_docs/test-driven-development-typescript.md)
+- Study the agent instructions found in [AGENTS.md](../../AGENTS.md)
+- Study the project structure found in [CLAUDE.md](../../CLAUDE.md)
+- `CtaBanner` component (`src/components/sections/cta-banner.tsx`) is reusable — accepts `heading`, `description`, `buttonText`, `buttonHref` props for use on About, FAQ, Contact pages
+- `bg-secondary` = Warm Sand (#F5E6D3), `bg-primary` = Ocean Teal (#0D7377) — use these for alternating section backgrounds
+- Shadcn Accordion installed — use `type="multiple"` for independent expand/collapse per item
+- Resend email: use `src/lib/email.ts` for HTML builder, `RESEND_API_KEY` env var required, dev sender `onboarding@resend.dev`
+- `.env.example` requires `git add -f` due to `.env*` gitignore pattern
+- JSON-LD structured data: exported from `src/lib/structured-data.ts`, rendered with `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+- `robots.ts` and `sitemap.ts` in `src/app/` use `MetadataRoute.Robots` and `MetadataRoute.Sitemap` return types
+- Per-page OG tags override root layout OG tags — child pages should set og:title, og:description, og:url specifically
+---
+
+## 2026-02-10 - US-001 Header & Navigation
+- Implemented sticky header with desktop navigation and mobile Sheet-based menu
+- Installed shadcn Button and Sheet components (plus lucide-react, class-variance-authority)
+- Created `src/utils/index.ts` barrel for shadcn cn import compatibility
+- Active page link highlighting via `usePathname()`
+- Files changed:
+  - `src/components/layout/header.tsx` (new)
+  - `src/components/layout/mobile-nav.tsx` (new)
+  - `src/components/ui/button.tsx` (new, shadcn)
+  - `src/components/ui/sheet.tsx` (new, shadcn)
+  - `src/utils/index.ts` (new)
+  - `src/app/layout.tsx` (modified — added Header import and render)
+  - `package.json` / `package-lock.json` (updated deps)
+- **Learnings for future iterations:**
+  - Shadcn install generates files with double quotes — always run lint --fix afterward
+  - The starter template has no lucide-react or cva installed — these are peer deps for shadcn components
+  - `next lint` must be run from the project root (it needs to find app/ directory)
+  - `ralph` and `ralph.d` binaries exist as untracked files — exclude from commits
+---
+
+## 2026-02-10 - US-002 Footer
+- Implemented footer component with three-column layout (business info, navigation, contact)
+- Business name and address displayed in first column
+- Navigation links matching header (Home, About Us, FAQ, Contact) in second column
+- Phone (click-to-call tel: link) and email (mailto: link) in third column
+- Copyright line with dynamic current year
+- Added Footer import and render in root layout below {children}
+- Files changed:
+  - `src/components/layout/footer.tsx` (new)
+  - `src/app/layout.tsx` (modified — added Footer import and render)
+- **Learnings for future iterations:**
+  - Footer is a server component (no `'use client'` needed) — it has no interactive state
+  - Nav links are duplicated between header and footer — consider extracting to a shared constant in a future refactor
+  - The `md:grid-cols-3` pattern works well for responsive footer columns (stacks on mobile)
+---
+
+## 2026-02-10 - US-003 Root Layout
+- Replaced Geist fonts with Playfair Display (headings) and Inter (body) via `next/font/google`
+- Added Tailwind fontFamily config: `font-sans` (Inter) and `font-heading` (Playfair Display)
+- Added base CSS rule applying `font-heading` to h1, h2, h3 elements automatically
+- Updated CSS variables with Casa Colina brand colors (Ocean Teal primary, Warm Sand secondary, Sunset Coral accent, Ivory background, Deep Charcoal foreground, Soft Sage muted)
+- Removed dark mode CSS block (not needed for this project)
+- Added skip-to-content link as first focusable element
+- Wrapped children in `<main id="main-content">` for skip-to-content target
+- Set default metadata with title template, description, and Open Graph base tags
+- Files changed:
+  - `src/app/layout.tsx` (modified — replaced fonts, added metadata, skip-to-content, main wrapper)
+  - `src/styles/globals.css` (modified — replaced CSS variables with brand colors, added heading font rule)
+  - `tailwind.config.ts` (modified — added fontFamily config)
+- **Learnings for future iterations:**
+  - `next/font/google` Playfair_Display uses underscored name for import (not hyphenated)
+  - Use `title.template: '%s | Casa Colina Care'` so child pages just set a simple title string
+  - The skip-to-content link uses `sr-only` + `focus:not-sr-only` pattern for accessibility
+  - Brand HSL values: primary 182 80% 26%, secondary 34 63% 89%, accent 13 68% 63%, background 60 23% 97%, foreground 240 28% 14%
+---
+
+## 2026-02-10 - US-004 Home Page — Hero Section
+- Replaced default Next.js starter page content with hero section
+- Created `src/components/sections/hero.tsx` — full-viewport hero with gradient background, Playfair Display heading, subtitle, and two CTA buttons
+- Created `src/components/shared/section-heading.tsx` — reusable section heading component with optional subtitle and centering
+- Updated `src/app/page.tsx` to render the Hero component
+- Files changed:
+  - `src/components/sections/hero.tsx` (new)
+  - `src/components/shared/section-heading.tsx` (new)
+  - `src/app/page.tsx` (modified — replaced starter content with Hero)
+- **Learnings for future iterations:**
+  - Section components go in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+  - Hero uses `min-h-[calc(100vh-4rem)]` to account for the sticky header height (h-16 = 4rem)
+  - The `bg-gradient-to-br from-primary/10 via-background to-secondary/30` gradient creates a subtle brand-colored hero background
+  - Button component supports `asChild` prop with `<Link>` for navigation buttons via shadcn's Slot pattern
+  - Browser verified: desktop (1440px) and mobile (375px) — hero renders correctly at both breakpoints
+---
+
+## 2026-02-12 - US-005 Home Page — Introduction & Services Overview Sections
+- Created Introduction section (`src/components/sections/intro.tsx`) with two-column layout: image placeholder left, welcome text right, "Read more about us" link to /about
+- Created Services Overview section (`src/components/sections/services-overview.tsx`) with 4 icon cards in responsive grid: Personalized Care Plans (ClipboardList), 24/7 Professional Support (Shield), Home-Cooked Meals (UtensilsCrossed), Beautiful Surroundings (Palmtree)
+- Updated `src/app/page.tsx` to render Hero, Intro, ServicesOverview in order
+- Files changed:
+  - `src/components/sections/intro.tsx` (new)
+  - `src/components/sections/services-overview.tsx` (new)
+  - `src/app/page.tsx` (modified — added Intro and ServicesOverview imports/renders)
+- **Learnings for future iterations:**
+  - `Palmtree` icon exists in lucide-react v0.563.0 — use it directly (no need for `TreePalm` alternative)
+  - `bg-muted/50` creates a subtle alternating section background that visually separates content areas
+  - Service cards use dynamic component rendering (`<service.icon />`) from a data array — keeps the markup DRY
+  - SectionHeading `centered={false}` works well for two-column layouts where the heading aligns with text content
+  - Browser verified at 1440px desktop — all sections render correctly with proper spacing
+---
+
+## 2026-02-12 - US-006 Home Page — Testimonial, CTA Banner & Page Assembly
+- Created Testimonial section (`src/components/sections/testimonial.tsx`) with blockquote on warm sand (secondary) background, Quote icon from lucide-react
+- Created reusable CTA Banner (`src/components/sections/cta-banner.tsx`) with configurable props: `heading`, `description`, `buttonText`, `buttonHref` — defaults to "Schedule Your Visit Today" with phone, email, and "Request Consultation" button on primary (teal) background
+- Updated `src/app/page.tsx` to render all 5 sections in order: Hero, Introduction, Services Overview, Testimonial, CTA Banner
+- Page metadata uses root layout default title: "Casa Colina Care | Compassionate Care Home in Hawaii Kai"
+- Files changed:
+  - `src/components/sections/testimonial.tsx` (new)
+  - `src/components/sections/cta-banner.tsx` (new)
+  - `src/app/page.tsx` (modified — added Testimonial and CtaBanner imports/renders)
+- **Learnings for future iterations:**
+  - `bg-secondary` maps directly to warm sand (#F5E6D3) — no need for custom hex values
+  - CTA Banner uses `variant="secondary"` Button on primary background for good contrast
+  - The `Quote` icon from lucide-react works well for testimonial decoration
+  - CTA Banner is designed to be reused on About, FAQ, and Contact pages with custom `heading` prop
+  - Home page doesn't need explicit metadata export — root layout default title already matches the requirement
+  - When branching for dependent stories, branch from the predecessor branch (not main) to avoid merge conflicts
+---
+
+## 2026-02-12 - US-007 About Us Page
+- Created About Us page at `src/app/about/page.tsx` with 5 sections:
+  1. Page header with gradient banner ("About Casa Colina Care")
+  2. Our Story section with 3 paragraphs of placeholder content
+  3. Mission & Values section with 4 value cards in 2x2 grid (Aloha Spirit, Dignity & Independence, Family First, Community Connection)
+  4. Meet Our Team section with 3 placeholder team cards (circular photo placeholder, name, role, bio)
+  5. Reused CtaBanner with heading "Have Questions? We're Here to Help."
+- Page metadata uses title template: `title: 'About Us'` → "About Us | Casa Colina Care"
+- Files changed:
+  - `src/app/about/page.tsx` (new)
+- **Learnings for future iterations:**
+  - Child pages only need `title: 'Page Name'` — the root layout template appends `| Casa Colina Care`
+  - Page header sections reuse the same gradient as the hero (`from-primary/10 via-background to-secondary/30`) but with shorter padding (`py-16 sm:py-24` vs `min-h-[calc(100vh-4rem)]`)
+  - Value/card data arrays with `.map()` keep page components clean — define data objects at module level, render in JSX
+  - Team member placeholder uses `h-32 w-32 rounded-full bg-muted` for circular photo placeholders
+  - CtaBanner reuse confirmed working — just pass `heading` prop, defaults handle the rest
+---
+
+## 2026-02-12 - US-008 FAQ Page
+- Installed Shadcn Accordion component (`npx shadcn@latest add accordion --yes`) — added `@radix-ui/react-accordion` dep, accordion keyframes/animations in tailwind.config.ts
+- Created FAQ page at `src/app/faq/page.tsx` with:
+  1. Page header with gradient banner ("Frequently Asked Questions")
+  2. FAQ Accordion with 4 categories (General, Admissions & Getting Started, Daily Life, Care & Services), 3 questions each = 12 total
+  3. `type="multiple"` so each question expands/collapses independently
+  4. Reused CtaBanner with heading "Still Have Questions? Contact Us Directly."
+- Page metadata: `title: 'Frequently Asked Questions'` → "Frequently Asked Questions | Casa Colina Care"
+- Files changed:
+  - `src/app/faq/page.tsx` (new)
+  - `src/components/ui/accordion.tsx` (new, shadcn)
+  - `tailwind.config.ts` (modified — added accordion keyframes/animations, darkMode)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-accordion)
+- **Learnings for future iterations:**
+  - Shadcn Accordion install adds `darkMode: ['class']` and accordion keyframes to tailwind.config.ts — always run lint --fix after
+  - Use `type="multiple"` for independent expand/collapse, `type="single"` for single-item-at-a-time
+  - FAQ data structure: array of `{ category, questions: [{ question, answer }] }` works well for grouped accordion layout
+  - The `last:mb-0` utility on category containers removes bottom margin from the last group
+---
+
+## 2026-02-12 - US-009 Contact Page — Form Component
+- Installed Shadcn Input, Textarea, and Label components
+- Created `src/components/sections/contact-form.tsx` — client component with:
+  - 6 form fields: First Name (required, max 50), Last Name (required, max 50), Email (required, valid format), Phone (optional, valid format), Relationship to Resident (optional, max 100), Message (required, max 2000)
+  - Client-side validation with inline error messages
+  - 4 UI states: Idle (button enabled), Loading (spinner + "Sending..."), Success (green message + form cleared), Error (red message + form preserved)
+  - POSTs to /api/contact and handles JSON response
+- Created minimal `src/app/contact/page.tsx` for browser testing (will be expanded in US-010)
+- Files changed:
+  - `src/components/sections/contact-form.tsx` (new)
+  - `src/components/ui/input.tsx` (new, shadcn)
+  - `src/components/ui/textarea.tsx` (new, shadcn)
+  - `src/components/ui/label.tsx` (new, shadcn)
+  - `src/app/contact/page.tsx` (new, minimal — to be expanded in US-010)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-label)
+- **Learnings for future iterations:**
+  - `'use client'` is required for form components with useState/event handlers
+  - Shadcn Label installs `@radix-ui/react-label` — Input and Textarea have no extra deps
+  - Use `noValidate` on `<form>` to disable native browser validation and use custom inline errors
+  - The `Loader2` icon from lucide-react with `animate-spin` works well for loading spinners
+  - Phone validation regex `^\+?[\d\s().-]{7,20}$` handles international formats
+  - `aria-invalid` and `aria-describedby` attributes connect error messages for screen readers
+---
+
+## 2026-02-12 - US-010 Contact Page — Info Column, Map & Page Assembly
+- Expanded `src/app/contact/page.tsx` with full two-column layout:
+  - Page header with gradient banner ("Contact Us")
+  - Left column: "Send Us a Message" heading + ContactForm component
+  - Right column: "Get in Touch" heading + contact info (Phone, Email, Address, Hours) with Lucide icons + Google Maps iframe embed
+- Created `src/components/shared/map-embed.tsx` — Google Maps iframe embed with placeholder coordinates
+- Page metadata: `title: 'Contact Us'` → "Contact Us | Casa Colina Care"
+- Files changed:
+  - `src/app/contact/page.tsx` (modified — expanded from minimal to full layout)
+  - `src/components/shared/map-embed.tsx` (new)
+- **Learnings for future iterations:**
+  - Contact info items use `flex items-start gap-4` with `shrink-0` icons for consistent alignment
+  - Google Maps embed uses placeholder coordinates — update with real ones when available
+  - `lg:grid-cols-2` breakpoint works well for form + info two-column layout
+  - Lucide icons `Phone`, `Mail`, `MapPin`, `Clock` match contact info semantics well
+  - Map iframe uses `loading="lazy"` and `referrerPolicy="no-referrer-when-downgrade"` for performance and security
+---
+
+## 2026-02-12 - US-011 Contact Form API Route & Resend Integration
+- Installed `resend` npm package
+- Created `src/lib/email.ts` — HTML email builder with branded styling (Ocean Teal header), table layout for form fields, newline-to-br conversion for message field
+- Created `src/app/api/contact/route.ts` — POST handler with:
+  - Server-side re-validation of all fields matching client-side rules
+  - 400 response with joined error messages for invalid input
+  - Resend email send: from `Casa Colina Care <onboarding@resend.dev>`, to `kriss@casacolinacare.com`, reply-to submitter's email
+  - 200 response with success message on send
+  - 500 response with user-friendly error on Resend failure
+- Created `.env.example` documenting `RESEND_API_KEY` env var
+- Files changed:
+  - `src/app/api/contact/route.ts` (new)
+  - `src/lib/email.ts` (new)
+  - `.env.example` (new)
+  - `package.json` / `package-lock.json` (added resend)
+- **Learnings for future iterations:**
+  - `.env.example` is caught by `.env*` in .gitignore — use `git add -f` to force-add it
+  - Resend dev sender is `onboarding@resend.dev` — must be changed to verified domain sender for production
+  - Server-side validation should mirror client-side validation exactly for consistency
+  - `resend.emails.send()` returns `{ data, error }` — check for error to handle failures
+  - Email HTML uses inline styles (not Tailwind) since email clients don't support CSS classes
+---
+
+## 2026-02-12 - US-012: SEO, Metadata & Structured Data
+- Added per-page metadata descriptions matching SPEC.md section 4 on all 4 pages
+- Added Open Graph tags (og:title, og:description, og:url) on all pages, including root layout OG base with url
+- Added JSON-LD LocalBusiness structured data to root layout with: business name, address, phone, email, geo coordinates, opening hours, area served
+- Created `src/app/robots.ts` — generates robots.txt allowing all crawlers, linking to sitemap
+- Created `src/app/sitemap.ts` — generates sitemap.xml with all 4 pages (/, /about, /faq, /contact)
+- Verified semantic HTML: single h1 per page, sequential h2/h3 hierarchy with no skips
+- Home page metadata uses root layout defaults (title.default), child pages use title template
+- Files changed: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/faq/page.tsx`, `src/app/contact/page.tsx`, `src/app/robots.ts` (new), `src/app/sitemap.ts` (new)
+- **Learnings for future iterations:**
+  - Next.js Metadata API merges child page metadata with root layout — child pages only need to set fields that differ
+  - Root layout `title.template` pattern means child pages just set `title: 'Page Name'` and get `Page Name | Casa Colina Care` automatically
+  - JSON-LD in Next.js App Router: use `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+  - `MetadataRoute.Robots` and `MetadataRoute.Sitemap` are the correct return types for robots.ts and sitemap.ts
+  - OG tags set on child pages override root layout OG tags for those specific fields
+---
+
+## 2026-02-14 - US-001 Update Schema.org Structured Data — Phone, Fax, Address
+- Updated JSON-LD structured data in `src/app/layout.tsx`:
+  - Changed `telephone` from `+18008888888` to `+18082001840`
+  - Added `faxNumber: '+18086701163'` between telephone and email
+  - Fixed `streetAddress` typo: `Anapalua` → `Anapalau` (removed "(Hawaii Kai)")
+  - Changed `addressLocality` from `Hawaii Kai` to `Honolulu`
+- Extracted `jsonLd` object to `src/lib/structured-data.ts` for testability
+- Added unit test `tests/unit/structured-data.test.ts` (7 assertions: telephone, fax, street, locality, old values don't exist)
+- Added E2E test `tests/e2e/structured-data.spec.ts` (verifies JSON-LD in rendered page)
+- All quality checks pass: typecheck, lint, unit tests (7/7), E2E (1/1)
+- Files changed: `src/app/layout.tsx`, `src/lib/structured-data.ts` (new), `tests/unit/structured-data.test.ts` (new), `tests/e2e/structured-data.spec.ts` (new)
+- **Learnings for future iterations:**
+  - Extract JSON-LD structured data to `src/lib/structured-data.ts` for unit testability — import in layout.tsx
+  - JSON-LD fields are plain JS object properties — easy to add new fields like `faxNumber` in the right position
+  - The street name spelling is "Anapalau" (not "Anapalua") — correct Hawaiian spelling
+  - E2E tests for JSON-LD: use `locator('script[type="application/ld+json"]').textContent()` then `JSON.parse()`
+  - Suppress `playwright/prefer-web-first-assertions` lint rule for script tag textContent (need raw text to parse JSON)
+---
