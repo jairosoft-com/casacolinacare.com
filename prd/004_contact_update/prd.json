@@ -67,6 +67,24 @@
       "priority": 3,
       "passes": true,
       "notes": "Completed 2026-02-16. Updated phone, added fax entry, corrected street/city. Unit (10/10) and E2E (3/3) tests pass."
+    },
+    {
+      "id": "US-004",
+      "title": "Update FAQ Location Answer",
+      "description": "As a visitor reading the FAQ, I want the 'Where are you located?' answer to show the correct address so that I have accurate location information when planning a visit",
+      "technicalSpecSection": "#35-us-004-update-faq-location-answer",
+      "acceptanceCriteria": [
+        "Location answer reads `'We are located at 189 Anapalau Street (Hawaii Kai), Honolulu, HI 96825.'` and old address text does not exist",
+        "Admissions answer phone reads `'+1 (808) 200-1840'` and old phone `'+1 (800) 888-8888'` does not exist",
+        "Marketing-style references to Hawaii Kai in other FAQ answers remain unchanged",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/faq-page.test.tsx`) and passes",
+        "Verified in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Completed 2026-02-17. Extracted faqCategories to src/lib/faq-data.ts for testability. Updated location answer address and admissions phone. Unit (5/5) and E2E (10/10) tests pass."
     }
   ]
 }
