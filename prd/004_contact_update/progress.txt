@@ -328,3 +328,14 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - Extract FAQ data to `src/lib/faq-data.ts` and test the data directly (same pattern as `src/lib/structured-data.ts`)
   - When testing accordion content, either test the data source directly or use E2E tests that can click to expand items
 ---
+
+## 2026-02-17 - US-005 Update LLM Context File
+- Updated `public/llms.txt` line 7: `189 Anapalua Street, Honolulu, HI` → `189 Anapalau Street (Hawaii Kai), Honolulu, HI`
+- No other lines in the file were modified
+- Added E2E test `tests/e2e/llms-txt.spec.ts` (1 test: HTTP 200, Content-Type text/plain, correct address, old value absent)
+- All quality checks pass: typecheck, lint, E2E (1/1)
+- Files changed: `public/llms.txt`, `tests/e2e/llms-txt.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - E2E tests for static files in `public/` can use Playwright's `request` API (no page navigation needed) — faster than full page tests
+  - `public/llms.txt` is served directly by Next.js at `/llms.txt` — no route handler needed
+---

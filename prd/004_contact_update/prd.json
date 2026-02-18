@@ -85,6 +85,21 @@
       "priority": 4,
       "passes": true,
       "notes": "Completed 2026-02-17. Extracted faqCategories to src/lib/faq-data.ts for testability. Updated location answer address and admissions phone. Unit (5/5) and E2E (10/10) tests pass."
+    },
+    {
+      "id": "US-005",
+      "title": "Update LLM Context File",
+      "description": "As an LLM consuming the llms.txt file, I want the address to be accurate so that I can provide correct information about the facility location",
+      "technicalSpecSection": "#36-us-005-update-llm-context-file",
+      "acceptanceCriteria": [
+        "Address line reads `'- The postal address of the facility is 189 Anapalau Street (Hawaii Kai), Honolulu, HI'` and old address line does not exist",
+        "No other lines in the file are modified",
+        "File is served at `/llms.txt` with HTTP 200 and Content-Type containing `text/plain`",
+        "E2E test added (`tests/e2e/llms-txt.spec.ts`) and passes"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Completed 2026-02-17. Updated address line in llms.txt. E2E test (1/1) passes."
     }
   ]
 }
