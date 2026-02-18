@@ -1,25 +1,90 @@
 {
   "project": "CasaColinaCare",
-  "branchName": "ralph/contact-info-update",
-  "description": "Update contact information (phone, fax, address) across the website and add unit + E2E tests",
+  "featureName": "contact-information-update-fax-addition",
+  "featureId": "12345",
+  "description": "Contact Information Update & Fax Addition — Fix placeholder phone, add fax number, correct street spelling and postal city across all pages",
+  "detailedPrdPath": "PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
   "userStories": [
     {
       "id": "US-001",
       "title": "Update Schema.org Structured Data — Phone, Fax, Address",
-      "description": "As a search engine crawler, I want accurate phone, fax, and address data in the JSON-LD structured data, so that Google Knowledge Panel and local search results display correct contact information.",
+      "description": "As a search engine crawler, I want accurate phone, fax, and address data in the JSON-LD structured data so that Google Knowledge Panel and local search results display correct contact information",
+      "technicalSpecSection": "#32-us-001-update-schemaorg-structured-data",
       "acceptanceCriteria": [
-        "In src/app/layout.tsx, the jsonLd object telephone field is '+18082001840' (old value '+18008888888' does not exist)",
-        "In src/app/layout.tsx, a faxNumber property with value '+18086701163' exists after telephone and before email",
-        "In src/app/layout.tsx, the PostalAddress streetAddress is '189 Anapalau Street' (old value '189 Anapalua Street' does not exist) and does NOT contain '(Hawaii Kai)'",
-        "In src/app/layout.tsx, the PostalAddress addressLocality is 'Honolulu' (old value 'Hawaii Kai' does not exist in PostalAddress)",
-        "New unit test added to verification suite",
-        "New e2e test added to verification suite",
-        "Tests passes",
-        "Typecheck passes"
+        "The `telephone` field in JSON-LD is `'+18082001840'` and the old value `'+18008888888'` does not exist anywhere in the file",
+        "The `faxNumber` field in JSON-LD is `'+18086701163'` and is positioned after `telephone` and before `email`",
+        "The `streetAddress` field is `'189 Anapalau Street'` with no `(Hawaii Kai)` appended, and old value `'189 Anapalua Street'` does not exist",
+        "The `addressLocality` field is `'Honolulu'` and old value `'Hawaii Kai'` does not exist in `PostalAddress`",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/structured-data.test.ts`) and passes",
+        "E2E test added (`tests/e2e/structured-data.spec.ts`) and passes"
       ],
       "priority": 1,
       "passes": true,
-      "notes": ""
+      "notes": "Completed 2026-02-14. Extracted jsonLd to src/lib/structured-data.ts for testability."
+    },
+    {
+      "id": "US-002",
+      "title": "Update Contact Page — Phone, Fax, and Address",
+      "description": "As a visitor on the Contact page, I want to see the correct phone number, a fax number, and the updated address so that I can reach the facility through the right channels",
+      "technicalSpecSection": "#33-us-002-update-contact-page--phone-fax-and-address",
+      "acceptanceCriteria": [
+        "Phone link `href` is `'tel:+18082001840'` and display text is `'+1 (808) 200-1840'`; old phone `'+1 (800) 888-8888'` does not exist",
+        "Fax block exists between Phone and Email blocks with display text `'+1 (808) 670-1163'`",
+        "Fax number is rendered as plain text (NOT wrapped in an `<a>` tag) and is NOT a clickable link",
+        "Fax block uses the `Phone` icon from lucide-react, has label `\"Fax\"`, and styling matches the Phone block",
+        "Street address displays `'189 Anapalau Street (Hawaii Kai)'`",
+        "City displays `'Honolulu, HI 96825'`",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/contact-page.test.tsx`) and passes",
+        "E2E test added (`tests/e2e/contact-info.spec.ts`) and passes",
+        "Verified in browser using dev-browser skill"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Completed 2026-02-16. Updated phone, added fax block, corrected street/city. Unit (6/6) and E2E (3/3) tests pass."
+    },
+    {
+      "id": "US-003",
+      "title": "Update Footer — Phone, Fax, and Address",
+      "description": "As a visitor on any page, I want the footer to show the correct phone number, fax number, street address, and city so that I have accurate contact and location information available site-wide",
+      "technicalSpecSection": "#34-us-003-update-footer--phone-fax-and-address",
+      "acceptanceCriteria": [
+        "Footer phone link `href` is `'tel:+18082001840'` and display text is `'+1 (808) 200-1840'`; old phone does not exist",
+        "Footer fax entry exists with display text `'+1 (808) 670-1163'` and label `\"Fax\"`",
+        "Footer fax number is rendered as plain text (NOT wrapped in an `<a>` tag) and is NOT a clickable link",
+        "Footer street address displays `'189 Anapalau Street (Hawaii Kai)'`; old street does not exist",
+        "Footer city displays `'Honolulu, HI 96825'`; old value `'Hawaii Kai, HI 96825'` does not exist",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/footer.test.tsx`) and passes",
+        "E2E test added (`tests/e2e/footer-contact.spec.ts`) and passes",
+        "Verified in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Completed 2026-02-16. Updated phone, added fax entry, corrected street/city. Unit (10/10) and E2E (3/3) tests pass."
+    },
+    {
+      "id": "US-004",
+      "title": "Update FAQ Location Answer",
+      "description": "As a visitor reading the FAQ, I want the 'Where are you located?' answer to show the correct address so that I have accurate location information when planning a visit",
+      "technicalSpecSection": "#35-us-004-update-faq-location-answer",
+      "acceptanceCriteria": [
+        "Location answer reads `'We are located at 189 Anapalau Street (Hawaii Kai), Honolulu, HI 96825.'` and old address text does not exist",
+        "Admissions answer phone reads `'+1 (808) 200-1840'` and old phone `'+1 (800) 888-8888'` does not exist",
+        "Marketing-style references to Hawaii Kai in other FAQ answers remain unchanged",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Unit test added (`tests/unit/faq-page.test.tsx`) and passes",
+        "Verified in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Completed 2026-02-17. Extracted faqCategories to src/lib/faq-data.ts for testability. Updated location answer address and admissions phone. Unit (5/5) and E2E (10/10) tests pass."
     }
   ]
 }

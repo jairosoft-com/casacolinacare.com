@@ -29,6 +29,8 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - JSON-LD structured data: exported from `src/lib/structured-data.ts`, rendered with `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
 - `robots.ts` and `sitemap.ts` in `src/app/` use `MetadataRoute.Robots` and `MetadataRoute.Sitemap` return types
 - Per-page OG tags override root layout OG tags — child pages should set og:title, og:description, og:url specifically
+- E2E tests targeting the site footer should use `page.getByRole('contentinfo')` not `page.locator('footer')` — there are multiple `<footer>` elements on the page
+- Radix Accordion (`type="multiple"`) does NOT render collapsed content in DOM — extract FAQ data to `src/lib/faq-data.ts` for unit testability
 ---
 
 ## 2026-02-10 - US-001 Header & Navigation
@@ -275,4 +277,54 @@ Started: 2026-02-09 20:20:30.483996 -08:00
   - The street name spelling is "Anapalau" (not "Anapalua") — correct Hawaiian spelling
   - E2E tests for JSON-LD: use `locator('script[type="application/ld+json"]').textContent()` then `JSON.parse()`
   - Suppress `playwright/prefer-web-first-assertions` lint rule for script tag textContent (need raw text to parse JSON)
+---
+
+## 2026-02-16 - US-002 Update Contact Page — Phone, Fax, and Address
+- Updated `src/app/contact/page.tsx`:
+  - Changed phone href from `tel:+18008888888` to `tel:+18082001840` and display to `+1 (808) 200-1840`
+  - Inserted fax block between Phone and Email blocks: plain `<p>` text `+1 (808) 670-1163` with `Phone` icon, label "Fax"
+  - Fixed street to `189 Anapalau Street (Hawaii Kai)` (display includes neighborhood label)
+  - Changed city from `Hawaii Kai, HI 96825` to `Honolulu, HI 96825`
+- Added unit test `tests/unit/contact-page.test.tsx` (6 tests: phone href, fax plain text, fax position, street, city, old phone absent)
+- Added E2E test `tests/e2e/contact-info.spec.ts` (3 tests: phone link, fax not clickable, address correct)
+- All quality checks pass: typecheck, lint, unit tests (6/6), E2E (3/3)
+- Browser verified at 1440px desktop — all contact info renders correctly
+- Files changed: `src/app/contact/page.tsx`, `tests/unit/contact-page.test.tsx` (new), `tests/e2e/contact-info.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Fax numbers should be plain `<p>` text, NOT `<a>` links — fax numbers are not dialable from phones
+  - Contact page reuses `Phone` icon from lucide-react for fax block — no new imports needed
+  - E2E tests checking for "old values absent" should scope to `main` locator (not full `body`) when footer hasn't been updated yet — footer is a separate story
+  - Contact info blocks use `flex items-start gap-4` pattern consistently — new blocks should match
+  - `beforeEach` must be imported from `vitest` explicitly when not using `globals: true` in tsconfig for tests
+---
+
+## 2026-02-16 - US-003 Update Footer — Phone, Fax, and Address
+- Updated `src/components/layout/footer.tsx`:
+  - Changed phone href from `tel:+18008888888` to `tel:+18082001840` and display to `+1 (808) 200-1840`
+  - Inserted fax entry between Phone and Email: `Fax: +1 (808) 670-1163` as plain text (not a link)
+  - Fixed street to `189 Anapalau Street (Hawaii Kai)`
+  - Changed city from `Hawaii Kai, HI 96825` to `Honolulu, HI 96825`
+- Added unit test `tests/unit/footer.test.tsx` (10 tests: phone href, phone text, fax exists, fax not link, fax label, street, city, old phone absent, old street absent, old city absent)
+- Added E2E test `tests/e2e/footer-contact.spec.ts` (3 tests: phone link, fax not clickable, address correct & old values absent)
+- All quality checks pass: typecheck, lint, unit tests (10/10), E2E (3/3)
+- Browser verified at 1440px desktop — footer renders correctly with updated contact info
+- Files changed: `src/components/layout/footer.tsx`, `tests/unit/footer.test.tsx` (new), `tests/e2e/footer-contact.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Footer fax uses `<span className="text-foreground">Fax: </span>` pattern for the label — matches tech spec
+  - E2E tests for footer must use `page.getByRole('contentinfo')` instead of `page.locator('footer')` — there are 2 `<footer>` elements on the page (one in testimonial section, one is the actual site footer)
+  - Footer is a server component — no `'use client'` needed, no icon imports needed for fax (unlike contact page)
+---
+
+## 2026-02-17 - US-004 Update FAQ Location Answer
+- Updated FAQ location answer: `189 Anapalua Street in beautiful Hawaii Kai, HI 96825` → `189 Anapalau Street (Hawaii Kai), Honolulu, HI 96825`
+- Updated FAQ admissions answer phone: `+1 (800) 888-8888` → `+1 (808) 200-1840`
+- Extracted `faqCategories` data array from `src/app/faq/page.tsx` to `src/lib/faq-data.ts` for unit testability (Radix Accordion hides collapsed content from DOM)
+- Added unit test `tests/unit/faq-page.test.tsx` (5 tests: correct address, correct phone, marketing references preserved, old phone absent, old street absent)
+- All quality checks pass: typecheck, lint, unit tests (28/28), E2E (10/10)
+- Browser verified at 1440px desktop — expanded accordion items show correct address and phone
+- Files changed: `src/app/faq/page.tsx`, `src/lib/faq-data.ts` (new), `tests/unit/faq-page.test.tsx` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Radix Accordion with `type="multiple"` does NOT render collapsed content in the DOM — `textContent` and `innerHTML` won't find answer text in unit tests
+  - Extract FAQ data to `src/lib/faq-data.ts` and test the data directly (same pattern as `src/lib/structured-data.ts`)
+  - When testing accordion content, either test the data source directly or use E2E tests that can click to expand items
 ---
