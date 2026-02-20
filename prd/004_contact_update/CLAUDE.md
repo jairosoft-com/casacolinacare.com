@@ -5,19 +5,29 @@ You are an autonomous coding agent working on a software project.
 ## Your Task
 
 1. Read the PRD at `prd.json` (in the same directory as this file)
-2. If `prd.json` contains a `detailedPrdPath` field, read that file for full context (goals, functional requirements, design considerations, non-goals)
-3. If `prd.json` contains a `technicalSpecPath` field, read the technical specification section for the current story (use `technicalSpecSection` field from the story)
-4. Read the progress log at `progress.txt` (check Codebase Patterns section first)
-5. Check you're on the correct branch, the name follows this pattern: `[feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`. If not, check it out or create from main.
-5. Pick the **highest priority** user story where `passes: false`
-6. Implement that single user story
-7. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
-8. Update CLAUDE.md files if you discover reusable patterns (see below)
-9. If checks pass, commit ALL changes with message: `[Feature ID] - [Feature Name]: [Story ID] - [Story Title]`
-10. Update the PRD to set `passes: true` for the completed story
-11. Append your progress to `progress.txt`
-12. Push the story branch to the remote: `git push -u origin [feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`
-13. Open a pull request targeting `main` using the GitHub CLI:
+2. If `prd.json` contains a `detailedPrdPath` field, read that file for full
+   context (goals, functional requirements, design considerations, non-goals)
+3. If `prd.json` contains a `technicalSpecPath` field, read the technical
+   specification section for the current story (use `technicalSpecSection` field
+   from the story)
+4. Read the progress log at `progress.txt` (check Codebase Patterns section
+   first)
+5. Check you're on the correct branch, the name follows this pattern:
+   `[feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`.
+   If not, check it out or create from main.
+6. Pick the **highest priority** user story where `passes: false`
+7. Implement that single user story
+8. Run quality checks (e.g., typecheck, lint, test - use whatever your project
+   requires)
+9. Update CLAUDE.md files if you discover reusable patterns (see below)
+10. If checks pass, commit ALL changes with message:
+    `[Feature ID] - [Feature Name]: [Story ID] - [Story Title]`
+11. Update the PRD to set `passes: true` for the completed story
+12. Append your progress to `progress.txt`
+13. Push the story branch to the remote:
+    `git push -u origin [feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`
+14. Open a pull request targeting `main` using the GitHub CLI:
+
     ```bash
     gh pr create --base main \
       --title "FEAT:[Feature ID] - [Feature Name] / US:[User Story ID] - [User Story Title]" \
@@ -30,11 +40,15 @@ You are an autonomous coding agent working on a software project.
 
     Review requested."
     ```
-14. If `gh` CLI is not available or not authenticated, skip the PR creation, log a message in `progress.txt` noting that a PR needs to be created manually for this branch, and continue.
+
+15. If `gh` CLI is not available or not authenticated, skip the PR creation, log
+    a message in `progress.txt` noting that a PR needs to be created manually
+    for this branch, and continue.
 
 ## Progress Report Format
 
 APPEND to progress.txt (never replace, always append):
+
 ```
 ## [Date/Time] - [Story ID]
 - What was implemented
@@ -46,11 +60,15 @@ APPEND to progress.txt (never replace, always append):
 ---
 ```
 
-The learnings section is critical - it helps future iterations avoid repeating mistakes and understand the codebase better.
+The learnings section is critical - it helps future iterations avoid repeating
+mistakes and understand the codebase better.
 
 ## Consolidate Patterns
 
-If you discover a **reusable pattern** that future iterations should know, add it to the `## Codebase Patterns` section at the TOP of progress.txt (create it if it doesn't exist). This section should consolidate the most important learnings:
+If you discover a **reusable pattern** that future iterations should know, add
+it to the `## Codebase Patterns` section at the TOP of progress.txt (create it
+if it doesn't exist). This section should consolidate the most important
+learnings:
 
 ```
 ## Codebase Patterns
@@ -63,11 +81,15 @@ Only add patterns that are **general and reusable**, not story-specific details.
 
 ## Update CLAUDE.md Files
 
-Before committing, check if any edited files have learnings worth preserving in nearby CLAUDE.md files:
+Before committing, check if any edited files have learnings worth preserving in
+nearby CLAUDE.md files:
 
-1. **Identify directories with edited files** - Look at which directories you modified
-2. **Check for existing CLAUDE.md** - Look for CLAUDE.md in those directories or parent directories
-3. **Add valuable learnings** - If you discovered something future developers/agents should know:
+1. **Identify directories with edited files** - Look at which directories you
+   modified
+2. **Check for existing CLAUDE.md** - Look for CLAUDE.md in those directories or
+   parent directories
+3. **Add valuable learnings** - If you discovered something future
+   developers/agents should know:
    - API patterns or conventions specific to that module
    - Gotchas or non-obvious requirements
    - Dependencies between files
@@ -75,17 +97,20 @@ Before committing, check if any edited files have learnings worth preserving in 
    - Configuration or environment requirements
 
 **Examples of good CLAUDE.md additions:**
+
 - "When modifying X, also update Y to keep them in sync"
 - "This module uses pattern Z for all API calls"
 - "Tests require the dev server running on PORT 3000"
 - "Field names must match the template exactly"
 
 **Do NOT add:**
+
 - Story-specific implementation details
 - Temporary debugging notes
 - Information already in progress.txt
 
-Only update CLAUDE.md if you have **genuinely reusable knowledge** that would help future work in that directory.
+Only update CLAUDE.md if you have **genuinely reusable knowledge** that would
+help future work in that directory.
 
 ## Quality Requirements
 
@@ -96,22 +121,24 @@ Only update CLAUDE.md if you have **genuinely reusable knowledge** that would he
 
 ## Browser Testing (If Available)
 
-For any story that changes UI, verify it works in the browser if you have browser testing tools configured (e.g., via MCP):
+For any story that changes UI, verify it works in the browser if you have
+browser testing tools configured (e.g., via MCP):
 
 1. Navigate to the relevant page
 2. Verify the UI changes work as expected
 3. Take a screenshot if helpful for the progress log
 
-If no browser tools are available, note in your progress report that manual browser verification is needed.
+If no browser tools are available, note in your progress report that manual
+browser verification is needed.
 
 ## Stop Condition
 
 After completing a user story, check if ALL stories have `passes: true`.
 
-If ALL stories are complete and passing, reply with:
-<promise>COMPLETE</promise>
+If ALL stories are complete and passing, reply with: <promise>COMPLETE</promise>
 
-If there are still stories with `passes: false`, end your response normally (another iteration will pick up the next story).
+If there are still stories with `passes: false`, end your response normally
+(another iteration will pick up the next story).
 
 ## Important
 

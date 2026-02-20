@@ -1,6 +1,8 @@
 # Next.js 15 Starter Project 2025
 
-A production-ready Next.js 15 starter template following the AI-Collaborative Architecture principles, designed for scalability, maintainability, and seamless AI assistant collaboration.
+A production-ready Next.js 15 starter template following the AI-Collaborative
+Architecture principles, designed for scalability, maintainability, and seamless
+AI assistant collaboration.
 
 ## 🎯 **Project Overview**
 
@@ -112,15 +114,15 @@ npx cz                  # Manually trigger Commitizen
 
 ### **Core Technologies**
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Next.js | 15.4.2 | React framework with App Router |
-| React | 19.1.0 | UI library |
-| TypeScript | 5.x | Type safety |
-| Tailwind CSS | 3.4.17 | Utility-first styling |
-| Zustand | 5.0.8 | Global state management |
-| Vitest | 3.2.4 | Unit testing |
-| Playwright | 1.54.1 | E2E testing |
+| Technology   | Version | Purpose                         |
+| ------------ | ------- | ------------------------------- |
+| Next.js      | 15.4.2  | React framework with App Router |
+| React        | 19.1.0  | UI library                      |
+| TypeScript   | 5.x     | Type safety                     |
+| Tailwind CSS | 3.4.17  | Utility-first styling           |
+| Zustand      | 5.0.8   | Global state management         |
+| Vitest       | 3.2.4   | Unit testing                    |
+| Playwright   | 1.54.1  | E2E testing                     |
 
 ### **API-First Architecture**
 
@@ -155,16 +157,23 @@ See [State Management Guide](ai_docs/STATE_MANAGEMENT_GUIDE.md) for details.
 
 All guides are in the [`/ai_docs`](ai_docs/) directory:
 
-- [**API Design Guide**](ai_docs/API_DESIGN_GUIDE.md) - Server Actions vs Route Handlers
-- [**Authentication Guide**](ai_docs/AUTHENTICATION_GUIDE.md) - Quick auth setup with Clerk
+- [**API Design Guide**](ai_docs/API_DESIGN_GUIDE.md) - Server Actions vs Route
+  Handlers
+- [**Authentication Guide**](ai_docs/AUTHENTICATION_GUIDE.md) - Quick auth setup
+  with Clerk
 - [**CLAUDE.md**](CLAUDE.md) - AI assistant guidance
 - [**Cleanup Guide**](ai_docs/CLEANUP_GUIDE.md) - Safe file removal
-- [**Deployment Guide**](ai_docs/DEPLOYMENT_GUIDE.md) - Vercel + Docker deployment
-- [**Dockerignore Review**](ai_docs/DOCKERIGNORE_REVIEW.md) - Docker optimization
-- [**ESLint Configuration**](ai_docs/ESLINT_CONFIGURATION.md) - Complete ESLint setup & plugins
+- [**Deployment Guide**](ai_docs/DEPLOYMENT_GUIDE.md) - Vercel + Docker
+  deployment
+- [**Dockerignore Review**](ai_docs/DOCKERIGNORE_REVIEW.md) - Docker
+  optimization
+- [**ESLint Configuration**](ai_docs/ESLINT_CONFIGURATION.md) - Complete ESLint
+  setup & plugins
 - [**Gitignore Review**](ai_docs/GITIGNORE_REVIEW.md) - What to track vs ignore
-- [**Implementation Summary**](ai_docs/IMPLEMENTATION_SUMMARY.md) - Complete overview
-- [**State Management Guide**](ai_docs/STATE_MANAGEMENT_GUIDE.md) - Complete state management patterns
+- [**Implementation Summary**](ai_docs/IMPLEMENTATION_SUMMARY.md) - Complete
+  overview
+- [**State Management Guide**](ai_docs/STATE_MANAGEMENT_GUIDE.md) - Complete
+  state management patterns
 - [**Testing Strategy**](ai_docs/TESTING_STRATEGY.md) - 60% coverage approach
 
 ---
@@ -200,12 +209,15 @@ See [Deployment Guide](ai_docs/DEPLOYMENT_GUIDE.md) for complete instructions.
 
 ## 🚀 **Docker Management with Taskfile**
 
-This project uses [Task](https://taskfile.dev) as a task runner to simplify Docker operations. Taskfile provides convenient shortcuts for common Docker and Docker Compose commands.
+This project uses [Task](https://taskfile.dev) as a task runner to simplify
+Docker operations. Taskfile provides convenient shortcuts for common Docker and
+Docker Compose commands.
 
 ### Prerequisites
 
 1. **Docker Engine 20.10+** and **Docker Compose v2.0+** must be installed
-   - [Install Docker Desktop](https://www.docker.com/products/docker-desktop) (macOS, Windows)
+   - [Install Docker Desktop](https://www.docker.com/products/docker-desktop)
+     (macOS, Windows)
    - [Install Docker Engine](https://docs.docker.com/engine/install/) (Linux)
 
 2. **Task v3.0.0+** must be installed
@@ -213,21 +225,25 @@ This project uses [Task](https://taskfile.dev) as a task runner to simplify Dock
 #### Install Task
 
 **macOS (Homebrew):**
+
 ```bash
 brew install go-task/tap/go-task
 ```
 
 **Linux:**
+
 ```bash
 sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 ```
 
 **Windows (PowerShell):**
+
 ```powershell
 choco install go-task
 ```
 
-For other installation methods, see [Task Installation Guide](https://taskfile.dev/installation/).
+For other installation methods, see
+[Task Installation Guide](https://taskfile.dev/installation/).
 
 ### Quick Start
 
@@ -296,6 +312,7 @@ task docker:prod:down
 ### Common Workflows
 
 **Complete Development Cycle:**
+
 ```bash
 # Build and start development environment
 task docker:build
@@ -307,6 +324,7 @@ task docker:dev:up
 ```
 
 **Production Deployment:**
+
 ```bash
 # Build and start production environment
 task docker:build
@@ -323,6 +341,7 @@ task docker:prod:down
 ```
 
 **Clean Start:**
+
 ```bash
 # Remove everything and start fresh
 task docker:clean:all
@@ -333,18 +352,22 @@ task docker:dev:up
 ### Troubleshooting
 
 **Problem: "Task not found"**
+
 - Ensure Task is installed: `task --version`
 - Ensure you're in the project root directory
 
 **Problem: "Cannot connect to Docker daemon"**
+
 - Ensure Docker Desktop is running (macOS/Windows)
 - Ensure Docker service is running: `sudo systemctl start docker` (Linux)
 
 **Problem: "Port already in use"**
+
 - Stop existing containers: `task docker:stop`
 - Or check what's using the port: `lsof -i :3000` (macOS/Linux)
 
 **Problem: Build errors or outdated cache**
+
 - Try a clean build: `task docker:build:no-cache`
 - Or full cleanup: `task docker:clean:all`
 
@@ -352,8 +375,10 @@ task docker:dev:up
 
 1. **Use dev mode for development**: `task docker:dev:up` shows logs immediately
 2. **Regular cleanup**: Run `task docker:clean` periodically to free disk space
-3. **Check status before debugging**: Use `task docker:status` to verify container state
-4. **Use clean builds sparingly**: `task docker:build:no-cache` is slow; use only when necessary
+3. **Check status before debugging**: Use `task docker:status` to verify
+   container state
+4. **Use clean builds sparingly**: `task docker:build:no-cache` is slow; use
+   only when necessary
 
 ### Getting Help
 
@@ -497,6 +522,7 @@ Husky runs these checks before every commit:
 3. ✅ **Commitlint** - Conventional commit format
 
 **Auto-Fix Available:** Run `npm run lint -- --fix` to automatically:
+
 - Sort all imports
 - Format code with Prettier
 - Add newlines after imports
@@ -530,7 +556,8 @@ npx cz
 
 - **Server Components** by default (no `'use client'`)
 - **Client Components** only when needed (events, hooks, browser APIs)
-- **Co-location** - keep route-specific code in private folders (`_components`, `_actions`)
+- **Co-location** - keep route-specific code in private folders (`_components`,
+  `_actions`)
 
 ### **Data Fetching**
 
@@ -673,6 +700,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 🙏 **Acknowledgments**
 
 Built with:
+
 - [Next.js](https://nextjs.org) by Vercel
 - [Tailwind CSS](https://tailwindcss.com)
 - [shadcn/ui](https://ui.shadcn.com) by shadcn
@@ -686,7 +714,8 @@ Built with:
 - 📖 **Documentation:** [ai_docs/](ai_docs/)
 - 🤖 **AI Guidance:** [CLAUDE.md](CLAUDE.md)
 - 📋 **Issues:** Check documentation first
-- 💬 **Questions:** Review [ai_docs/IMPLEMENTATION_SUMMARY.md](ai_docs/IMPLEMENTATION_SUMMARY.md)
+- 💬 **Questions:** Review
+  [ai_docs/IMPLEMENTATION_SUMMARY.md](ai_docs/IMPLEMENTATION_SUMMARY.md)
 
 ---
 
@@ -707,4 +736,4 @@ Built with:
 
 ---
 
-*Last updated: October 2025*
+_Last updated: October 2025_

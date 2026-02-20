@@ -107,8 +107,8 @@ a centralized API client (no direct database access).
 - Coverage thresholds are set at 60% for lines, functions, branches, and
   statements
 - Coverage reports available in text, JSON, HTML, and LCOV formats
-- Coverage excludes: config files, type definitions, index files, and test
-  setup files (see vitest.config.ts for full exclusion list)
+- Coverage excludes: config files, type definitions, index files, and test setup
+  files (see vitest.config.ts for full exclusion list)
 
 ### Code Standards
 
@@ -129,6 +129,7 @@ repository). No environment files are currently present, which is a security
 best practice.
 
 Required environment variable for API client:
+
 ```bash
 NEXT_PUBLIC_API_BASE_URL=https://api.example.com
 ```
@@ -208,8 +209,8 @@ Based on TODO.md, this library is selected for future implementation:
 
 - **Validation**: Zod for schema validation
 
-Note: Drizzle ORM was initially considered but this project follows an
-API-first architecture with no direct database access.
+Note: Drizzle ORM was initially considered but this project follows an API-first
+architecture with no direct database access.
 
 ## Quick Reference
 
@@ -243,8 +244,8 @@ npm test -- --run       # Quick test run
 
 ## Current Development Notes
 
-- **Taskfile Implementation**: A comprehensive Taskfile.yml for Docker management
-  is planned (see `/prd/001_taskfile_yml/` for design docs)
+- **Taskfile Implementation**: A comprehensive Taskfile.yml for Docker
+  management is planned (see `/prd/001_taskfile_yml/` for design docs)
 - **Git Status**: The project uses conventional commits with Commitizen and
   Commitlint for consistent commit messages
 

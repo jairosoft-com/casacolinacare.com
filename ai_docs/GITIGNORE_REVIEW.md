@@ -2,18 +2,21 @@
 
 ## 📊 **Summary**
 
-Your `.gitignore` has been **updated and optimized** for this Next.js 15 project.
+Your `.gitignore` has been **updated and optimized** for this Next.js 15
+project.
 
 ---
 
 ## ✅ **What Changed**
 
 ### **Before:**
+
 - Missing IDE directories (`.cursor/`, `.claude/`)
 - Incomplete OS coverage
 - Basic IDE support only
 
 ### **After:**
+
 - ✅ Complete IDE coverage (Cursor, Claude, VSCode, IntelliJ)
 - ✅ All OS types (macOS, Windows, Linux)
 - ✅ Docker-specific files
@@ -27,6 +30,7 @@ Your `.gitignore` has been **updated and optimized** for this Next.js 15 project
 These are essential project files that should be in version control:
 
 ### **Source Code** ✅
+
 ```
 ✅ src/                      # All application source code
 ✅ tests/                    # All test files
@@ -34,6 +38,7 @@ These are essential project files that should be in version control:
 ```
 
 ### **Configuration Files** ✅
+
 ```
 ✅ package.json              # Dependencies & scripts
 ✅ package-lock.json         # Exact dependency versions
@@ -50,6 +55,7 @@ These are essential project files that should be in version control:
 ```
 
 ### **Documentation** ✅
+
 ```
 ✅ README.md                 # Project overview
 ✅ CLAUDE.md                 # AI assistant guidance
@@ -58,6 +64,7 @@ These are essential project files that should be in version control:
 ```
 
 ### **Docker & Deployment** ✅
+
 ```
 ✅ Dockerfile                # Docker image configuration
 ✅ docker-compose.yml        # Docker Compose setup
@@ -65,6 +72,7 @@ These are essential project files that should be in version control:
 ```
 
 ### **Git Configuration** ✅
+
 ```
 ✅ .gitignore                # Git ignore rules
 ✅ .husky/                   # Git hooks
@@ -77,12 +85,14 @@ These are essential project files that should be in version control:
 These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Dependencies** ❌
+
 ```
 ❌ node_modules/             # 556MB - NPM packages
    WHY: Huge, reinstallable via npm install
 ```
 
 ### **Build Outputs** ❌
+
 ```
 ❌ .next/                    # 22MB - Next.js build cache
 ❌ out/                      # Next.js static export
@@ -94,6 +104,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **Test Outputs** ❌
+
 ```
 ❌ coverage/                 # Test coverage reports
 ❌ test-results/             # Playwright test results
@@ -103,6 +114,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **Environment Files** ❌
+
 ```
 ❌ .env.local                # Local development secrets
 ❌ .env.production           # Production secrets
@@ -112,6 +124,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **IDE/Editor Files** ❌
+
 ```
 ❌ .vscode/                  # VSCode settings (except shared)
 ❌ .cursor/                  # Cursor IDE cache/settings
@@ -122,6 +135,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **OS Files** ❌
+
 ```
 ❌ .DS_Store                 # macOS folder metadata
 ❌ Thumbs.db                 # Windows thumbnail cache
@@ -131,6 +145,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **Logs & Temporary Files** ❌
+
 ```
 ❌ *.log                     # All log files
 ❌ npm-debug.log*            # NPM error logs
@@ -140,6 +155,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 ```
 
 ### **Deployment** ❌
+
 ```
 ❌ .vercel/                  # Vercel deployment cache
 ❌ docker-compose.override.yml  # Personal Docker overrides
@@ -163,7 +179,8 @@ These files are automatically generated, contain secrets, or are user-specific:
 !.vscode/extensions.json    # Recommended extensions
 ```
 
-**Why:** Team members benefit from shared debugging configs and recommended extensions, but personal settings should stay local.
+**Why:** Team members benefit from shared debugging configs and recommended
+extensions, but personal settings should stay local.
 
 ### **2. Environment Files**
 
@@ -176,7 +193,8 @@ These files are automatically generated, contain secrets, or are user-specific:
 # !.env.development          # Shared dev config (no secrets)
 ```
 
-**Why:** `.env.example` helps onboard new developers by showing what variables are needed.
+**Why:** `.env.example` helps onboard new developers by showing what variables
+are needed.
 
 ### **3. Documentation**
 
@@ -194,6 +212,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 After the `.gitignore` update, here's what's tracked:
 
 ### **Modified Files** (Need to commit):
+
 ```
 M .gitignore                          ← Updated ignore rules
 M CLAUDE.md                           ← Updated AI guidance
@@ -205,6 +224,7 @@ M vitest.config.ts                    ← Added coverage thresholds
 ```
 
 ### **New Files** (Need to add):
+
 ```
 ?? Dockerfile                         ← Docker configuration
 ?? .dockerignore                      ← Docker exclusions
@@ -216,6 +236,7 @@ M vitest.config.ts                    ← Added coverage thresholds
 ```
 
 ### **Now Ignored** (Won't be tracked):
+
 ```
 .cursor/                              ← Cursor IDE cache
 .claude/                              ← Claude settings
@@ -231,12 +252,14 @@ node_modules/                         ← Dependencies
 ## 🚀 **Recommended Git Workflow**
 
 ### **1. Review Changes**
+
 ```bash
 git status
 git diff .gitignore
 ```
 
 ### **2. Add New Files**
+
 ```bash
 # Add all new project files
 git add Dockerfile .dockerignore docker-compose.yml
@@ -252,6 +275,7 @@ git add vitest.config.ts
 ```
 
 ### **3. Commit**
+
 ```bash
 # Using Commitizen (recommended)
 npx cz
@@ -268,6 +292,7 @@ git commit -m "feat: add API client, Zustand store, and Docker support
 ```
 
 ### **4. Verify Ignored Files**
+
 ```bash
 # Check that ignored files are actually ignored
 git status --ignored
@@ -285,6 +310,7 @@ git status --ignored
 ## 🔍 **How to Check .gitignore is Working**
 
 ### **Test a Specific File:**
+
 ```bash
 # Check if a file is ignored
 git check-ignore -v .cursor/screenshots/test.png
@@ -294,6 +320,7 @@ git check-ignore -v .cursor/screenshots/test.png
 ```
 
 ### **List All Ignored Files:**
+
 ```bash
 # See everything that's ignored
 git status --ignored --short
@@ -303,6 +330,7 @@ git check-ignore -v **/*
 ```
 
 ### **Find Files That Should Be Ignored:**
+
 ```bash
 # Find large files that might not be ignored
 find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*"
@@ -313,6 +341,7 @@ find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*"
 ## 💡 **Best Practices**
 
 ### **1. Never Commit Secrets**
+
 ```bash
 # ❌ NEVER commit these:
 .env.local
@@ -323,6 +352,7 @@ find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*"
 ```
 
 If you accidentally commit a secret:
+
 ```bash
 # Remove from history (use with caution!)
 git filter-branch --force --index-filter \
@@ -331,11 +361,13 @@ git filter-branch --force --index-filter \
 ```
 
 ### **2. Keep .gitignore Updated**
+
 - Add patterns as you discover new generated files
 - Review `.gitignore` during code reviews
 - Use comments to explain non-obvious patterns
 
 ### **3. Use Global .gitignore for Personal Files**
+
 ```bash
 # Create global gitignore for your personal preferences
 git config --global core.excludesfile ~/.gitignore_global
@@ -346,6 +378,7 @@ echo ".DS_Store" >> ~/.gitignore_global
 ```
 
 ### **4. Verify Before Pushing**
+
 ```bash
 # Always check what you're about to push
 git diff --stat origin/main
@@ -357,10 +390,12 @@ git log origin/main..HEAD --oneline
 ## 📚 **Additional Resources**
 
 ### **GitHub's Official .gitignore Templates:**
+
 - [Node.js](https://github.com/github/gitignore/blob/main/Node.gitignore)
 - [Next.js](https://github.com/vercel/next.js/blob/canary/.gitignore)
 
 ### **Useful Git Commands:**
+
 ```bash
 # See what's ignored
 git ls-files --others --ignored --exclude-standard
@@ -398,6 +433,7 @@ Use this checklist before committing:
 ## 🎉 **Summary**
 
 Your `.gitignore` is now **production-ready** and covers:
+
 - ✅ All major IDEs (VSCode, Cursor, Claude, IntelliJ)
 - ✅ All operating systems (macOS, Windows, Linux)
 - ✅ All build outputs (Next.js, TypeScript, tests)
@@ -407,4 +443,3 @@ Your `.gitignore` is now **production-ready** and covers:
 - ✅ Well-organized with comments
 
 **Next step:** Commit your changes and push to your repository!
-
