@@ -164,8 +164,8 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .obsidian/
 
 # Jodex codingagent
-jodex*
-ralph*
+/prd/*/jodex*
+/prd/*/ralph*
 
 # Backup files
 *.bak
