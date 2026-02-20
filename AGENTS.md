@@ -76,8 +76,9 @@ src/
 │   ├── store/              # Zustand state management
 │   ├── actions/            # Server Actions
 │   ├── constants.ts        # Business info, nav links
-│   ├── fonts.ts            # Font configuration
-│   └── email.ts            # Resend email builder
+│   ├── email.ts            # Resend email builder
+│   ├── faq-data.ts         # FAQ content (4 categories, 12 questions)
+│   └── structured-data.ts  # JSON-LD LocalBusiness schema
 ├── utils/                  # Utility functions (cn, formatters, validators)
 ├── types/                  # TypeScript type definitions
 └── styles/                 # Global styles (globals.css)
