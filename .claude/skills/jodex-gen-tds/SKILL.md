@@ -1,5 +1,5 @@
 ---
-name: tech-spec-architect
+name: jodex-gen-tds
 description: Transforms PRDs into comprehensive, machine-readable Technical Design Documents following modern minimalist principles and best practices.
 disable-model-invocation: false
 argument-hint: "[optional: focus area, e.g., 'API design', 'data model', 'architecture']"

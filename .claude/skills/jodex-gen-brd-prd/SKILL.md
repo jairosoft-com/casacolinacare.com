@@ -1,5 +1,5 @@
 ---
-name: brd-prd-expert
+name: jodex-gen-brd-prd
 description: "Generate unified Business and Product Requirements Documents optimized for human-AI collaboration. Creates the 'golden thread' from strategic business objectives to tactical implementation. Triggers on: create a brd, write prd, document requirements, business requirements, product spec, unified requirements."
 user-invocable: true
 ---
