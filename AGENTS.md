@@ -60,6 +60,12 @@ server-first architecture.
 ```
 src/
 ├── app/                    # App Router pages and API routes
+│   ├── (group)/            # Route groups — logical organization without affecting URL path
+│   ├── api/                # API Route Handlers (route.ts)
+│   └── <route>/
+│       ├── _components/    # Private route-specific components (not routed)
+│       ├── _actions/       # Private route-specific Server Actions
+│       └── _hooks/         # Private route-specific hooks
 ├── components/
 │   ├── ui/                 # shadcn/ui components
 │   ├── layout/             # Header, footer, mobile-nav
@@ -85,6 +91,8 @@ tests/
 - Tailwind CSS + shadcn/ui (New York style, RSC enabled)
 - Use `cn()` from `@/utils/cn` for conditional class merging
 - Fonts: Playfair Display for headings, Inter for body (loaded via `next/font`)
+- **Hybrid Styling:** CSS Modules (`*.module.css`) are allowed ONLY as a fallback
+  for complex, one-off animations or styles too cumbersome for Tailwind utilities
 
 ### Brand Theme Tokens
 
@@ -108,7 +116,92 @@ tests/
 5. **Zustand** — For global state (auth, cart, notifications) in
    `src/lib/store/`
 
-## 3. Code Style & Conventions
+## 3. Architecture Rules
+
+These rules govern where code lives and how components interact. See
+[AI Collaborative Architecture](ai_docs/AI_Collaborative_Architecture_The_Definitive_Project_Template_for_Next.js_15.md)
+for full rationale.
+
+### Component Placement Decision
+
+| Question                                      | Placement                                   |
+| --------------------------------------------- | ------------------------------------------- |
+| Used by only one route?                       | Co-locate in `src/app/<route>/_components/` |
+| Stateless UI primitive (Button, Card, Input)? | `src/components/ui/`                        |
+| Page section (Hero, CTA, Testimonial)?        | `src/components/sections/`                  |
+| Structural chrome (Header, Footer, Sidebar)?  | `src/components/layout/`                    |
+| Reusable across multiple routes?              | `src/components/shared/`                    |
+
+*Note: For this marketing site, `src/components/sections/` serves the role of
+the "features" directory described in the core architecture document.*
+
+Route-specific actions go in `src/app/<route>/_actions/`, route-specific hooks
+in `src/app/<route>/_hooks/`. Prefix these folders with `_` so Next.js excludes
+them from routing.
+
+### `"use client"` Decision
+
+Only add `"use client"` when the component requires **at least one** of:
+
+- Event handlers (`onClick`, `onChange`, `onSubmit`)
+- Browser APIs (`localStorage`, `window`, `navigator`)
+- React hooks (`useState`, `useEffect`, `useRef`, `usePathname`)
+- Interactive third-party libraries
+
+If none apply, it must remain a Server Component.
+
+### Data Fetching Patterns
+
+- **Default:** Fetch data in Server Components with `async/await`. The component
+  itself is `async`.
+- **Parallel fetching:** Use `Promise.all()` for independent data dependencies —
+  never sequential `await` chains.
+- **Mutations:** Use Server Actions (`"use server"`) for all
+  create/update/delete operations.
+- **Client-side fetching:** Only for real-time data, user-interaction-driven
+  data, or post-initial-load lazy data.
+- **Caching & Revalidation:** GET requests in Next.js 15 are uncached by default
+  (`cache: 'no-store'`). Explicitly opt into caching when appropriate:
+  - `{ cache: 'force-cache' }` — static data cached indefinitely.
+  - `{ next: { revalidate: 3600 } }` — time-based revalidation.
+  - `{ next: { tags: ['tag-name'] } }` — on-demand revalidation via Server
+    Actions using `revalidateTag()`.
+
+### Error Handling Pattern
+
+All API responses and Server Actions MUST return discriminated union types for
+type-safe error handling. Never throw raw errors to the client.
+
+```typescript
+type ActionResponse<T> =
+  | { data: T; error?: never }
+  | { data?: never; error: string };
+```
+
+### `lib/` vs `utils/` Distinction
+
+| Directory    | Contains                                              | Characteristics                                 |
+| ------------ | ----------------------------------------------------- | ----------------------------------------------- |
+| `src/lib/`   | API clients, email service, store, actions, constants | Stateful, singleton, side-effects, foundational |
+| `src/utils/` | `cn()`, formatters, validators                        | Pure functions, stateless, no side-effects      |
+
+### Constants as Single Source of Truth
+
+All business data (phone, fax, email, address, URL, hours, nav links) **must**
+be defined in `src/lib/constants.ts` and imported wherever needed. Never
+hardcode business data in components, pages, or structured data files.
+
+### Import Direction Rules
+
+Imports flow **inward and downward** only:
+
+- `app/` → imports from `components/`, `lib/`, `utils/`, `types/`
+- `components/` → imports from `lib/`, `utils/`, `types/`
+- `lib/` → imports from `utils/`, `types/`
+- `utils/` → imports from `types/` only
+- **Never** import from `app/` into `components/`, `lib/`, or `utils/`
+
+## 4. Code Style & Conventions
 
 - TypeScript strict mode is enabled — all code must be properly typed
 - ESLint flat config with 9 plugins: import validation, circular dependency
@@ -123,7 +216,7 @@ tests/
 - Use Next.js `<Link>` for all navigation (no SPA client-side routing)
 - Phone numbers must be clickable `tel:` links; emails must be `mailto:` links
 
-## 4. Testing Strategy
+## 5. Testing Strategy
 
 - **Unit tests:** Vitest + React Testing Library. Place test files in
   `tests/unit/`, not colocated with source files.
@@ -134,7 +227,7 @@ tests/
   setup files (see `vitest.config.ts` for full exclusion list).
 - Always run `npm test -- --run` before committing to verify tests pass.
 
-## 5. Git Workflow & Commit Standards
+## 6. Git Workflow & Commit Standards
 
 - Conventional commits enforced by Commitlint
   (`@commitlint/config-conventional`)
@@ -145,7 +238,7 @@ tests/
   `chore`
 - Branch naming: `feature/<description>`, `fix/<description>`
 
-## 6. Boundary Conditions (The "Do Not" List)
+## 7. Boundary Conditions (The "Do Not" List)
 
 - Do NOT access any database directly — this is an API-first project
 - Do NOT add `"use client"` unless the component requires event handlers,
@@ -161,7 +254,7 @@ tests/
 - Do NOT implement dark mode
 - Do NOT commit `.env.local` or any secrets
 
-## 7. Documentation Index
+## 8. Documentation Index
 
 ### Primary
 
