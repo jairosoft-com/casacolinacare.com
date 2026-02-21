@@ -2,8 +2,8 @@
 
 ## 🚀 **Quickest Option: Clerk (Recommended for Speed)**
 
-**Setup Time:** ~10 minutes  
-**Complexity:** Very Low  
+**Setup Time:** ~10 minutes
+**Complexity:** Very Low
 **Cost:** Free tier available
 
 ### Why Clerk is the Fastest
@@ -139,8 +139,8 @@ export function Header() {
 
 ### Option 2: NextAuth.js (Auth.js v5) - More Control
 
-**Setup Time:** ~30 minutes  
-**Complexity:** Medium  
+**Setup Time:** ~30 minutes
+**Complexity:** Medium
 **Cost:** Free (self-hosted)
 
 **Pros:**
@@ -162,8 +162,8 @@ export function Header() {
 
 ### Option 3: Lucia Auth - Full Control
 
-**Setup Time:** ~1 hour  
-**Complexity:** High  
+**Setup Time:** ~1 hour
+**Complexity:** High
 **Cost:** Free (self-hosted)
 
 **Pros:**

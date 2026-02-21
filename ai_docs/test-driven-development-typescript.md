@@ -328,35 +328,35 @@ implementation details, using the React Testing Library's philosophy.15
 #### Iteration 1: Initial Render
 
 - **RED: Write a failing test for the initial state.** The first requirement is
-  that the component should render with an initial count of 0\.  
-  JavaScript  
-  // components/Counter.test.tsx  
-  import '@testing-library/jest-dom';  
-  import { render, screen } from '@testing-library/react';  
+  that the component should render with an initial count of 0\.
+  JavaScript
+  // components/Counter.test.tsx
+  import '@testing-library/jest-dom';
+  import { render, screen } from '@testing-library/react';
   import Counter from './Counter';
 
-  describe('Counter', () \=\> {  
-   it('should render with an initial count of 0', () \=\> {  
-   render(\<Counter /\>);  
-   const countElement \= screen.getByText(/count: 0/i);  
-   expect(countElement).toBeInTheDocument();  
-   });  
+  describe('Counter', () \=\> {
+   it('should render with an initial count of 0', () \=\> {
+   render(\<Counter /\>);
+   const countElement \= screen.getByText(/count: 0/i);
+   expect(countElement).toBeInTheDocument();
+   });
   });
 
   This test will fail because Counter.tsx does not exist.
 
 - **GREEN: Write the minimum code to pass the test.** Create the component file
-  with the simplest possible JSX to satisfy the assertion.  
-  JavaScript  
-  // components/Counter.tsx  
-  const Counter \= () \=\> {  
-   return (  
-   \<div\>  
-   \<p\>Count: 0\</p\>  
-   \<button\>Increment\</button\>  
-   \</div\>  
-   );  
-  };  
+  with the simplest possible JSX to satisfy the assertion.
+  JavaScript
+  // components/Counter.tsx
+  const Counter \= () \=\> {
+   return (
+   \<div\>
+   \<p\>Count: 0\</p\>
+   \<button\>Increment\</button\>
+   \</div\>
+   );
+  };
   export default Counter;
 
   The test now passes.
@@ -369,17 +369,17 @@ implementation details, using the React Testing Library's philosophy.15
 - **RED: Write a failing test for the increment action.** The next requirement
   is that clicking the "Increment" button should increase the count to 1\. This
   test will use @testing-library/user-event to simulate a real user click, which
-  is more robust than fireEvent.18  
-  JavaScript  
-  // components/Counter.test.tsx  
-  import userEvent from '@testing-library/user-event';  
+  is more robust than fireEvent.18
+  JavaScript
+  // components/Counter.test.tsx
+  import userEvent from '@testing-library/user-event';
   //... other imports
 
-  describe('Counter', () \=\> {  
-   //... previous test  
+  describe('Counter', () \=\> {
+   //... previous test
    it('should increment the count when the increment button is clicked', async
-  () \=\> {  
-   const user \= userEvent.setup();  
+  () \=\> {
+   const user \= userEvent.setup();
    render(\<Counter /\>);
 
       const incrementButton \= screen.getByRole('button', { name: /increment/i });
@@ -388,31 +388,31 @@ implementation details, using the React Testing Library's philosophy.15
       const countElement \= screen.getByText(/count: 1/i);
       expect(countElement).toBeInTheDocument();
 
-  });  
+  });
   });
 
   This test fails because the count is hardcoded to 0 and does not change.
 
 - **GREEN: Write the minimum code to pass the test.** Introduce state using the
-  useState hook and add an onClick handler to update the state.  
-  JavaScript  
-  // components/Counter.tsx  
+  useState hook and add an onClick handler to update the state.
+  JavaScript
+  // components/Counter.tsx
   import { useState } from 'react';
 
-  const Counter \= () \=\> {  
+  const Counter \= () \=\> {
    const \[count, setCount\] \= useState(0);
 
-  const handleIncrement \= () \=\> {  
-   setCount(count \+ 1);  
+  const handleIncrement \= () \=\> {
+   setCount(count \+ 1);
    };
 
-  return (  
-   \<div\>  
-   \<p\>Count: {count}\</p\>  
-   \<button onClick\={handleIncrement}\>Increment\</button\>  
-   \</div\>  
-   );  
-  };  
+  return (
+   \<div\>
+   \<p\>Count: {count}\</p\>
+   \<button onClick\={handleIncrement}\>Increment\</button\>
+   \</div\>
+   );
+  };
   export default Counter;
 
   All tests now pass.
@@ -449,31 +449,31 @@ useToggle hook.
 
 - **RED: Write a failing test for the initial state.** The hook should
   initialize with a value of false. The renderHook utility from
-  @testing-library/react is used to test hooks in isolation.36  
-  JavaScript  
-  // hooks/useToggle.test.ts  
-  import { renderHook, act } from '@testing-library/react';  
+  @testing-library/react is used to test hooks in isolation.36
+  JavaScript
+  // hooks/useToggle.test.ts
+  import { renderHook, act } from '@testing-library/react';
   import useToggle from './useToggle';
 
-  describe('useToggle', () \=\> {  
-   it('should initialize with false by default', () \=\> {  
-   const { result } \= renderHook(() \=\> useToggle());  
-   expect(result.current.value).toBe(false);  
-   });  
+  describe('useToggle', () \=\> {
+   it('should initialize with false by default', () \=\> {
+   const { result } \= renderHook(() \=\> useToggle());
+   expect(result.current.value).toBe(false);
+   });
   });
 
   This fails because the hook does not exist.
 
-- **GREEN: Write the minimum code to pass.**  
-  JavaScript  
-  // hooks/useToggle.ts  
+- **GREEN: Write the minimum code to pass.**
+  JavaScript
+  // hooks/useToggle.ts
   import { useState } from 'react';
 
-  const useToggle \= (initialValue \= false) \=\> {  
-   const \[value, setValue\] \= useState(initialValue);  
-   const toggle \= () \=\> {};  
-   return { value, toggle };  
-  };  
+  const useToggle \= (initialValue \= false) \=\> {
+   const \[value, setValue\] \= useState(initialValue);
+   const toggle \= () \=\> {};
+   return { value, toggle };
+  };
   export default useToggle;
 
   This test passes, but the code is incomplete. The next test will drive further
@@ -483,36 +483,36 @@ useToggle hook.
 
 - **RED: Write a failing test for the toggle action.** Calling the toggle
   function should change the value from false to true. State updates in hook
-  tests must be wrapped in act() to simulate React's update lifecycle.36  
-  JavaScript  
-  // hooks/useToggle.test.ts  
-  //...  
-  it('should toggle the value from false to true', () \=\> {  
+  tests must be wrapped in act() to simulate React's update lifecycle.36
+  JavaScript
+  // hooks/useToggle.test.ts
+  //...
+  it('should toggle the value from false to true', () \=\> {
    const { result } \= renderHook(() \=\> useToggle(false));
 
-  act(() \=\> {  
-   result.current.toggle();  
+  act(() \=\> {
+   result.current.toggle();
    });
 
-  expect(result.current.value).toBe(true);  
+  expect(result.current.value).toBe(true);
   });
 
   This fails because the toggle function is empty.
 
-- **GREEN: Implement the toggle logic.**  
-  JavaScript  
-  // hooks/useToggle.ts  
+- **GREEN: Implement the toggle logic.**
+  JavaScript
+  // hooks/useToggle.ts
   import { useState, useCallback } from 'react';
 
-  const useToggle \= (initialValue \= false) \=\> {  
+  const useToggle \= (initialValue \= false) \=\> {
    const \[value, setValue\] \= useState(initialValue);
 
-  const toggle \= useCallback(() \=\> {  
-   setValue(prev \=\>\!prev);  
+  const toggle \= useCallback(() \=\> {
+   setValue(prev \=\>\!prev);
    },);
 
-  return { value, toggle };  
-  };  
+  return { value, toggle };
+  };
   export default useToggle;
 
   All tests now pass.
@@ -536,17 +536,17 @@ parameter.
 - **RED: Write a failing test for the validation logic.** The test will use
   node-mocks-http to create mock request (req) and response (res) objects. It
   will test that if the query parameter q is missing, the handler responds with
-  a 400 status code.14  
-  JavaScript  
-  // server/api/definitions.test.ts  
-  import { createMocks } from 'node-mocks-http';  
+  a 400 status code.14
+  JavaScript
+  // server/api/definitions.test.ts
+  import { createMocks } from 'node-mocks-http';
   import { createHandler } from './definitions';
 
-  describe('/api/definitions', () \=\> {  
+  describe('/api/definitions', () \=\> {
    it('should return 400 if the "q" query parameter is missing', async () \=\>
-  {  
-   const { req, res } \= createMocks({  
-   method: 'GET',  
+  {
+   const { req, res } \= createMocks({
+   method: 'GET',
    });
 
       const handler \= createHandler(); // The factory
@@ -555,39 +555,39 @@ parameter.
       expect(res.\_getStatusCode()).toBe(400);
       expect(res.\_getJSONData().error).toBe('Query parameter "q" is required.');
 
-  });  
+  });
   });
 
   This fails because the handler factory does not exist.
 
 - **GREEN: Write the minimum code to pass.** Create the handler factory that
-  contains the validation logic.  
-  JavaScript  
-  // server/api/definitions.ts  
+  contains the validation logic.
+  JavaScript
+  // server/api/definitions.ts
   import type { NextApiHandler } from 'next';
 
-  export const createHandler \= (): NextApiHandler \=\> {  
-   return async (req, res) \=\> {  
+  export const createHandler \= (): NextApiHandler \=\> {
+   return async (req, res) \=\> {
    if (\!req.query.q |
 
-| typeof req.query.q\!== 'string') {  
-return res.status(400).json({ error: 'Query parameter "q" is required.' });  
-}  
-// Logic for a valid request will go here later  
-};  
-};  
-\`\`\`  
+| typeof req.query.q\!== 'string') {
+return res.status(400).json({ error: 'Query parameter "q" is required.' });
+}
+// Logic for a valid request will go here later
+};
+};
+\`\`\`
 The test now passes.
 
 - **REFACTOR & PRODUCTION GLUE:** The logic is simple. Now, create the actual
   Next.js API route file that uses this factory. This "glue" file is responsible
-  for injecting real dependencies in a production environment.  
-  JavaScript  
-  // pages/api/definitions.ts  
+  for injecting real dependencies in a production environment.
+  JavaScript
+  // pages/api/definitions.ts
   import { createHandler } from '../../server/api/definitions';
 
-  // This file connects the testable logic to the Next.js framework.  
-  // It would inject real dependencies like a database client here.  
+  // This file connects the testable logic to the Next.js framework.
+  // It would inject real dependencies like a database client here.
   export default createHandler();
 
 This pattern perfectly isolates the core business logic, making it highly
@@ -641,13 +641,13 @@ AI-generated code adheres to the highest standards of quality and discipline.
 To elicit the desired behavior, the AI must first adopt a specific persona and
 understand its primary mission.
 
-Persona:  
+Persona:
 "You are an expert Senior Frontend Engineer. Your specialization is Test-Driven
 Development (TDD) in a Next.js environment using Jest and the React Testing
 Library. You are a meticulous programmer who writes clean, modular, and highly
 maintainable code. Your defining characteristic is your strict adherence to the
-Red-Green-Refactor cycle."  
-Core Directive:  
+Red-Green-Refactor cycle."
+Core Directive:
 "For any given feature request, you will implement it using a strict Test-Driven
 Development workflow. You will not write any production code until a
 corresponding failing test has been written. You will deliver your response as a
@@ -661,35 +661,35 @@ This section provides a deterministic algorithm for the AI to follow,
 translating the abstract Red-Green-Refactor cycle into a concrete, repeatable
 process.
 
-Step 1: Analyze and Decompose the Request.  
+Step 1: Analyze and Decompose the Request.
 "Upon receiving a feature request, your first action is to analyze it and break
 it down into the smallest possible, independently testable behaviors. List these
-behaviors as a plan of action."  
-Step 2: Select the First Behavior and Enter RED Phase.  
+behaviors as a plan of action."
+Step 2: Select the First Behavior and Enter RED Phase.
 "Choose the most fundamental behavior from your plan to implement first.
 Announce the start of this phase by outputting: \--- RED PHASE \---. Then, write
 a single test file (e.g., feature.test.tsx). This test must fail. The test must
 follow the Arrange-Act-Assert pattern. The 'Act' part will necessarily involve
-code that does not yet exist."  
-Step 3: State the Expected Failure.  
+code that does not yet exist."
+Step 3: State the Expected Failure.
 "After writing the test, state the precise error message you expect to see from
-the test runner, confirming that the test is failing for the correct reason."  
-Step 4: Enter GREEN Phase.  
+the test runner, confirming that the test is failing for the correct reason."
+Step 4: Enter GREEN Phase.
 "Announce the start of this phase by outputting: \--- GREEN PHASE \---. Now,
 write the absolute minimum amount of production code required to make the
 failing test pass. Do not add any extra logic, optimizations, or functionality
-that is not explicitly required by the test."  
-Step 5: Confirm All Tests Pass.  
+that is not explicitly required by the test."
+Step 5: Confirm All Tests Pass.
 "After writing the production code, state that you are running the tests and
-confirm that all tests now pass."  
-Step 6: Enter REFACTOR Phase.  
+confirm that all tests now pass."
+Step 6: Enter REFACTOR Phase.
 "Announce the start of this phase by outputting: \--- REFACTOR PHASE \---.
 Analyze the production code written in the Green phase. If improvements can be
 made to its structure, readability, variable naming, or to remove duplication,
 provide the refactored code. The refactoring must not change the external
 behavior of the code. If no refactoring is necessary, state 'No refactoring
-needed at this stage.'"  
-Step 7: Loop or Complete.  
+needed at this stage.'"
+Step 7: Loop or Complete.
 "If there are more behaviors remaining in your plan from Step 1, announce the
 next behavior you will implement and return to Step 2 (Red Phase). If all
 behaviors have been implemented, announce that the feature is complete and
@@ -741,19 +741,19 @@ feature.
 
 **\# MISSION**
 
-Persona:  
+Persona:
 You are an expert Senior Frontend Engineer. Your specialization is Test-Driven
 Development (TDD) in a Next.js environment using Jest and the React Testing
 Library. You are a meticulous programmer who writes clean, modular, and highly
 maintainable code. Your defining characteristic is your strict adherence to the
-Red-Green-Refactor cycle.  
-Core Directive:  
+Red-Green-Refactor cycle.
+Core Directive:
 For the feature request below, you will implement it using a strict Test-Driven
 Development workflow. You will not write any production code until a
 corresponding failing test has been written. You will deliver your response as a
 complete package containing both the test code and the production code required
 to make the tests pass. You will explicitly announce each phase of the TDD cycle
-as you proceed.  
+as you proceed.
 **\# WORKFLOW**
 
 You will follow this exact step-by-step process for each behavior of the

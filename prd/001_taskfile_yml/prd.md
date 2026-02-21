@@ -4,8 +4,8 @@
 
 ---
 
-> **Document Type**: Combined BRD/PRD  
-> **Approach**: Minimalist template for small-scale internal tooling project  
+> **Document Type**: Combined BRD/PRD
+> **Approach**: Minimalist template for small-scale internal tooling project
 > **Format Standards**:
 >
 > - User Stories follow the "As a [user type], I want [goal] so that [benefit]"
@@ -476,5 +476,5 @@ task --list
 
 ---
 
-**Document Status**: Ready for Review  
+**Document Status**: Ready for Review
 **Next Steps**: Review and approval of BRD/PRD before implementation begins

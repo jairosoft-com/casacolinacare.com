@@ -30,8 +30,8 @@ Based on your requirements, here's what has been implemented:
 
 ### **What You DON'T Need:**
 
-❌ Drizzle ORM - Not installed (no direct DB access)  
-❌ Database migrations - Not needed  
+❌ Drizzle ORM - Not installed (no direct DB access)
+❌ Database migrations - Not needed
 ❌ `/src/lib/db/` - Not created
 
 ---

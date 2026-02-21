@@ -1,8 +1,8 @@
 # PRD: CasaColinaCare.com Website (Enhanced)
 
-**Version:** 2.3  
-**Last Updated:** February 12, 2026  
-**Status:** Draft for Review  
+**Version:** 2.3
+**Last Updated:** February 12, 2026
+**Status:** Draft for Review
 **Project Type:** Marketing Website with Contact Form
 
 ---
@@ -311,13 +311,13 @@ A modern, responsive marketing website that:
 
 #### US-001: Header & Navigation
 
-**As a** visitor  
-**I want** a sticky header with navigation  
+**As a** visitor
+**I want** a sticky header with navigation
 **So that** I can easily move between pages and find the consultation CTA from
 anywhere on the site
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** None
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -409,12 +409,12 @@ Scenario: Accessibility score meets requirements
 
 #### US-002: Footer
 
-**As a** visitor  
-**I want** a footer with contact details and navigation  
+**As a** visitor
+**I want** a footer with contact details and navigation
 **So that** I can find key information from the bottom of any page
 
-**Priority:** Must Have  
-**Effort:** Small  
+**Priority:** Must Have
+**Effort:** Small
 **Dependencies:** None
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -473,12 +473,12 @@ Scenario: Tests and type checking pass
 
 #### US-003: Root Layout
 
-**As a** developer  
-**I need** the root layout to wrap all pages with shared structure  
+**As a** developer
+**I need** the root layout to wrap all pages with shared structure
 **So that** header, footer, fonts, and metadata are consistent across the site
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-001, US-002
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -533,14 +533,14 @@ Scenario: Tests and type checking pass
 
 #### US-004: Home Page — Hero Section
 
-**As a** visitor landing on the site  
+**As a** visitor landing on the site
 **I want** to see an impactful hero that communicates what Casa Colina Care
-offers  
+offers
 **So that** I immediately understand the value proposition and how to get in
 touch
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-003
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -605,13 +605,13 @@ Scenario: Tests and type checking pass
 
 #### US-005: Home Page — Introduction & Services Overview
 
-**As a** visitor  
-**I want** to learn what Casa Colina Care offers  
+**As a** visitor
+**I want** to learn what Casa Colina Care offers
 **So that** I can understand the services and decide if it's right for my loved
 one
 
-**Priority:** Must Have  
-**Effort:** Large  
+**Priority:** Must Have
+**Effort:** Large
 **Dependencies:** US-004
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -706,12 +706,12 @@ Scenario: Tests and type checking pass
 
 #### US-006: Home Page — Testimonial, CTA Banner & Page Assembly
 
-**As a** visitor  
-**I want** to see social proof and a clear call-to-action  
+**As a** visitor
+**I want** to see social proof and a clear call-to-action
 **So that** I feel confident reaching out for a consultation
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-005
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -786,12 +786,12 @@ Scenario: Tests and type checking pass
 
 #### US-007: About Us Page
 
-**As a** visitor  
-**I want** to learn about Casa Colina Care's story, values, and team  
+**As a** visitor
+**I want** to learn about Casa Colina Care's story, values, and team
 **So that** I can trust them with my loved one's care
 
-**Priority:** Must Have  
-**Effort:** Large  
+**Priority:** Must Have
+**Effort:** Large
 **Dependencies:** US-006
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -884,12 +884,12 @@ Scenario: Tests and type checking pass
 
 #### US-008: FAQ Page
 
-**As a** visitor  
-**I want** to browse frequently asked questions  
+**As a** visitor
+**I want** to browse frequently asked questions
 **So that** I can get answers without needing to call or email
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-007
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -984,12 +984,12 @@ Scenario: Tests and type checking pass
 
 #### US-009: Contact Page — Form Component
 
-**As a** visitor  
-**I want** to fill out a contact form  
+**As a** visitor
+**I want** to fill out a contact form
 **So that** I can request a consultation without needing to call
 
-**Priority:** Must Have  
-**Effort:** Large  
+**Priority:** Must Have
+**Effort:** Large
 **Dependencies:** US-008
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1151,12 +1151,12 @@ Scenario: Tests and type checking pass
 
 #### US-010: Contact Page — Info Column, Map & Page Assembly
 
-**As a** visitor  
-**I want** to see contact details and location alongside the form  
+**As a** visitor
+**I want** to see contact details and location alongside the form
 **So that** I can choose how to reach out
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-009
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1225,12 +1225,12 @@ Scenario: Tests and type checking pass
 
 #### US-011: Contact Form API Route & Resend Integration
 
-**As the** business owner  
-**I want** form submissions emailed to me via Resend  
+**As the** business owner
+**I want** form submissions emailed to me via Resend
 **So that** I receive consultation requests reliably
 
-**Priority:** Must Have  
-**Effort:** Large  
+**Priority:** Must Have
+**Effort:** Large
 **Dependencies:** US-010
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1342,12 +1342,12 @@ Scenario: Tests and type checking pass
 
 #### US-012: SEO, Metadata & Structured Data
 
-**As the** business owner  
-**I want** proper SEO foundations  
+**As the** business owner
+**I want** proper SEO foundations
 **So that** the site can rank for "care home Hawaii Kai" and related searches
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** US-011
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1432,12 +1432,12 @@ Scenario: Tests and type checking pass
 
 #### US-013: Error Pages (404, 500)
 
-**As a** visitor  
-**I want** helpful error pages  
+**As a** visitor
+**I want** helpful error pages
 **So that** I can navigate back to the site if I encounter an error
 
-**Priority:** Should Have  
-**Effort:** Small  
+**Priority:** Should Have
+**Effort:** Small
 **Dependencies:** US-003
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1484,12 +1484,12 @@ Scenario: Tests and type checking pass
 
 #### US-014: Loading States & Skeleton Screens
 
-**As a** visitor  
-**I want** to see loading indicators  
+**As a** visitor
+**I want** to see loading indicators
 **So that** I know the site is working when content is loading
 
-**Priority:** Should Have  
-**Effort:** Small  
+**Priority:** Should Have
+**Effort:** Small
 **Dependencies:** US-003
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -1530,12 +1530,12 @@ Scenario: Tests and type checking pass
 
 #### US-015: Browser Compatibility Testing
 
-**As a** visitor  
-**I want** the site to work on my browser  
+**As a** visitor
+**I want** the site to work on my browser
 **So that** I can access information regardless of my device
 
-**Priority:** Must Have  
-**Effort:** Medium  
+**Priority:** Must Have
+**Effort:** Medium
 **Dependencies:** All previous US
 
 **Acceptance Criteria (Gherkin/BDD):**
@@ -3326,7 +3326,7 @@ See `AGENTS.md` for complete coding standards.
 - [ ] **Development Lead:** **\*\*\*\***\_**\*\*\*\*** Date: **\_\_\_**
 - [ ] **QA Lead:** **\*\*\*\***\_**\*\*\*\*** Date: **\_\_\_**
 
-**Version Approved:** 2.0  
+**Version Approved:** 2.0
 **Approval Date:** **\*\***\_\_**\*\***
 
 ---
