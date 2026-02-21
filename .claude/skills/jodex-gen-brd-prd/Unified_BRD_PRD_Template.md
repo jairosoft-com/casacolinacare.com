@@ -24,6 +24,7 @@
 ### 2. Business Problem & Opportunity
 
 #### 2.1 Current State ("As-Is")
+
 *(Describe existing process/system. Detail pain points with data where possible)*
 
 **Quantitative Evidence:**
@@ -34,6 +35,7 @@
 - [User feedback: e.g., "During interviews, customers stated: 'The checkout process is confusing'"]
 
 #### 2.2 Root Cause Analysis
+
 *(Use 5 Whys or similar to identify underlying causes, not just symptoms)*
 
 ### 3. Business Objectives & Success Metrics
@@ -68,18 +70,22 @@
 ### 6. Assumptions, Constraints & Dependencies
 
 #### Assumptions
+
 - [Assumption 1: e.g., "Users have stable internet connection"]
 
 #### Constraints
+
 - [Constraint 1: e.g., "Budget cannot exceed $250K"]
 - [Constraint 2: e.g., "Must launch by Nov 15 for holiday season"]
 
 #### Dependencies
+
 - [Dependency 1: e.g., "Requires completion of Data Warehouse upgrade by Q3"]
 
 ### 7. Financial Justification
 
 #### Cost-Benefit Analysis
+
 - **Estimated Costs:** [One-time: $X, Recurring: $Y/year]
 - **Projected Benefits:** [Revenue increase: $X, Cost savings: $Y]
 - **ROI:** [X%]

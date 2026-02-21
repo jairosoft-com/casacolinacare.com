@@ -22,9 +22,11 @@ user-invocable: true
 ## Phase 1: PRD Analysis & Critique
 
 ### 1.1 Initial Assessment
+
 Read the provided PRD or requirements document. If none exists, request the user's "Intent Seed" or rough feature description.
 
 ### 1.2 Ambiguity Detection
+
 Analyze for common anti-patterns:
 - **Vague Adjectives:** "Fast", "Modern", "Scalable", "User-friendly" without metrics
 - **Missing Constraints:** Error handling, offline behavior, latency budgets, data retention
@@ -33,6 +35,7 @@ Analyze for common anti-patterns:
 - **Security Blindspots:** Missing authentication, authorization, or data protection requirements
 
 ### 1.3 Architectural Red Flags
+
 Identify potential issues:
 - Tight coupling between components
 - Missing separation of concerns
@@ -47,21 +50,25 @@ Identify potential issues:
 Before drafting the TDD, ask 3-7 **High-Value Architectural Questions**. Focus on:
 
 ### Technical Decisions
+
 - "Should this use optimistic UI updates to meet the 200ms latency requirement?"
 - "Do you require a relational schema, or is NoSQL acceptable for this data shape?"
 - "Should this be a synchronous API call or an async background job?"
 
 ### Non-Functional Requirements
+
 - "What's the expected load? (requests/sec, concurrent users)"
 - "What are the latency targets for critical operations?"
 - "What's the data retention policy?"
 
 ### Cross-Cutting Concerns
+
 - "How should authentication/authorization work?"
 - "What monitoring and alerting do you need?"
 - "What's the rollback strategy if deployment fails?"
 
 ### Constraints & Trade-offs
+
 - "Are you optimizing for development speed or runtime performance?"
 - "What's the acceptable downtime window for deployments?"
 - "Should we prioritize consistency or availability in this scenario?"
@@ -81,6 +88,7 @@ Once requirements are clarified, generate a complete TDD using the **Modern Mini
 ### Document Structure
 
 #### METADATA BLOCK
+
 ```markdown
 # [Feature/System Name] - Technical Design Document
 
@@ -450,6 +458,7 @@ The TDD must specify this exact structure:
 ### Data Fetching Patterns
 
 **Server Components (Default)**
+
 ```typescript
 // Async page component - fetches on server
 export default async function ProductPage({ params }: { params: { id: string } }) {
@@ -462,6 +471,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
 ```
 
 **Parallel Data Fetching**
+
 ```typescript
 // Avoid waterfalls - fetch in parallel
 const [user, posts] = await Promise.all([
@@ -511,6 +521,7 @@ Follow the "least powerful tool first" approach:
 **1. URL State (Highest Priority)**
 - For filters, search queries, pagination, sorting
 - Bookmarkable, shareable, SEO-friendly
+
 ```typescript
 const searchParams = useSearchParams();
 const page = searchParams.get('page') || '1';
@@ -525,6 +536,7 @@ const [isOpen, setIsOpen] = useState(false);
 **3. React Context**
 - For sharing state across a small subtree
 - Avoid for high-frequency updates
+
 ```typescript
 const ThemeContext = createContext<Theme>('light');
 ```
@@ -533,6 +545,7 @@ const ThemeContext = createContext<Theme>('light');
 - Only for global state across disparate components
 - Examples: auth status, shopping cart
 - Location: `/src/lib/store/index.ts`
+
 ```typescript
 const useStore = create((set) => ({
   user: null,
@@ -551,6 +564,7 @@ const useStore = create((set) => ({
 - Utility-first approach for all styling
 - Co-located with components
 - Automatic unused class removal
+
 ```tsx
 <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg">
   Click me
@@ -625,6 +639,7 @@ import styles from './Component.module.css';
 **Location:** `/src/app/api/[endpoint]/route.ts`
 
 **Pattern:**
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -660,6 +675,7 @@ export async function POST(request: NextRequest) {
 ### Performance Optimization
 
 **1. Streaming with Suspense**
+
 ```tsx
 <Suspense fallback={<ProductSkeleton />}>
   <ProductList />
@@ -667,6 +683,7 @@ export async function POST(request: NextRequest) {
 ```
 
 **2. Dynamic Imports**
+
 ```typescript
 const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
   loading: () => <Spinner />,
@@ -674,6 +691,7 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ```
 
 **3. Static Generation**
+
 ```typescript
 export async function generateStaticParams() {
   const products = await db.product.findMany();
@@ -682,6 +700,7 @@ export async function generateStaticParams() {
 ```
 
 **4. Parallel Data Fetching**
+
 ```typescript
 const [user, posts, comments] = await Promise.all([
   fetchUser(),
@@ -740,6 +759,7 @@ When creating a Technical Design Document, ensure:
 ## Phase 5: Validation & Refinement
 
 ### 5.1 Self-Review Checklist
+
 Before presenting the TDD, verify:
 - [ ] All diagrams use Mermaid syntax (machine-readable)
 - [ ] Data models use JSON Schema

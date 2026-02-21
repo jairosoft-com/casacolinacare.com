@@ -13,12 +13,15 @@
 ## 3. Business Problem & Strategic Fit
 
 ### Current State
+
 *(Describe existing situation with data)*
 
 ### Problem Statement
+
 *(Clear, data-backed problem description)*
 
 ### Root Cause
+
 *(Underlying causes, not symptoms)*
 
 ## 4. Business Objectives & Success Metrics
@@ -30,10 +33,12 @@
 ## 5. Project Scope
 
 ### In Scope
+
 - [Item 1]
 - [Item 2]
 
 ### Out of Scope
+
 - [Item 1]
 - [Item 2]
 
@@ -46,13 +51,16 @@
 ## 7. Assumptions, Constraints, Dependencies
 
 ### Assumptions
+
 - [Assumption 1]
 
 ### Constraints
+
 - [Budget: $X]
 - [Timeline: X months]
 
 ### Dependencies
+
 - [Dependency 1]
 
 ## 8. Financial Analysis

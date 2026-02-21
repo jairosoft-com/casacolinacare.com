@@ -17,7 +17,7 @@ Create detailed Product Requirements Documents that are clear, actionable, and s
 3. Generate a structured PRD based on answers
 4. Save to `tasks/prd-[feature-name].md`
 
-**Important:** 
+**Important:**
 - Do NOT start implementing. Just create the PRD.
 - This PRD will be converted to `prd.json` format for Ralph autonomous execution using the ralph skill.
 
@@ -96,7 +96,7 @@ Each story should be small enough to implement in one focused session.
 - [ ] **[UI stories only]** Verify in browser using dev-browser skill
 ```
 
-**Important:** 
+**Important:**
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - **Standard quality criteria are automatically added** based on story type:
   - **All stories:** Lint passes, Typecheck passes, Unit tests pass
