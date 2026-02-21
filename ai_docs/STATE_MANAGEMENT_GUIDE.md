@@ -275,7 +275,7 @@ export function UserMenu() {
 
 ## 📊 **Decision Tree**
 
-```
+```text
 Does the state need to be in the URL? (shareable, SEO)
 ├─ YES → Use URL State (searchParams)
 └─ NO

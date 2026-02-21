@@ -31,7 +31,7 @@ These are essential project files that should be in version control:
 
 ### **Source Code** ✅
 
-```
+```text
 ✅ src/                      # All application source code
 ✅ tests/                    # All test files
 ✅ public/                   # Static assets (images, fonts)
@@ -39,7 +39,7 @@ These are essential project files that should be in version control:
 
 ### **Configuration Files** ✅
 
-```
+```text
 ✅ package.json              # Dependencies & scripts
 ✅ package-lock.json         # Exact dependency versions
 ✅ tsconfig.json             # TypeScript configuration
@@ -56,7 +56,7 @@ These are essential project files that should be in version control:
 
 ### **Documentation** ✅
 
-```
+```text
 ✅ README.md                 # Project overview
 ✅ CLAUDE.md                 # AI assistant guidance
 ✅ TODO.md                   # Project roadmap
@@ -65,7 +65,7 @@ These are essential project files that should be in version control:
 
 ### **Docker & Deployment** ✅
 
-```
+```text
 ✅ Dockerfile                # Docker image configuration
 ✅ docker-compose.yml        # Docker Compose setup
 ✅ .dockerignore             # Docker build exclusions
@@ -73,7 +73,7 @@ These are essential project files that should be in version control:
 
 ### **Git Configuration** ✅
 
-```
+```text
 ✅ .gitignore                # Git ignore rules
 ✅ .husky/                   # Git hooks
 ```
@@ -86,14 +86,14 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Dependencies** ❌
 
-```
+```text
 ❌ node_modules/             # 556MB - NPM packages
    WHY: Huge, reinstallable via npm install
 ```
 
 ### **Build Outputs** ❌
 
-```
+```text
 ❌ .next/                    # 22MB - Next.js build cache
 ❌ out/                      # Next.js static export
 ❌ build/                    # Production build
@@ -105,7 +105,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Test Outputs** ❌
 
-```
+```text
 ❌ coverage/                 # Test coverage reports
 ❌ test-results/             # Playwright test results
 ❌ playwright-report/        # HTML test reports
@@ -115,7 +115,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Environment Files** ❌
 
-```
+```text
 ❌ .env.local                # Local development secrets
 ❌ .env.production           # Production secrets
 ❌ .env.staging              # Staging secrets
@@ -125,7 +125,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **IDE/Editor Files** ❌
 
-```
+```text
 ❌ .vscode/                  # VSCode settings (except shared)
 ❌ .cursor/                  # Cursor IDE cache/settings
 ❌ .claude/                  # Claude AI settings
@@ -136,7 +136,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **OS Files** ❌
 
-```
+```text
 ❌ .DS_Store                 # macOS folder metadata
 ❌ Thumbs.db                 # Windows thumbnail cache
 ❌ Desktop.ini               # Windows folder config
@@ -146,7 +146,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Logs & Temporary Files** ❌
 
-```
+```text
 ❌ *.log                     # All log files
 ❌ npm-debug.log*            # NPM error logs
 ❌ *.tmp, *.temp             # Temporary files
@@ -156,7 +156,7 @@ These files are automatically generated, contain secrets, or are user-specific:
 
 ### **Deployment** ❌
 
-```
+```text
 ❌ .vercel/                  # Vercel deployment cache
 ❌ docker-compose.override.yml  # Personal Docker overrides
    WHY: Platform-specific, regenerated on deploy
@@ -198,7 +198,7 @@ are needed.
 
 ### **3. Documentation**
 
-```
+```text
 ✅ All markdown files (*.md)
 ✅ All documentation in /ai_docs/
 ```
@@ -211,9 +211,9 @@ are needed.
 
 After the `.gitignore` update, here's what's tracked:
 
-### **Modified Files** (Need to commit):
+### **Modified Files** (Need to commit)
 
-```
+```text
 M .gitignore                          ← Updated ignore rules
 M CLAUDE.md                           ← Updated AI guidance
 M TODO.md                             ← Updated tasks
@@ -223,9 +223,9 @@ M package-lock.json                   ← Updated dependencies
 M vitest.config.ts                    ← Added coverage thresholds
 ```
 
-### **New Files** (Need to add):
+### **New Files** (Need to add)
 
-```
+```text
 ?? Dockerfile                         ← Docker configuration
 ?? .dockerignore                      ← Docker exclusions
 ?? docker-compose.yml                 ← Docker Compose setup
@@ -235,9 +235,9 @@ M vitest.config.ts                    ← Added coverage thresholds
 ?? tests/e2e/console-errors.spec.ts   ← Console error test
 ```
 
-### **Now Ignored** (Won't be tracked):
+### **Now Ignored** (Won't be tracked)
 
-```
+```text
 .cursor/                              ← Cursor IDE cache
 .claude/                              ← Claude settings
 test-results/                         ← Test results

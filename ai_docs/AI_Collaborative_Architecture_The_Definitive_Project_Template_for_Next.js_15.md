@@ -107,7 +107,7 @@ needs them.
 
 Consider a settings page at /dashboard/settings. The file structure would be:
 
-```
+```text
 src/app/dashboard/settings/
 ├── \_actions/
 │   └── update-profile.ts  // Server Action for this page
@@ -464,7 +464,7 @@ This file configures the core behavior of the Next.js framework. Next.js 15
 introduced stable support for using TypeScript in this file, which is a
 significant improvement for type safety.
 
-```
+```typescript
 // /next.config.ts
 
 import type { NextConfig } from 'next';
@@ -523,7 +523,7 @@ This file configures the TypeScript compiler (tsc), defining how it should check
 and transpile the project's code. A well-configured tsconfig.json is the
 foundation of a type-safe application.
 
-```
+```jsonc
 // /tsconfig.json
 {
  "compilerOptions": {
@@ -591,7 +591,7 @@ This file configures ESLint using the modern "flat config" format. It combines
 rules from multiple plugins to enforce a high standard of code quality and
 consistency.
 
-```
+```javascript
 // /eslint.config.mjs
 
 import { FlatCompat } from '@eslint/eslintrc';
@@ -677,7 +677,7 @@ export default \[
 This file configures Vitest for unit and integration testing. The .mts extension
 is used for TypeScript ES modules.
 
-```
+```typescript
 // /vitest.config.mts
 
 import { defineConfig } from 'vitest/config';
@@ -723,7 +723,7 @@ environment: 'jsdom',
 This file configures Playwright for end-to-end testing, defining browser
 projects, server settings, and test execution options.
 
-```
+```typescript
 // /playwright.config.ts
 
 import { defineConfig, devices } from '@playwright/test';

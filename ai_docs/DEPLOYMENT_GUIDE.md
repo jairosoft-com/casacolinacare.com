@@ -28,7 +28,7 @@ git remote add origin https://github.com/yourusername/your-repo.git
 git push -u origin main
 ```
 
-2. **Connect to Vercel**
+1. **Connect to Vercel**
 
 - Go to [vercel.com](https://vercel.com)
 - Sign in with GitHub
@@ -37,17 +37,18 @@ git push -u origin main
 - Vercel auto-detects Next.js settings
 - Click "Deploy"
 
-3. **Configure Environment Variables** (if needed)
+1. **Configure Environment Variables** (if needed)
 
 - In Vercel dashboard → Settings → Environment Variables
 - Add:
-  ```
+
+  ```text
   NEXT_PUBLIC_API_BASE_URL=https://api.example.com
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
   CLERK_SECRET_KEY=sk_...
   ```
 
-4. **Done! 🎉**
+1. **Done! 🎉**
 
 - Your app is live at `https://your-project.vercel.app`
 - Auto-deploys on every push to main
@@ -181,7 +182,7 @@ CMD ["node", "server.js"]
 
 #### **2. Create .dockerignore**
 
-```
+```text
 # .dockerignore
 node_modules
 .next

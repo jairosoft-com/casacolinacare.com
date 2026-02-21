@@ -14,7 +14,7 @@ email via Resend.
 
 - Enable visitors to request a consultation in under 60 seconds from any page
   (max 2 clicks to reach the contact form)
-- Deliver contact form submissions to kriss@casacolinacare.com via Resend
+- Deliver contact form submissions to <kriss@casacolinacare.com> via Resend
 - Achieve Lighthouse Performance and Accessibility scores above 90
 - Load in under 3 seconds on 4G mobile
 - Establish SEO foundations to rank for "care home Hawaii Kai" within 6 months
@@ -232,7 +232,7 @@ alongside the form so I can choose how to reach out.
 - [ ] Two-column layout on desktop (form left, info right), stacked on mobile
       (form above, info below)
 - [ ] Right column displays: Phone +1 (800) 888-8888 (click-to-call `tel:`
-      link), Email kriss@casacolinacare.com (`mailto:` link), Address 189
+      link), Email <kriss@casacolinacare.com> (`mailto:` link), Address 189
       Anapalua Street Hawaii Kai HI 96825, Hours "Available for inquiries:
       Monday-Saturday, 8am-6pm"
 - [ ] Google Maps iframe embed component created:
@@ -258,7 +258,7 @@ via Resend so that I receive consultation requests reliably.
 - [ ] Returns `400` with `{success: false, message: "..."}` if validation fails
 - [ ] On valid input, sends email via Resend: From
       `Casa Colina Care <onboarding@resend.dev>` (dev sender), To
-      kriss@casacolinacare.com, Reply-To submitter's email, Subject "New
+      <kriss@casacolinacare.com>, Reply-To submitter's email, Subject "New
       Consultation Request from {firstName} {lastName}"
 - [ ] Email body is HTML formatted with all form fields, builder in
       `src/lib/email.ts`
@@ -320,7 +320,7 @@ the site can rank for "care home Hawaii Kai" and related searches.
 - FR-10: `POST /api/contact` must re-validate all fields server-side before
   sending email
 - FR-11: `POST /api/contact` must send an HTML email via Resend with all form
-  fields to kriss@casacolinacare.com
+  fields to <kriss@casacolinacare.com>
 - FR-12: The Resend API key must be stored server-side only and never exposed to
   the client
 - FR-13: All pages must include SEO metadata, Open Graph tags, and JSON-LD
@@ -376,7 +376,7 @@ the site can rank for "care home Hawaii Kai" and related searches.
 - Cumulative Layout Shift (CLS) < 0.1
 - Contact form to submission < 60 seconds, max 2 clicks from any page
 - All navigation links resolve with 0 broken links
-- Form submission delivers email to kriss@casacolinacare.com
+- Form submission delivers email to <kriss@casacolinacare.com>
 - Mobile touch targets minimum 44x44px
 - Single `h1` per page with sequential heading hierarchy
 

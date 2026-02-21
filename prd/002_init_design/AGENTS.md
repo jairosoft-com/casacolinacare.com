@@ -74,7 +74,7 @@ A frontend story is NOT complete until browser verification passes.
 
 APPEND to [progress.txt](progress.txt) (never replace):
 
-```
+```text
 ## [Date/Time] - [Story ID]
 - What was implemented
 - Files changed

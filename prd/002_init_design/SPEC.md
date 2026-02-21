@@ -33,7 +33,7 @@ care homes.
 
 - A visitor can request a consultation in under 60 seconds from any page (max 2
   clicks to reach the contact form)
-- Contact form submissions arrive at kriss@casacolinacare.com via Resend
+- Contact form submissions arrive at <kriss@casacolinacare.com> via Resend
 - Site loads in under 3 seconds on 4G mobile (Lighthouse Performance score > 90)
 - All pages are fully responsive from 320px to 2560px viewport width
 - Site ranks for "care home Hawaii Kai" within 6 months of launch (SEO
@@ -75,7 +75,7 @@ care homes.
 
 - Sticky header with navigation and "Request Consultation" CTA
 - Mobile hamburger menu (Shadcn Sheet)
-- Contact form that sends email via Resend to kriss@casacolinacare.com
+- Contact form that sends email via Resend to <kriss@casacolinacare.com>
 - Click-to-call phone link on every page
 - Google Maps embed on contact page
 - SEO metadata, Open Graph tags, JSON-LD structured data
@@ -212,7 +212,7 @@ Submit button label: "Send Consultation Request"
 **Right Column — Contact Info:**
 
 - Phone: +1 (800) 888-8888 (click-to-call `tel:` link)
-- Email: kriss@casacolinacare.com (`mailto:` link)
+- Email: <kriss@casacolinacare.com> (`mailto:` link)
 - Address: 189 Anapalua Street, Hawaii Kai, HI 96825
 - Google Maps iframe embed
 - Hours: "Available for inquiries: Monday–Saturday, 8am–6pm"
@@ -297,7 +297,7 @@ Server error response (`500`):
 }
 ```
 
-**Email sent to kriss@casacolinacare.com:**
+**Email sent to <kriss@casacolinacare.com>:**
 
 - **From:** `Casa Colina Care <noreply@casacolinacare.com>` (requires Resend
   domain verification; use `onboarding@resend.dev` during development)
@@ -356,17 +356,17 @@ Server error response (`500`):
 
 ### Assertions
 
-| Assertion                           | Target                                     |
-| ----------------------------------- | ------------------------------------------ |
-| Lighthouse Performance score        | > 90                                       |
-| Lighthouse Accessibility score      | > 90                                       |
-| Time to first meaningful paint (4G) | < 3 seconds                                |
-| Contact form to submission          | < 60 seconds, max 2 clicks from any page   |
-| Layout shift (CLS)                  | < 0.1                                      |
-| All navigation links resolve        | 0 broken links                             |
-| Form submission sends email         | Email arrives at kriss@casacolinacare.com  |
-| Mobile touch targets                | Minimum 44x44px                            |
-| HTML heading hierarchy              | Single `h1` per page, sequential `h2`/`h3` |
+| Assertion                           | Target                                       |
+| ----------------------------------- | -------------------------------------------- |
+| Lighthouse Performance score        | > 90                                         |
+| Lighthouse Accessibility score      | > 90                                         |
+| Time to first meaningful paint (4G) | < 3 seconds                                  |
+| Contact form to submission          | < 60 seconds, max 2 clicks from any page     |
+| Layout shift (CLS)                  | < 0.1                                        |
+| All navigation links resolve        | 0 broken links                               |
+| Form submission sends email         | Email arrives at `kriss@casacolinacare.com`  |
+| Mobile touch targets                | Minimum 44x44px                              |
+| HTML heading hierarchy              | Single `h1` per page, sequential `h2`/`h3`   |
 
 ### Manual Test Checklist
 
@@ -388,7 +388,7 @@ Server error response (`500`):
 
 ## 6. File Structure
 
-```
+```text
 src/
 ├── app/
 │   ├── layout.tsx              # Root layout, fonts, metadata, JSON-LD

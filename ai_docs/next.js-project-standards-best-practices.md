@@ -13,7 +13,7 @@ alwaysApply: false
 - Use parallel or intercepting routes for complex layouts and modals
 - Place API route handlers in `app/api`
 
-# Server Components
+## Server Components
 
 - Default to Server Components for data fetching and rendering
 - Keep them free of client-side hooks or browser APIs
@@ -25,7 +25,7 @@ alwaysApply: false
 - Use `Promise.all` for parallel data fetching and `React.cache` for request
   deduplication
 
-# Client Components
+## Client Components
 
 - Mark Client Components with `"use client"` at the top
 - Use `next/navigation` hooks such as `useRouter` and `usePathname` instead of
@@ -34,21 +34,21 @@ alwaysApply: false
   when using Server Actions
 - Include client-specific logic like user interaction and browser APIs here
 
-# Data Fetching
+## Data Fetching
 
 - Use the built-in `fetch` in Server Components for data retrieval
 - Pass caching strategies with `fetch(url, { next: { revalidate: <seconds> } })`
 - Keep external requests minimal if deploying to serverless environments
 - Avoid fetching in Client Components if it can be done on the server
 
-# Route Handlers
+## Route Handlers
 
 - Replace deprecated `pages/api` routes with Route Handlers under `app/api`
 - `GET` handlers are static by default unless otherwise configured
 - Validate incoming data and use proper CORS or security measures
 - Support JSON, text, and other file responses
 
-# Server Actions
+## Server Actions
 
 - Define Server Actions with the `use server` directive
 - Call them from both Server and Client Components for data mutations
@@ -56,7 +56,7 @@ alwaysApply: false
   submissions
 - Use `useOptimistic` to update the UI optimistically before server confirmation
 
-# Middleware And Edge Runtime
+## Middleware And Edge Runtime
 
 - Use `middleware.ts` for route interception, authentication, redirects, and
   rewrites
@@ -64,13 +64,13 @@ alwaysApply: false
 - Handle cookies, headers, and dynamic rewrites in `middleware`
 - Be mindful of constraints when running at the edge
 
-# Styling And Assets
+## Styling And Assets
 
 - Use CSS Modules, Tailwind CSS, or CSS-in-JS solutions
 - Use the built-in `<Image />` component for optimized images
 - Consider built-in font optimization with `@next/font` or newer APIs
 
-# Performance
+## Performance
 
 - Use streaming and `Suspense` for faster initial rendering
 - Dynamically import large dependencies in Client Components
@@ -78,19 +78,19 @@ alwaysApply: false
   re-renders
 - Use `fetch` caching and revalidation carefully
 
-# Deployment
+## Deployment
 
 - Use Vercel for integrated features or self-host with Node or Docker
 - Test SSR and static outputs thoroughly
 - Keep environment variables secure, never expose private values on the client
 
-# Testing And Linting
+## Testing And Linting
 
 - Use `next lint` with ESLint and integrate Prettier
 - Use Jest, React Testing Library, or Cypress for testing
 - Keep test files near related components
 
-# Dos
+## Dos
 
 - Do organize routes and components in the `app` directory
 - Do leverage Server Components for data fetching
@@ -100,7 +100,7 @@ alwaysApply: false
 - Do optimize images with the `<Image />` component
 - Do separate server and client logic carefully
 
-# Donts
+## Donts
 
 - Dont mix the `pages` and `app` directories for routing
 - Dont fetch data in Client Components if it can be done on the server

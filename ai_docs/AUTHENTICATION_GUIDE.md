@@ -6,7 +6,7 @@
 **Complexity:** Very Low  
 **Cost:** Free tier available
 
-### Why Clerk is the Fastest:
+### Why Clerk is the Fastest
 
 1. ✅ **Drop-in Components** - Pre-built UI components
 2. ✅ **Zero Backend Code** - Fully managed service
@@ -15,7 +15,7 @@
 5. ✅ **User Management** - Dashboard included
 6. ✅ **Works with Next.js 15** - First-class support
 
-### Setup Steps:
+### Setup Steps
 
 #### 1. Install Clerk
 
@@ -236,7 +236,7 @@ CLERK_SECRET_KEY=...
 
 ## 💡 **Pro Tips**
 
-### With Clerk + API Approach:
+### With Clerk + API Approach
 
 ```typescript
 // Get Clerk token to send to your API

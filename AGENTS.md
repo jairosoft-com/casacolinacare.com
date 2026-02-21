@@ -57,7 +57,7 @@ server-first architecture.
 
 ### Key Directories
 
-```
+```text
 src/
 ├── app/                    # App Router pages and API routes
 │   ├── (group)/            # Route groups — logical organization without affecting URL path

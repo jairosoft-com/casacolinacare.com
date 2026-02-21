@@ -254,7 +254,7 @@ related code together.
 The following table serves as a consolidated checklist for a robust Jest
 configuration in a Next.js project.
 
-**Table 1: Jest Configuration Cheatsheet for Next.js**
+#### Table 1: Jest Configuration Cheatsheet for Next.js
 
 | Configuration Option    | File           | Example Value                                         | Purpose                                                                                                     |
 | :---------------------- | :------------- | :---------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
@@ -301,7 +301,7 @@ provides a more authentic testing environment by simulating a real API server.16
 The following table provides a pattern-based guide for these framework-aware
 mocking strategies.
 
-**Table 2: Mocking Strategies for Common Next.js Scenarios**
+#### Table 2: Mocking Strategies for Common Next.js Scenarios
 
 | Scenario to Mock                    | Recommended Tool/Pattern              | Core Implementation Snippet                                                                                 |
 | :---------------------------------- | :------------------------------------ | :---------------------------------------------------------------------------------------------------------- |
@@ -325,7 +325,7 @@ This walkthrough demonstrates the iterative process of building a simple Counter
 component. The focus is on testing user-facing behavior rather than
 implementation details, using the React Testing Library's philosophy.15
 
-**Iteration 1: Initial Render**
+#### Iteration 1: Initial Render
 
 - **RED: Write a failing test for the initial state.** The first requirement is
   that the component should render with an initial count of 0\.  
@@ -364,7 +364,7 @@ implementation details, using the React Testing Library's philosophy.15
 - **REFACTOR: Clean up the code.** The current code is simple enough and
   requires no refactoring.
 
-**Iteration 2: Increment Functionality**
+#### Iteration 2: Increment Functionality
 
 - **RED: Write a failing test for the increment action.** The next requirement
   is that clicking the "Increment" button should increase the count to 1\. This
@@ -426,7 +426,7 @@ elements using queries that reflect the user experience. The following table,
 based on the React Testing Library's recommended priority, provides a structured
 guide for choosing the best query.
 
-**Table 3: React Testing Library Query Priority Guide**
+#### Table 3: React Testing Library Query Priority Guide
 
 | Priority | Query Type           | Example                                         | Rationale                                                                                  |
 | :------- | :------------------- | :---------------------------------------------- | :----------------------------------------------------------------------------------------- |
@@ -445,7 +445,7 @@ UI.34 This example outlines the TDD process for a simple
 
 useToggle hook.
 
-**Iteration 1: Initial State**
+#### Iteration 1: Initial State
 
 - **RED: Write a failing test for the initial state.** The hook should
   initialize with a value of false. The renderHook utility from
@@ -479,7 +479,7 @@ useToggle hook.
   This test passes, but the code is incomplete. The next test will drive further
   implementation.
 
-**Iteration 2: Toggle Functionality**
+#### Iteration 2: Toggle Functionality
 
 - **RED: Write a failing test for the toggle action.** Calling the toggle
   function should change the value from false to true. State updates in hook
@@ -531,7 +531,7 @@ an expert-level technique for achieving this separation.14
 This example builds an API route /api/definitions that validates a query
 parameter.
 
-**Iteration 1: Missing Query Parameter**
+#### Iteration 1: Missing Query Parameter
 
 - **RED: Write a failing test for the validation logic.** The test will use
   node-mocks-http to create mock request (req) and response (res) objects. It
@@ -831,7 +831,7 @@ long-term viability of the software being built. It is a future where best
 practices are not just recommended but are systematically enforced, leading to a
 new standard of engineering excellence.
 
-#### **Works cited**
+### **Works cited**
 
 1. Test‑driven development: principles, tools & pitfalls \- Statsig, accessed
    July 2, 2025,

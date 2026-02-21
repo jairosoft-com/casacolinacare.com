@@ -14,8 +14,8 @@
 3. [Goals & Success Metrics](#3-goals--success-metrics)
 4. [Prerequisites & Dependencies](#4-prerequisites--dependencies)
 5. [User Stories](#5-user-stories)
-6. [Functional Requirements](#6-functional-requirements)
-7. [Non-Functional Requirements](#7-non-functional-requirements)
+6. [Functional Requirements](#6-functional-requirements-ears-notation)
+7. [Non-Functional Requirements](#7-non-functional-requirements-ears-notation)
 8. [Technical Specifications](#8-technical-specifications)
 9. [Content Specifications](#9-content-specifications)
 10. [Design Specifications](#10-design-specifications)
@@ -38,7 +38,7 @@ for aging parents in Hawaii Kai, Hawaii.
 
 ### 1.2 Key Stakeholders
 
-- **Business Owner:** Kriss (kriss@casacolinacare.com)
+- **Business Owner:** Kriss (<kriss@casacolinacare.com>)
 - **Target Audience:** Adult children (ages 35-65) researching care options
 - **Development Team:** AI-assisted development following TDD methodology
 - **Hosting Provider:** Vercel (free tier)
@@ -268,7 +268,7 @@ A modern, responsive marketing website that:
 - [ ] Business information verification
   - Exact address: 189 Anapalua Street, Hawaii Kai, HI 96825
   - Phone number: +1 (800) 888-8888
-  - Email: kriss@casacolinacare.com
+  - Email: <kriss@casacolinacare.com>
   - Business hours: Monday-Saturday, 8am-6pm
 
 **High Priority:**
@@ -1672,7 +1672,7 @@ Scenario: Graceful degradation for unsupported browsers
 
 - **FR-17:** WHEN the `POST /api/contact` endpoint receives valid form data, the
   system shall send an HTML-formatted email via Resend containing all form
-  fields to kriss@casacolinacare.com.
+  fields to <kriss@casacolinacare.com>.
 
 - **FR-18:** The system shall store the Resend API key server-side only and
   shall never expose it to the client.
@@ -1879,7 +1879,7 @@ Scenario: Graceful degradation for unsupported browsers
 
 **Component Hierarchy:**
 
-```
+```text
 src/components/
 ├── ui/                    # Universal, stateless UI primitives (Button, Input, Card)
 ├── layout/                # Major structural components (Header, Footer, MobileNav)
@@ -2100,7 +2100,7 @@ export type ContactFormData = z.infer<typeof contactFormSchema>;
 
 **Plain Text Fallback:**
 
-```
+```text
 New Consultation Request
 
 Name: {firstName} {lastName}
@@ -2676,7 +2676,7 @@ transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
 ### 11.2 Testing Pyramid
 
-```
+```text
         /\
        /  \
       / E2E \          10% - Critical user journeys
@@ -2699,7 +2699,7 @@ transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
 **Test File Organization:**
 
-```
+```text
 tests/unit/
 ├── components/
 │   ├── layout/
@@ -3036,7 +3036,7 @@ NODE_ENV=development
 **Pre-Launch (Critical):**
 
 - [ ] Resend account created and domain verified
-- [ ] Test email sent successfully to kriss@casacolinacare.com
+- [ ] Test email sent successfully to <kriss@casacolinacare.com>
 - [ ] All environment variables configured in Vercel
 - [ ] Custom domain (casacolinacare.com) connected
 - [ ] SSL certificate verified (automatic via Vercel)
@@ -3056,7 +3056,7 @@ NODE_ENV=development
 
 - [ ] Monitor error logs in Vercel
 - [ ] Verify contact form submissions working
-- [ ] Check email delivery to kriss@casacolinacare.com
+- [ ] Check email delivery to <kriss@casacolinacare.com>
 - [ ] Monitor Lighthouse scores in production
 - [ ] Verify Google indexing status
 - [ ] Set up uptime monitoring (UptimeRobot or similar)
@@ -3069,7 +3069,7 @@ NODE_ENV=development
 
 - Service: UptimeRobot (free tier)
 - Check interval: 5 minutes
-- Alert email: kriss@casacolinacare.com
+- Alert email: <kriss@casacolinacare.com>
 - Pages to monitor: /, /contact, /api/contact
 
 **Error Tracking:**

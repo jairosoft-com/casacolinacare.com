@@ -437,12 +437,12 @@ templates from:
 
 ## **Appendix B: Technical Reference Links**
 
-- **Taskfile Documentation**: https://taskfile.dev/
-- **Taskfile Usage Guide**: https://taskfile.dev/usage/
-- **Taskfile Installation**: https://taskfile.dev/installation/
+- **Taskfile Documentation**: <https://taskfile.dev/>
+- **Taskfile Usage Guide**: <https://taskfile.dev/usage/>
+- **Taskfile Installation**: <https://taskfile.dev/installation/>
 - **Docker CLI Reference**:
-  https://docs.docker.com/engine/reference/commandline/cli/
-- **Docker Compose CLI**: https://docs.docker.com/compose/reference/
+  <https://docs.docker.com/engine/reference/commandline/cli/>
+- **Docker Compose CLI**: <https://docs.docker.com/compose/reference/>
 
 ---
 

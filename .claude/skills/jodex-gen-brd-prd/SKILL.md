@@ -38,7 +38,7 @@ user-invocable: true
 ### Document Type Decision Matrix
 
 | Use Case | Document Type | Primary Audience | Lifecycle |
-|----------|--------------|------------------|-----------|
+| -------- | ------------- | ---------------- | --------- |
 | Need executive buy-in, budget approval, strategic alignment | **BRD** | Executives, sponsors, stakeholders | Static, formally approved at inception |
 | Planning features, defining user stories, guiding development | **PRD** | Product managers, engineers, designers, QA | Living document, evolves iteratively |
 | Small-to-medium projects where strategy and execution are tightly coupled | **Unified BRD-PRD** | All stakeholders + delivery team | Hybrid: strategic sections static, tactical sections evolve |
@@ -62,7 +62,7 @@ Ask only critical questions where the initial prompt is ambiguous. Use lettered 
 
 ### Essential Questions Framework
 
-```
+```text
 1. What is the primary business objective?
    A. Increase revenue/conversions
    B. Reduce costs/improve efficiency
@@ -105,9 +105,11 @@ This lets users respond with "1A, 2C, 3E, 4A, 5B" for quick iteration.
 ## Step 2: Core Principles for Requirements Excellence
 
 ### The Golden Thread Principle
+
 Every requirement must trace back to a business objective. If you cannot draw a line from a technical specification to a business goal, that requirement is suspect.
 
 **Implementation:** Use explicit linking in your documents:
+
 - User stories include "Validates: [OBJ-XX or GOAL-XX]" field
 - Acceptance criteria are numbered (AC-XXX-01, AC-XXX-02, etc.)
 - Functional requirements include "Supports: [US-XXX]" notation
@@ -115,6 +117,7 @@ Every requirement must trace back to a business objective. If you cannot draw a 
 - This creates complete bidirectional traceability from test code to business value
 
 ### Machine-Readability First
+
 - **Plain Language:** Avoid jargon, use direct statements
 - **Clear Hierarchy:** Use semantic headings (#, ##, ###)
 - **Structured Formats:** Tables and lists over prose
@@ -122,6 +125,7 @@ Every requirement must trace back to a business objective. If you cannot draw a 
 - **Markdown Format:** Preserve semantic structure for AI parsing
 
 ### Structured Requirements Language
+
 - **User Stories:** "As a [user type], I want [goal] so that [benefit]"
   - Each user story must include a "Validates:" field linking back to the business objective or goal it supports
 - **Gherkin Acceptance Criteria:** Given-When-Then format for testability
@@ -130,10 +134,11 @@ Every requirement must trace back to a business objective. If you cannot draw a 
 - **INVEST User Stories:** Independent, Negotiable, Valuable, Estimable, Small, Testable
 
 ### The Measurability Mandate
+
 **Vague requirements are untestable.** Transform every subjective statement into an objective, measurable criterion:
 
 | ❌ Vague (Avoid) | ✅ Measurable (Use) |
-|------------------|---------------------|
+| ---------------- | ------------------- |
 | "The system should be fast" | "95% of API requests must return in <200ms under 1,000 concurrent users" |
 | "The site should be secure" | "All PII encrypted at rest using AES-256; passwords hashed using bcrypt" |
 | "Easy to use" | "First-time users complete checkout in <3 minutes without assistance" |
@@ -177,6 +182,7 @@ Gherkin is a structured language for writing testable acceptance criteria using 
 - **And/But:** Extend any step with additional conditions
 
 **Example:**
+
 ```gherkin
 Scenario: Successful user login
   Given I am on the login page
@@ -201,7 +207,7 @@ Scenario: Successful user login
 
 4. **Use Real Data in Examples:**
    - ❌ "Given I enter a valid email"
-   - ✅ "Given I enter 'user@example.com' as my email"
+   - ✅ "Given I enter `user@example.com` as my email"
 
 #### Complete User Story Template with Gherkin
 
@@ -210,6 +216,7 @@ Scenario: Successful user login
 ### INVEST Criteria for User Stories
 
 Ensure user stories are:
+
 - **I**ndependent: Self-contained
 - **N**egotiable: Starting point for conversation
 - **V**aluable: Delivers clear user value
@@ -236,7 +243,8 @@ Each user story must follow this format:
 **Validates:** [OBJ-XX, GOAL-XX, or NFR-XX that this story supports]
 ```
 
-**Important:** 
+**Important:**
+
 - Number each acceptance criterion (AC-XXX-01, AC-XXX-02, etc.) for traceability
 - The "Validates:" field maintains the golden thread by explicitly linking each user story back to its business justification
 - Test cases will reference these AC IDs to complete the traceability chain
@@ -244,6 +252,7 @@ Each user story must follow this format:
 ### Writing Best Practices
 
 #### When Creating BRDs
+
 1. **Collaborate Early**: Engage stakeholders from the start
 2. **Write Executive Summary Last**: After all sections are complete
 3. **Use SMART Goals**: Specific, Measurable, Achievable, Relevant, Time-bound
@@ -252,6 +261,7 @@ Each user story must follow this format:
 6. **Formal Approval**: Get sign-off before development
 
 #### When Creating PRDs
+
 1. **Co-Create with Team**: Product, design, and engineering together - never write in a silo
 2. **Focus on Problem, Not Solution**: Empower team to find best "how"
 3. **Keep It Living**: Update continuously as decisions are made - PRD is never "done"
@@ -270,12 +280,14 @@ Each user story must follow this format:
 ### File Naming & Location
 
 **BRD Files:**
+
 - **Format:** Markdown (`.md`)
 - **Location:** `docs/` or project root
 - **Filename:** `brd-[project-name].md` (kebab-case)
 - Example: `brd-user-authentication.md`
 
 **PRD Files:**
+
 - **Format:** Markdown (`.md`)
 - **Location:** `docs/` or `tasks/`
 - **Filename:** `prd-[feature-name].md` (kebab-case)
@@ -284,6 +296,7 @@ Each user story must follow this format:
 ### Output Format Standards
 
 Always output in Markdown with:
+
 - Semantic heading hierarchy (# ## ###)
 - Tables for structured data
 - Bullet/numbered lists for items
@@ -295,6 +308,7 @@ Always output in Markdown with:
 ## Checklist Before Saving
 
 ### BRD Checklist
+
 - [ ] Asked clarifying questions with lettered options
 - [ ] Incorporated user's answers
 - [ ] All objectives are SMART goals
@@ -305,6 +319,7 @@ Always output in Markdown with:
 - [ ] Saved to `docs/brd-[project-name].md`
 
 ### PRD Checklist
+
 - [ ] Asked clarifying questions with lettered options
 - [ ] Problem statement includes quantitative AND qualitative evidence
 - [ ] Success metrics defined before solution design
@@ -318,6 +333,7 @@ Always output in Markdown with:
 - [ ] Saved to `docs/prd-[feature-name].md` or `tasks/prd-[feature-name].md`
 
 ### Test Implementation Checklist
+
 - [ ] Each test case includes "Validates:" field referencing US-XXX and AC-XXX-XX
 - [ ] Test cases use numbered IDs (TC-001, TC-002, etc.)
 - [ ] Test type and framework clearly specified
@@ -357,15 +373,19 @@ This ensures every test traces back through acceptance criteria to user stories 
 Let's trace a complete golden thread from business objective to testable criterion:
 
 **1. Business Objective (BRD):**
+
 - OBJ-01: Increase e-commerce conversion rate by 5% within 6 months
 
 **2. User Research Insight:**
+
 - Data shows: Every 1 second of page load delay beyond 2s reduces conversion by 7%
 
 **3. Measurable NFR (PRD):**
+
 - NFR-01: All customer-facing pages must achieve Largest Contentful Paint (LCP) < 2.5s on 4G mobile
 
 **4. User Story:**
+
 - US-015: As a mobile shopper, I want pages to load quickly, so that I can complete my purchase without frustration.
 - **Validates:** OBJ-01 (Increase e-commerce conversion rate by 5%)
 

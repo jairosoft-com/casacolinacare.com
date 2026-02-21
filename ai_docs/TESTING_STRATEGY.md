@@ -2,7 +2,7 @@
 
 ## 🎯 **Coverage Goals**
 
-**Target: 60% Overall Coverage**
+### Target: 60% Overall Coverage
 
 This is a balanced approach that ensures quality without over-testing:
 
@@ -30,7 +30,7 @@ This is a balanced approach that ensures quality without over-testing:
 
 ## 🧪 **Testing Pyramid**
 
-```
+```text
         /\
        /  \      E2E Tests (10%)
       /----\     - Critical user journeys
@@ -456,7 +456,7 @@ afterEach(() => {
 
 After running `npm test -- --coverage`:
 
-```
+```text
 coverage/
 ├── index.html          # Main report (open in browser)
 ├── lcov.info          # For CI/CD tools

@@ -182,7 +182,7 @@ docker-compose up -d
 
 ### **New Files:**
 
-```
+```text
 src/lib/api/
   ├── client.ts              ✅ API client
   ├── types.ts               ✅ Type definitions
@@ -208,7 +208,7 @@ Root files:
 
 ### **Modified Files:**
 
-```
+```text
 next.config.ts          ✅ Added output: 'standalone'
 vitest.config.ts        ✅ Added 60% coverage thresholds
 package.json            ✅ Added Zustand
@@ -367,7 +367,7 @@ vercel --prod
 
 ## 📊 **Architecture Summary**
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │        Next.js 15 App (Frontend)        │
 │                                         │

@@ -11,7 +11,7 @@ files to **exclude from the build context** when building an image.
 
 ### **Your Project Without .dockerignore:**
 
-```
+```text
 Total build context: ~600MB+
 
 556MB  node_modules/      ← 93% of build context!
@@ -24,7 +24,7 @@ Total build context: ~600MB+
 
 ### **With Optimized .dockerignore:**
 
-```
+```text
 Total build context: ~5-10MB
 
 Only includes:
@@ -43,7 +43,7 @@ Only includes:
 
 ### **1. Build Speed**
 
-```
+```text
 Without .dockerignore:
   Sending build context: 600MB+ (30-60 seconds)
 
@@ -55,7 +55,7 @@ Savings: 50-95% faster builds!
 
 ### **2. Image Size**
 
-```
+```text
 Without proper exclusions:
   Final image: ~1.2GB
 
@@ -67,7 +67,7 @@ Savings: 60-70% smaller!
 
 ### **3. Security**
 
-```
+```text
 Without .dockerignore:
   ❌ .env files → Secrets in image
   ❌ .git/ → Entire git history
@@ -265,7 +265,7 @@ postcss.config.js      # ✅ Keep
 
 ### **Case 1: Tests in Docker**
 
-**Option A: Exclude Tests (Production)**
+#### Option A: Exclude Tests (Production)
 
 ```dockerfile
 # .dockerignore
@@ -276,7 +276,7 @@ tests/
 
 **Use when:** Building production images
 
-**Option B: Include Tests (CI/CD)**
+#### Option B: Include Tests (CI/CD)
 
 ```dockerfile
 # .dockerignore
@@ -504,7 +504,7 @@ docker images | grep myapp
 
 ### **Before:**
 
-```
+```text
 Build context: ~600MB
 Build time: 2-3 minutes
 Final image: ~1GB
@@ -512,7 +512,7 @@ Final image: ~1GB
 
 ### **After:**
 
-```
+```text
 Build context: ~5-10MB (98% reduction)
 Build time: 30-60 seconds (60-80% faster)
 Final image: ~300-400MB (60% reduction)
@@ -520,7 +520,7 @@ Final image: ~300-400MB (60% reduction)
 
 ### **Files Excluded:**
 
-```
+```text
 556MB  node_modules/      ✓
  22MB  .next/             ✓
 340KB  .git/              ✓
@@ -531,7 +531,7 @@ Final image: ~300-400MB (60% reduction)
 
 ### **Files Included:**
 
-```
+```text
 ✅ src/                   (source code)
 ✅ public/                (static assets)
 ✅ package.json           (dependencies)

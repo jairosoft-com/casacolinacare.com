@@ -402,7 +402,7 @@ export async function POST(request: NextRequest) {
 
 ## 🏗️ **Recommended Architecture for Your Project**
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         Next.js App (Frontend)              │
 │                                             │

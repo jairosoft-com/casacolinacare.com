@@ -14,7 +14,7 @@ automatically:
 
 ### **1. Test Artifacts (516KB)**
 
-```
+```text
 playwright-report/     512KB   ← HTML test report
 test-results/            4KB   ← Test metadata
 ```
@@ -23,7 +23,7 @@ test-results/            4KB   ← Test metadata
 
 ### **2. Build Cache (228KB)**
 
-```
+```text
 tsconfig.tsbuildinfo   228KB   ← TypeScript incremental build cache
 ```
 
@@ -31,7 +31,7 @@ tsconfig.tsbuildinfo   228KB   ← TypeScript incremental build cache
 
 ### **3. IDE Caches (68KB)**
 
-```
+```text
 .cursor/                64KB   ← Cursor IDE cache & screenshots
 .claude/                 4KB   ← Claude AI settings
 ```
@@ -173,7 +173,7 @@ npm run build
 
 ## 💾 **Disk Space Savings**
 
-```
+```text
 Before Cleanup:
   Project files: ~1.5MB
   Cache & artifacts: ~812KB
@@ -208,7 +208,7 @@ Savings: ~54% reduction in tracked files
 
 ### **What's in .gitignore (Auto-Ignored)**
 
-```
+```text
 node_modules/
 .next/
 coverage/
@@ -223,7 +223,7 @@ These won't be committed even if they exist.
 
 ### **What Should Be Committed**
 
-```
+```text
 src/
 tests/
 ai_docs/
