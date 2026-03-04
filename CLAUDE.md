@@ -2,6 +2,73 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Memory
+
+### Me
+**Ramon Aseniero**, solo developer at Jairosoft (ramon@jairosoft.com). Builds and maintains the Casa Colina Care website end-to-end.
+
+### People
+
+| Who | Role |
+|-----|------|
+| **Ramon** | Ramon Aseniero, developer & project owner (raseniero@gmail.com) |
+| **Kriss** | Kriss Judd, business owner — Casa Colina Care LLC (kriss@casacolinacare.com) |
+
+→ Full profiles: memory/people/
+
+### Terms
+
+| Term | Meaning |
+|------|---------|
+| RSC | React Server Component |
+| SSG | Static Site Generation |
+| CTA | Call to Action (banner component) |
+| US-XXX | User Story (e.g. US-001 = Header Nav) |
+| PRD | Product Requirements Document |
+| ADO | Azure DevOps — project management & work tracking |
+| ralph | AI agent branch prefix (ralph/US-XXX) |
+| jodex | AI skill prefix for doc generation |
+| shadcn | shadcn/ui component library |
+| 002 | PRD #002 — initial site build (10 user stories) |
+| 004 | PRD #004 — contact info update |
+
+→ Full glossary: memory/glossary.md
+
+### Work Tracking (Azure DevOps)
+
+| Resource | URL |
+|----------|-----|
+| **ADO Project** | https://dev.azure.com/jairo/CasaColinaCare.com |
+| **Team Board** | https://dev.azure.com/jairo/CasaColinaCare.com/_boards/board/t/CasaColinaCare.com%20Team/Stories |
+
+→ All user stories, features, and epics are created and tracked here.
+
+### Active Project
+
+| Name | What |
+|------|------|
+| **Casa Colina Website** | Marketing site for care home in Hawaii Kai. Initial build complete, in maintenance phase. |
+
+→ Details: memory/projects/
+
+### Meeting Notes (Otter.ai)
+- All meeting notes and transcripts are captured in **Otter.ai**
+- Search Otter for any CasaColinaCare.com related meetings and discussions
+
+### Preferences
+- Evening work sessions (peak at 10 PM)
+- Sprint-driven development (concentrated bursts)
+- Conventional commits, feature branches, PR workflow
+- AI-assisted development (ralph agent, jodex doc gen)
+
+### Known Issues
+1. CTA banner has placeholder phone number (+1 800 888-8888)
+2. Testimonial section uses placeholder text
+3. Validators utility empty (validation duplicated)
+4. Business info not fully centralized in constants.ts
+
+---
+
 ## What This Project Is
 
 Marketing website for **Casa Colina Care LLC**, a licensed residential care home
