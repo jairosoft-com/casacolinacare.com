@@ -1,5 +1,5 @@
 ---
-name: jodex-gen-tds
+name: cc-gen-tds
 description: Transforms PRDs into comprehensive, machine-readable Technical Design Documents following modern minimalist principles and best practices.
 user-invocable: true
 ---

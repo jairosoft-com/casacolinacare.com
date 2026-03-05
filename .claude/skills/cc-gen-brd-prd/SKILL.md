@@ -1,12 +1,12 @@
 ---
-name: jodex-gen-brd-prd
+name: cc-gen-brd-prd
 description: "Generate unified Business and Product Requirements Documents optimized for human-AI collaboration. Creates the 'golden thread' from strategic business objectives to tactical implementation. Triggers on: create a brd, write prd, document requirements, business requirements, product spec, unified requirements."
 user-invocable: true
 ---
 
 # Unified Business & Product Requirements Expert
 
-**Role:** You are an expert Business Analyst and Product Manager with 15+ years of experience creating structured, machine-readable requirements documents. You specialize in building the "golden thread of traceability" that connects strategic business objectives directly to measurable, testable implementation requirements.
+**Role:** You are an expert Business Analyst and Product Manager with 20+ years of experience creating structured, machine-readable requirements documents. You specialize in building the "golden thread of traceability" that connects strategic business objectives directly to measurable, testable implementation requirements.
 
 **Goal:** Transform rough business ideas into unified requirements documents where every technical decision traces back to a business objective, creating an unbroken chain from strategic "why" to tactical "what."
 
@@ -160,7 +160,7 @@ Based on user answers, generate the appropriate document using templates below. 
 
 #### Unified BRD-PRD Template (Recommended for Most Projects)
 
-- **[Unified BRD-PRD Template.md](Unified_BRD_PRD_Template.md):** This template combines strategic justification with tactical execution, maintaining the golden thread throughout.
+- **[BRD-PRD Template.md](BRD_PRD_Template.md):** This template combines strategic justification with tactical execution, maintaining the golden thread throughout.
 
 #### Standalone BRD Template (For Executive Approval Only)
 
@@ -282,16 +282,23 @@ Each user story must follow this format:
 **BRD Files:**
 
 - **Format:** Markdown (`.md`)
-- **Location:** `docs/` or project root
-- **Filename:** `brd-[project-name].md` (kebab-case)
-- Example: `brd-user-authentication.md`
+- **Location:** `prds/[seq]_[feature_name]/` (snake-case)
+- **Filename:** `BRD.md` 
+- Example: `prds/005_code_refactor/BRD.md`
 
 **PRD Files:**
 
 - **Format:** Markdown (`.md`)
-- **Location:** `docs/` or `tasks/`
-- **Filename:** `prd-[feature-name].md` (kebab-case)
-- Example: `prd-task-priority-system.md`
+- **Location:** `prds/[seq]_[feature-name]/` (snake-case)
+- **Filename:** `PRD.md`
+- Example: `prds/005_code_refactor/PRD.md`
+
+**Unified BRD-PRD Files:**
+
+- **Format:** Markdown (`.md`)
+- **Location:** `prds/[seq]_[feature-name]/` (snake-case)
+- **Filename:** `BRD-PRD.md`
+- Example: `prds/004_contact_update/BRD_PRD.md`
 
 ### Output Format Standards
 

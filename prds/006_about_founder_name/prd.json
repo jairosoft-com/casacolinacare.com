@@ -1,0 +1,48 @@
+{
+  "project": "CasaColinaCare",
+  "featureName": "about-founder-name-correction",
+  "featureId": "006",
+  "description": "Correct founder name from 'Kriss Judd' to 'Kriss Aseniero' on the About page and in all documentation references",
+  "detailedPrdPath": "BRD_PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Update founder name in About page team section",
+      "description": "As a site visitor viewing the About page, I want to see the correct founder name 'Kriss Aseniero' so that I have accurate information about who runs the care home.",
+      "technicalSpecSection": "#31-us-001-update-founder-name-in-about-page",
+      "acceptanceCriteria": [
+        "The `team` array entry at index 0 has `name: 'Kriss Aseniero'`",
+        "The string `'Kriss Judd'` does not appear anywhere in `src/app/about/page.tsx`",
+        "The About page renders 'Kriss Aseniero' in the team section (verified by unit test)",
+        "Lint passes (`npm run lint` exits 0)",
+        "Typecheck passes (`npm run type-check` exits 0)",
+        "Unit tests pass (`npm test -- --run` exits 0)",
+        "E2E tests pass (`npm run test:e2e`)",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Update documentation references",
+      "description": "As a developer or AI assistant working on the codebase, I want all documentation to reference the correct name 'Kriss Aseniero' so that the incorrect name does not propagate into future work.",
+      "technicalSpecSection": "#32-us-002-update-documentation-references",
+      "acceptanceCriteria": [
+        "`CLAUDE.md` People table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+        "The file `memory/people/kriss-judd.md` no longer exists",
+        "The file `memory/people/kriss-aseniero.md` exists with heading '# Kriss Aseniero'",
+        "`memory/glossary.md` Nicknames table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+        "`memory/projects/casacolinacare-website.md` Key People lists 'Kriss Aseniero' (not 'Kriss Judd')",
+        "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results",
+        "Lint passes (`npm run lint` exits 0)",
+        "Typecheck passes (`npm run type-check` exits 0)"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

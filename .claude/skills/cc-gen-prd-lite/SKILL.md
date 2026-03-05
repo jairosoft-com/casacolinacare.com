@@ -1,5 +1,5 @@
 ---
-name: jodex-gen-prd-lite
+name: cc-gen-prd-lite
 description: "Generate streamlined Product Requirements Documents with built-in traceability. Balances speed with rigor for mid-sized features. Triggers on: create prd, write requirements, plan feature, document feature, feature spec."
 user-invocable: true
 ---
