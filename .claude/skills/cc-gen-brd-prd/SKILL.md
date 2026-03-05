@@ -24,6 +24,8 @@ user-invocable: true
 
 **Important:** Do NOT start implementing. Just create the document.
 
+**Important:** Do NOT create `prd.json`. That is the responsibility of the `cc-gen-prd-task` skill, which should run after the Technical Spec is written.
+
 ---
 
 ## Understanding the Duality: BRD vs PRD vs Unified
