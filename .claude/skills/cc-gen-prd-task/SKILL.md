@@ -1,6 +1,6 @@
 ---
 name: cc-gen-prd-task
-description: "Convert PRDs to prd.json format for the Ralph autonomous agent system. Use when you have an existing PRD and need to convert it to Ralph's JSON format. Triggers on: convert this prd, turn this into ralph format, create prd.json from this, ralph json."
+description: "Convert a PRD.md or BRD_PRD.md into canonical prd.json for Ralph autonomous execution. Preserve folder-based IDs from the source requirements document and emit TECH_SPEC.md references when available. Triggers on: convert this prd, turn this into ralph format, create prd.json from this, ralph json."
 user-invocable: true
 ---
 
@@ -12,20 +12,20 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 ## The Job
 
-Take a PRD (markdown file or text) and convert it to `prd.json` in your ralph directory.
+Take a source requirements document (`PRD.md` or `BRD_PRD.md`) and convert it to `prd.json` in the same feature folder.
 
 ---
 
 ## Feature to User Story Relationship
 
-**One PRD.md = One Feature = One prd.json**
+**One source requirements document = One Feature = One prd.json**
 
-- Each PRD.md describes a single feature
+- Each `PRD.md` or `BRD_PRD.md` describes a single feature
 - That feature is broken down into multiple user stories
 - Each user story becomes one entry in the `userStories` array
 - All stories in prd.json belong to the same feature
 
-If you have multiple features, create separate PRD.md files and convert each one individually.
+If you have multiple features, create separate requirements documents and convert each one individually.
 
 ---
 
@@ -35,24 +35,25 @@ If you have multiple features, create separate PRD.md files and convert each one
 {
   "project": "[Project Name]",
   "featureName": "[feature-name-kebab-case]",
-  "featureId": "[Feature id from the the PRD]",
+  "featureId": "[3-digit feature number from the folder name]",
   "description": "[Feature description from PRD title/intro]",
-  "detailedPrdPath": "PRD.md",
+  "detailedPrdPath": "[PRD.md or BRD_PRD.md]",
   "technicalSpecPath": "TECH_SPEC.md",
   "userStories": [
     {
-      "id": "US-001",
+      "id": "US-007-01",
       "title": "[Story title]",
       "description": "As a [user], I want [feature] so that [benefit]",
-      "technicalSpecSection": "#32-us-001-update-schemaorg-structured-data",
+      "technicalSpecSection": "#31-us-007-01-story-title",
       "acceptanceCriteria": [
-        "Criterion 1",
-        "Criterion 2",
-        "Lint passes (run project's lint command)",
-        "Typecheck passes (run project's typecheck command)",
-        "Unit tests pass",
-        "E2E tests pass (if UI story)",
-        "Verify in browser using dev-browser skill (if UI story)"
+        {
+          "id": "AC-007-01",
+          "text": "Criterion 1"
+        },
+        {
+          "id": "AC-007-02",
+          "text": "Criterion 2"
+        }
       ],
       "priority": 1,
       "passes": false,
@@ -144,18 +145,19 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
 ## Conversion Rules
 
 1. **Each user story becomes one JSON entry**
-2. **IDs**: Sequential (US-001, US-002, etc.)
+2. **IDs**: Preserve source IDs exactly as written in the source document
 3. **Priority**: Based on dependency order, then document order
 4. **All stories**: `passes: false` and empty `notes`
 5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
-6. **detailedPrdPath**: Always set to `PRD.md`
+6. **detailedPrdPath**: Set to the actual source document name (`PRD.md` or `BRD_PRD.md`)
 7. **technicalSpecPath** (optional): Set to `TECH_SPEC.md` if technical specifications are available
 8. **technicalSpecSection** (per story, optional): Set to the markdown heading anchor for each story
    - Anchors are auto-generated from TECH_SPEC.md headings
    - Format: lowercase, spaces→hyphens, special chars removed
-   - Example: `### 3.2 US-001: Update Schema.org Structured Data` → `#32-us-001-update-schemaorg-structured-data`
-   - Example: `### 3.3 US-002: Update Contact Page — Phone, Fax, and Address` → `#33-us-002-update-contact-page--phone-fax-and-address`
-9. **Preserve all acceptance criteria** from the source PRD (quality checks like lint, typecheck, tests are already included by the prd skill)
+   - Example: `### 3.1 US-007-01: Update Schema.org Structured Data` → `#31-us-007-01-update-schemaorg-structured-data`
+   - Example: `### 3.2 US-007-02: Update Contact Page — Phone, Fax, and Address` → `#32-us-007-02-update-contact-page--phone-fax-and-address`
+9. **Acceptance criteria**: Emit canonical objects with `id` and `text`, preserving source IDs exactly
+10. **Preserve all acceptance criteria** from the source PRD (quality checks like lint, typecheck, tests are already included by the PRD skill)
 
 ---
 
@@ -167,12 +169,12 @@ If a feature in your PRD is too large, split it into smaller user stories:
 > "Add user notification system"
 
 **Split into:**
-1. US-001: Add notifications table to database
-2. US-002: Create notification service for sending notifications
-3. US-003: Add notification bell icon to header
-4. US-004: Create notification dropdown panel
-5. US-005: Add mark-as-read functionality
-6. US-006: Add notification preferences page
+1. US-007-01: Add notifications table to database
+2. US-007-02: Create notification service for sending notifications
+3. US-007-03: Add notification bell icon to header
+4. US-007-04: Create notification dropdown panel
+5. US-007-05: Add mark-as-read functionality
+6. US-007-06: Add notification preferences page
 
 Each is one focused change that can be completed and verified independently.
 
@@ -198,40 +200,76 @@ Add ability to mark tasks with different statuses.
 {
   "project": "TaskApp",
   "featureName": "ralph/task-status",
-  "featureId": "00001",
+  "featureId": "007",
   "description": "Task Status Feature - Track task progress with status indicators",
   "detailedPrdPath": "PRD.md",
   "technicalSpecPath": "TECH_SPEC.md",
   "userStories": [
     {
-      "id": "US-001",
+      "id": "US-007-01",
       "title": "Add status field to tasks table",
       "description": "As a developer, I need to store task status in the database.",
-      "technicalSpecSection": "#32-us-001-add-status-field-to-tasks-table",
+      "technicalSpecSection": "#31-us-007-01-add-status-field-to-tasks-table",
       "acceptanceCriteria": [
-        "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
-        "Generate and run migration successfully",
-        "Lint passes (run project's lint command)",
-        "Typecheck passes (run project's typecheck command)",
-        "Unit tests pass"
+        {
+          "id": "AC-007-01",
+          "text": "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')"
+        },
+        {
+          "id": "AC-007-02",
+          "text": "Generate and run migration successfully"
+        },
+        {
+          "id": "AC-007-03",
+          "text": "Lint passes (run project's lint command)"
+        },
+        {
+          "id": "AC-007-04",
+          "text": "Typecheck passes (run project's typecheck command)"
+        },
+        {
+          "id": "AC-007-05",
+          "text": "Unit tests pass"
+        }
       ],
       "priority": 1,
       "passes": false,
       "notes": ""
     },
     {
-      "id": "US-002",
+      "id": "US-007-02",
       "title": "Display status badge on task cards",
       "description": "As a user, I want to see task status at a glance.",
-      "technicalSpecSection": "#33-us-002-display-status-badge-on-task-cards",
+      "technicalSpecSection": "#32-us-007-02-display-status-badge-on-task-cards",
       "acceptanceCriteria": [
-        "Each task card shows colored status badge",
-        "Badge colors: gray=pending, blue=in_progress, green=done",
-        "Lint passes (run project's lint command)",
-        "Typecheck passes (run project's typecheck command)",
-        "Unit tests pass",
-        "E2E tests pass",
-        "Verify in browser using dev-browser skill"
+        {
+          "id": "AC-007-06",
+          "text": "Each task card shows colored status badge"
+        },
+        {
+          "id": "AC-007-07",
+          "text": "Badge colors: gray=pending, blue=in_progress, green=done"
+        },
+        {
+          "id": "AC-007-08",
+          "text": "Lint passes (run project's lint command)"
+        },
+        {
+          "id": "AC-007-09",
+          "text": "Typecheck passes (run project's typecheck command)"
+        },
+        {
+          "id": "AC-007-10",
+          "text": "Unit tests pass"
+        },
+        {
+          "id": "AC-007-11",
+          "text": "E2E tests pass"
+        },
+        {
+          "id": "AC-007-12",
+          "text": "Verify in browser using dev-browser skill"
+        }
       ],
       "priority": 2,
       "passes": false,
@@ -300,9 +338,11 @@ Add ability to mark tasks with different statuses.
 Before writing prd.json, verify:
 
 - [ ] **Previous run archived** (if prd.json exists with different branchName, archive it first)
-- [ ] `detailedPrdPath` field set to `PRD.md`
+- [ ] `detailedPrdPath` field set to the actual source document name (`PRD.md` or `BRD_PRD.md`)
 - [ ] `technicalSpecPath` field set to `TECH_SPEC.md` (if technical specs available)
-- [ ] `technicalSpecSection` set for each user story using full markdown anchor (e.g., `#32-us-001-update-schemaorg-structured-data`)
+- [ ] `technicalSpecSection` set for each user story using full markdown anchor (e.g., `#31-us-007-01-update-schemaorg-structured-data`)
+- [ ] User story IDs preserved exactly from the source document
+- [ ] Acceptance criteria emitted as objects with `id` and `text`
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] Quality criteria present (lint, typecheck, unit tests for all stories; e2e tests and browser verification for UI stories)

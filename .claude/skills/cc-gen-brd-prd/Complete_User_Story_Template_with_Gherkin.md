@@ -1,9 +1,12 @@
 # Feature/Epic Name: [Name]
 
+**Feature ID**: {feature_number} *(e.g., "006", "010", "099" - extracted from folder path)*
 **Priority**: [P0 - Must-have | P1 - High priority | P2 - Nice to have]
 **Summary**: [One-sentence description of feature's purpose and value]
 
 ## User Story
+
+**US-{feature_number}-{seq}**: [User Story Title]
 
 As a **[user persona]**, I want to **[perform an action]** so that I can **[achieve a benefit/value]**.
 
@@ -12,20 +15,22 @@ As a **[user persona]**, I want to **[perform an action]** so that I can **[achi
 ### Acceptance Criteria
 
 **Option A: Checklist (Rule-Oriented)**
-- [ ] [Condition 1 that must be met]
-- [ ] [Condition 2 that must be met]
-- [ ] [Condition 3 that must be met]
+- [ ] AC-{feature_number}-{seq}: [Condition 1 that must be met]
+- [ ] AC-{feature_number}-{seq}: [Condition 2 that must be met]
+- [ ] AC-{feature_number}-{seq}: [Condition 3 that must be met]
+
+**Note:** AC IDs use global sequential numbering across all user stories. Replace `{feature_number}` with the 3-digit feature number (e.g., "006") and `{seq}` with the global AC counter (e.g., "01", "02", "03").
 
 **Option B: Gherkin (Scenario-Based)**
 ```gherkin
-Scenario: [Name of scenario]
+Scenario: [Name of scenario] (AC-{feature_number}-{seq})
   Given [initial context/precondition]
   And [additional context if needed]
   When [specific action taken by user]
   Then [specific, observable outcome]
   And [additional outcome if needed]
 
-Scenario: [Error/edge case scenario]
+Scenario: [Error/edge case scenario] (AC-{feature_number}-{seq})
   Given [error condition context]
   When [action that triggers error]
   Then [expected error handling behavior]
@@ -51,11 +56,13 @@ Scenario: [Error/edge case scenario]
 
 ### Non-Functional Requirements (NFRs)
 
-- **Performance**: [e.g., All pages load in < 2 seconds on 4G connection]
-- **Security**: [e.g., All PII encrypted at rest (AES-256); passwords hashed (bcrypt)]
-- **Usability**: [e.g., First-time users complete workflow in < 3 minutes without help]
-- **Reliability**: [e.g., 99.95% uptime, excluding scheduled maintenance]
-- **Scalability**: [e.g., Support 10,000 concurrent users]
+- **NFR-{feature_number}-{seq}: Performance**: [e.g., All pages load in < 2 seconds on 4G connection]
+- **NFR-{feature_number}-{seq}: Security**: [e.g., All PII encrypted at rest (AES-256); passwords hashed (bcrypt)]
+- **NFR-{feature_number}-{seq}: Usability**: [e.g., First-time users complete workflow in < 3 minutes without help]
+- **NFR-{feature_number}-{seq}: Reliability**: [e.g., 99.95% uptime, excluding scheduled maintenance]
+- **NFR-{feature_number}-{seq}: Scalability**: [e.g., Support 10,000 concurrent users]
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number and `{seq}` with sequential numbers (01, 02, 03, etc.).
 
 ### Open Questions & Decision Log
 

@@ -1,6 +1,6 @@
 ---
 name: cc-gen-brd-prd
-description: "Generate unified Business and Product Requirements Documents optimized for human-AI collaboration. Creates the 'golden thread' from strategic business objectives to tactical implementation. Triggers on: create a brd, write prd, document requirements, business requirements, product spec, unified requirements."
+description: "Generate a unified BRD_PRD.md that combines business justification and tactical product requirements. Use when the work needs executive or stakeholder alignment as well as implementation-ready product detail. Triggers on: create a brd-prd, unified requirements, strategic product spec, business case plus prd."
 user-invocable: true
 ---
 
@@ -14,11 +14,11 @@ user-invocable: true
 
 ## The Job
 
-1. **Determine document type** (BRD for strategic justification, PRD for tactical execution, or Unified for both)
+1. **Prompt for folder path** where the unified document will be saved
 2. **Ask clarifying questions** (3-5 essential questions with lettered options)
 3. **Build the golden thread** connecting business objectives → user stories → acceptance criteria → NFRs
-4. **Generate structured document** with measurable, testable requirements
-5. **Save to appropriate location** with proper naming
+4. **Generate a unified BRD_PRD.md** with measurable, testable requirements
+5. **Save to the specified folder path** with proper naming
 
 **Critical Principle:** Every requirement must trace back to a business objective. Every acceptance criterion must be measurable and testable.
 
@@ -26,9 +26,16 @@ user-invocable: true
 
 **Important:** Do NOT create `prd.json`. That is the responsibility of the `cc-gen-prd-task` skill, which should run after the Technical Spec is written.
 
+**Important:** When this document is later converted to JSON format (by the `cc-gen-prd-task` skill), the `featureId` field in the JSON output MUST be set to the extracted feature_number (e.g., "006", "010", "099"). Ensure the feature_number is clearly documented in the generated markdown document so it can be extracted during JSON conversion.
+
 ---
 
 ## Understanding the Duality: BRD vs PRD vs Unified
+
+### When To Use This Skill
+
+- Use this skill when the request needs both strategic business framing and tactical product requirements in one document.
+- Use `cc-gen-prd-lite` or `cc-gen-prd` instead when the user only needs a PRD.
 
 ### The Two Questions Every Project Must Answer
 
@@ -58,7 +65,196 @@ This thread allows anyone to trace a line of code back to the business objective
 
 ---
 
-## Step 1: Clarifying Questions
+## Step 1: Folder Path Prompt
+
+**Before asking any clarifying questions, prompt the user for the folder path where the document will be saved.**
+
+Display this prompt:
+```
+Where should this document be saved? (e.g., prds/006_about_founder_name/)
+```
+
+**Instructions:**
+- Capture the user's folder path input
+- Store this folder path for use in document generation and file naming
+- The folder path will be validated in Step 1.1
+- Proceed to Step 1.1 after receiving the folder path
+
+---
+
+## Step 1.1: Validate Folder Path
+
+**After receiving the folder path from the user, validate the folder name format before proceeding.**
+
+### Validation Rules
+
+The folder name must follow the pattern: `{NNN}_{feature_name}` where:
+- `{NNN}` is exactly 3 digits (001-999)
+- Followed by an underscore character `_`
+- Followed by the feature name
+
+### Validation Pattern
+
+Use the regex pattern `^(\d{3})_(.+)$` to validate the folder name.
+
+### Validation Steps
+
+1. **Extract the folder name** from the full folder path (e.g., from `prds/006_about_founder_name/` extract `006_about_founder_name`)
+2. **Check that the folder name starts with exactly 3 digits**
+   - The first 3 characters must be numeric digits (0-9)
+   - Must be exactly 3 digits, not 2 or 4
+3. **Verify the 3 digits are followed by an underscore**
+   - The 4th character must be an underscore `_`
+4. **Verify the numeric prefix is between 001 and 999**
+   - Convert the 3-digit prefix to a number
+   - Check that it is >= 001 and <= 999
+   - Reject 000 as invalid
+
+### If Validation Fails
+
+Display an error message in this format:
+
+```
+Invalid folder name format
+
+Expected pattern: {NNN}_{feature_name}
+Example: 006_about_founder_name
+
+Your input: [user's folder name]
+Issue: [specific issue - e.g., "Missing 3-digit numeric prefix at the start" or "Numeric prefix must be between 001 and 999"]
+
+Please provide a valid folder path:
+```
+
+Then allow the user to retry with a corrected folder path. Repeat validation until a valid folder path is provided.
+
+### If Validation Succeeds
+
+**Extract the feature number from the validated folder name:**
+
+1. **Use the regex pattern `^(\d{3})_` to extract the 3-digit prefix**
+   - Apply this pattern to the folder name (not the full path)
+   - The first capture group contains the feature number
+   
+2. **Preserve leading zeros**
+   - The feature number must be kept as a string to maintain leading zeros
+   - Example: "006" must remain "006", NOT "6"
+   - Example: "010" must remain "010", NOT "10"
+   
+3. **Extract from the folder name portion only**
+   - From path `prds/006_about_founder_name/`, extract from `006_about_founder_name`
+   - From path `prd/010_payment_gateway/`, extract from `010_payment_gateway`
+
+**Examples:**
+- Folder name: `006_about_founder_name` → Feature number: `006`
+- Folder name: `010_payment_gateway` → Feature number: `010`
+- Folder name: `099_final_feature` → Feature number: `099`
+
+**After extraction:**
+1. Display confirmation: `Using feature number {feature_number} from folder '{folder_name}'`
+   - Example: "Using feature number 006 from folder '006_about_founder_name'"
+2. **Wait for user confirmation before proceeding**
+   - Ask the user to confirm or provide a corrected folder path
+   - Only proceed to the next step after receiving confirmation
+3. Store the feature number for use in ID generation throughout the document
+4. Proceed to Step 1.2 (ID Generation Format)
+
+---
+
+## Step 1.2: ID Generation Format
+
+**After extracting and confirming the feature number, use it to generate all requirement IDs throughout the document.**
+
+### ID Format Pattern
+
+All requirement IDs must follow this pattern:
+
+```
+{TYPE}-{feature_number}-{seq}
+```
+
+Where:
+- **{TYPE}**: The requirement type (see supported types below)
+- **{feature_number}**: The 3-digit feature number extracted from the folder (e.g., "006", "010", "099")
+- **{seq}**: A 2-digit sequential number with zero-padding (01, 02, 03, ..., 10, 11, etc.)
+
+### Supported ID Types
+
+This skill uses the following ID types:
+
+| ID Type | Description | Example |
+|---------|-------------|---------|
+| **OBJ** | Business Objective | OBJ-006-01 |
+| **GOAL** | Goal | GOAL-006-01 |
+| **US** | User Story | US-006-01 |
+| **AC** | Acceptance Criteria | AC-006-01 |
+| **RISK** | Risk | RISK-006-01 |
+| **NFR** | Non-Functional Requirement | NFR-006-01 |
+| **TC** | Technical Constraint | TC-006-01 |
+| **FR** | Functional Requirement | FR-006-01 |
+
+### Sequential Numbering Rules
+
+1. **Most ID types use independent sequential counters:**
+   - First Business Objective: OBJ-006-01, second: OBJ-006-02, etc.
+   - First User Story: US-006-01, second: US-006-02, etc.
+   - First Risk: RISK-006-01, second: RISK-006-02, etc.
+
+2. **Acceptance Criteria (AC) use GLOBAL sequential numbering:**
+   - AC IDs increment continuously across ALL user stories
+   - Do NOT reset the AC counter for each user story
+   - Example:
+     ```markdown
+     ### US-006-01: User Login
+     - AC-006-01: WHEN user enters valid credentials...
+     - AC-006-02: WHEN user enters invalid credentials...
+     
+     ### US-006-02: User Profile
+     - AC-006-03: WHEN user navigates to profile... (counter continues from 03, not reset to 01)
+     - AC-006-04: WHEN user updates profile...
+     ```
+
+3. **Sequential numbers are always 2 digits with zero-padding:**
+   - First item: 01 (not 1)
+   - Tenth item: 10
+   - Hundredth item: 100 (if needed)
+
+### ID Generation Examples
+
+**For feature number "006":**
+- First user story: `US-006-01`
+- Second user story: `US-006-02`
+- First AC under US-006-01: `AC-006-01`
+- Second AC under US-006-01: `AC-006-02`
+- First AC under US-006-02: `AC-006-03` (global counter continues)
+- Tenth AC overall: `AC-006-10`
+- First risk: `RISK-006-01`
+
+**For feature number "010":**
+- First business objective: `OBJ-010-01`
+- First goal: `GOAL-010-01`
+- Fifth technical constraint: `TC-010-05`
+- First functional requirement: `FR-010-01`
+
+**For feature number "099":**
+- First user story: `US-099-01`
+- First NFR: `NFR-099-01`
+
+### Implementation Instructions
+
+When generating the document:
+
+1. **Initialize counters for each ID type** at the start of document generation
+2. **Maintain a global AC counter** that increments across all user stories
+3. **Use the extracted feature_number** in all generated IDs
+4. **Format sequential numbers with zero-padding** (use 01, 02, not 1, 2)
+5. **Preserve leading zeros in feature_number** (use "006", not "6")
+
+Proceed to Step 2 (Clarifying Questions) after understanding these ID generation rules.
+
+---
+
+## Step 2: Clarifying Questions
 
 Ask only critical questions where the initial prompt is ambiguous. Use lettered options for quick responses.
 
@@ -104,7 +300,7 @@ This lets users respond with "1A, 2C, 3E, 4A, 5B" for quick iteration.
 
 ---
 
-## Step 2: Core Principles for Requirements Excellence
+## Step 3: Core Principles for Requirements Excellence
 
 ### The Golden Thread Principle
 
@@ -148,7 +344,7 @@ Every requirement must trace back to a business objective. If you cannot draw a 
 
 ---
 
-## Step 3: Generate Document
+## Step 4: Generate Document
 
 Based on user answers, generate the appropriate document using templates below. Always build the golden thread from business objectives to testable criteria.
 
@@ -231,25 +427,52 @@ Ensure user stories are:
 Each user story must follow this format:
 
 ```markdown
-### US-XXX: [Descriptive Title]
+### US-{feature_number}-{seq}: [Descriptive Title]
 **As a** [user type]  
 **I want** [feature/capability]  
 **So that** [benefit/value]
 
 **Acceptance Criteria:**
-- [ ] AC-XXX-01: Specific, verifiable criterion (use numbers, not vague terms)
-- [ ] AC-XXX-02: Another measurable criterion
-- [ ] AC-XXX-03: Error handling: [specific error scenario]
-- [ ] AC-XXX-04: Typecheck/lint passes
+- [ ] AC-{feature_number}-{seq}: Specific, verifiable criterion (use numbers, not vague terms)
+- [ ] AC-{feature_number}-{seq}: Another measurable criterion
+- [ ] AC-{feature_number}-{seq}: Error handling: [specific error scenario]
+- [ ] AC-{feature_number}-{seq}: Typecheck/lint passes
 
-**Validates:** [OBJ-XX, GOAL-XX, or NFR-XX that this story supports]
+**Validates:** [OBJ-{feature_number}-{seq}, GOAL-{feature_number}-{seq}, or NFR-{feature_number}-{seq} that this story supports]
 ```
 
 **Important:**
 
-- Number each acceptance criterion (AC-XXX-01, AC-XXX-02, etc.) for traceability
+- Use the feature number extracted from the folder path in all IDs
+- Number each acceptance criterion with global sequential numbering (AC-{feature_number}-01, AC-{feature_number}-02, etc.) for traceability
+- The AC counter increments globally across all user stories, not per story
 - The "Validates:" field maintains the golden thread by explicitly linking each user story back to its business justification
 - Test cases will reference these AC IDs to complete the traceability chain
+
+**Example for feature number "006":**
+```markdown
+### US-006-01: User Login
+**As a** registered user  
+**I want** to log in with my credentials  
+**So that** I can access my account
+
+**Acceptance Criteria:**
+- [ ] AC-006-01: WHEN user enters valid credentials, THEN user is logged in
+- [ ] AC-006-02: WHEN user enters invalid credentials, THEN error message is displayed
+
+**Validates:** OBJ-006-01
+
+### US-006-02: User Profile
+**As a** logged-in user  
+**I want** to view my profile  
+**So that** I can see my account information
+
+**Acceptance Criteria:**
+- [ ] AC-006-03: WHEN user navigates to profile, THEN profile information is displayed (note: global counter continues)
+- [ ] AC-006-04: WHEN user updates profile, THEN changes are saved
+
+**Validates:** OBJ-006-01
+```
 
 ### Writing Best Practices
 
@@ -277,30 +500,47 @@ Each user story must follow this format:
 
 ---
 
-## Step 4: Output & Save
+## Step 5: Output & Save
 
 ### File Naming & Location
-
-**BRD Files:**
-
-- **Format:** Markdown (`.md`)
-- **Location:** `prds/[seq]_[feature_name]/` (snake-case)
-- **Filename:** `BRD.md` 
-- Example: `prds/005_code_refactor/BRD.md`
-
-**PRD Files:**
-
-- **Format:** Markdown (`.md`)
-- **Location:** `prds/[seq]_[feature-name]/` (snake-case)
-- **Filename:** `PRD.md`
-- Example: `prds/005_code_refactor/PRD.md`
 
 **Unified BRD-PRD Files:**
 
 - **Format:** Markdown (`.md`)
 - **Location:** `prds/[seq]_[feature-name]/` (snake-case)
-- **Filename:** `BRD-PRD.md`
+- **Filename:** `BRD_PRD.md`
 - Example: `prds/004_contact_update/BRD_PRD.md`
+
+### Document Metadata for JSON Conversion
+
+**Important:** When this document is later converted to JSON format (by the `cc-gen-prd-task` skill), the following metadata must be extractable:
+
+- **featureId**: Set to the extracted feature_number (e.g., "006", "010", "099")
+- **featureName**: Extracted from the folder name (e.g., "about_founder_name", "payment_gateway")
+- **documentType**: Always set to `"BRD_PRD"` for this skill
+
+To ensure proper JSON conversion, include a metadata section at the top of the generated document (after the title) with this information:
+
+```markdown
+## Document Metadata
+
+- **Feature ID**: {feature_number}
+- **Feature Name**: {feature_name}
+- **Document Type**: BRD_PRD
+- **Generated Date**: {YYYY-MM-DD}
+```
+
+**Example:**
+```markdown
+## Document Metadata
+
+- **Feature ID**: 006
+- **Feature Name**: about_founder_name
+- **Document Type**: BRD_PRD
+- **Generated Date**: 2024-01-15
+```
+
+This metadata section ensures that when the document is converted to JSON format, the `featureId` field will be correctly set to the feature_number extracted from the folder path.
 
 ### Output Format Standards
 
@@ -316,20 +556,12 @@ Always output in Markdown with:
 
 ## Checklist Before Saving
 
-### BRD Checklist
+### Unified BRD-PRD Checklist
 
 - [ ] Asked clarifying questions with lettered options
 - [ ] Incorporated user's answers
-- [ ] All objectives are SMART goals
+- [ ] All business objectives are SMART goals
 - [ ] Success metrics are measurable and specific
-- [ ] In-scope and out-of-scope explicitly defined
-- [ ] Assumptions and constraints documented
-- [ ] Stakeholders identified
-- [ ] Saved to `docs/brd-[project-name].md`
-
-### PRD Checklist
-
-- [ ] Asked clarifying questions with lettered options
 - [ ] Problem statement includes quantitative AND qualitative evidence
 - [ ] Success metrics defined before solution design
 - [ ] User stories follow INVEST criteria
@@ -339,7 +571,8 @@ Always output in Markdown with:
 - [ ] Non-functional requirements are measurable
 - [ ] Out-of-scope items explicitly listed
 - [ ] Decision log included for key choices
-- [ ] Saved to `docs/prd-[feature-name].md` or `tasks/prd-[feature-name].md`
+- [ ] Document Metadata section included with Feature ID, Feature Name, Document Type, and Generated Date
+- [ ] Saved to `prds/{prefix}_{name}/BRD_PRD.md`
 
 ### Test Implementation Checklist
 
@@ -355,20 +588,27 @@ Always output in Markdown with:
 
 Ensure every requirement traces back to business objectives with explicit linking:
 
-1. **Business Objective** (BRD) → OBJ-01
-2. **User Story** (PRD) → US-015 *(Validates: OBJ-01)*
-3. **Acceptance Criteria** (PRD) → AC-015-01 *(part of US-015)*
-4. **Test Cases** (Implementation) → TC-001 *(Validates: US-015, AC-015-01)*
+1. **Business Objective** (BRD) → OBJ-{feature_number}-01
+2. **User Story** (PRD) → US-{feature_number}-15 *(Validates: OBJ-{feature_number}-01)*
+3. **Acceptance Criteria** (PRD) → AC-{feature_number}-45 *(part of US-{feature_number}-15)*
+4. **Test Cases** (Implementation) → TC-{feature_number}-01 *(Validates: US-{feature_number}-15, AC-{feature_number}-45)*
 
 This creates an unbroken chain from strategic goals to executable specifications.
+
+**Example for feature number "006":**
+
+1. **Business Objective** (BRD) → OBJ-006-01
+2. **User Story** (PRD) → US-006-15 *(Validates: OBJ-006-01)*
+3. **Acceptance Criteria** (PRD) → AC-006-45 *(part of US-006-15)*
+4. **Test Cases** (Implementation) → TC-006-01 *(Validates: US-006-15, AC-006-45)*
 
 ### Test Case Format with Traceability
 
 Each test case must reference the acceptance criteria it validates:
 
 ```markdown
-### TC-XXX: [Descriptive Test Name]
-**Validates:** [US-XXX, AC-XXX-XX that this test verifies]
+### TC-{feature_number}-{seq}: [Descriptive Test Name]
+**Validates:** [US-{feature_number}-{seq}, AC-{feature_number}-{seq} that this test verifies]
 **Test Type:** [Unit/Integration/E2E/Performance/Security]
 **Framework:** [Jest/Cypress/Lighthouse/etc.]
 
@@ -377,13 +617,25 @@ Each test case must reference the acceptance criteria it validates:
 
 This ensures every test traces back through acceptance criteria to user stories to business objectives.
 
+**Example for feature number "006":**
+```markdown
+### TC-006-01: User Login Success
+**Validates:** US-006-01, AC-006-01
+**Test Type:** E2E
+**Framework:** Playwright
+
+Given I am on the login page
+When I enter valid credentials
+Then I am logged in successfully
+```
+
 ### Example: Complete Golden Thread
 
 Let's trace a complete golden thread from business objective to testable criterion:
 
 **1. Business Objective (BRD):**
 
-- OBJ-01: Increase e-commerce conversion rate by 5% within 6 months
+- OBJ-006-01: Increase e-commerce conversion rate by 5% within 6 months
 
 **2. User Research Insight:**
 
@@ -391,12 +643,12 @@ Let's trace a complete golden thread from business objective to testable criteri
 
 **3. Measurable NFR (PRD):**
 
-- NFR-01: All customer-facing pages must achieve Largest Contentful Paint (LCP) < 2.5s on 4G mobile
+- NFR-006-01: All customer-facing pages must achieve Largest Contentful Paint (LCP) < 2.5s on 4G mobile
 
 **4. User Story:**
 
-- US-015: As a mobile shopper, I want pages to load quickly, so that I can complete my purchase without frustration.
-- **Validates:** OBJ-01 (Increase e-commerce conversion rate by 5%)
+- US-006-15: As a mobile shopper, I want pages to load quickly, so that I can complete my purchase without frustration.
+- **Validates:** OBJ-006-01 (Increase e-commerce conversion rate by 5%)
 
 **5. Testable Acceptance Criterion (Gherkin):**
 
@@ -418,8 +670,8 @@ Scenario: Performance under load
 **6. Test Implementation:**
 
 ```markdown
-### TC-001: Fast page load on mobile
-**Validates:** US-015, AC-015-01 (LCP < 2.5s on 4G mobile)
+### TC-006-01: Fast page load on mobile
+**Validates:** US-006-15, AC-006-45 (LCP < 2.5s on 4G mobile)
 **Test Type:** Automated performance test
 **Framework:** Lighthouse CI
 
@@ -433,10 +685,10 @@ Scenario: Fast page load on mobile
 **Implementation:**
 - Automated Lighthouse CI test runs on every deployment
 - Fails build if LCP > 2.5s
-- Directly validates AC-015-01, which is part of US-015, which validates OBJ-01
+- Directly validates AC-006-45, which is part of US-006-15, which validates OBJ-006-01
 ```
 
-This is the golden thread in action: a test case (TC-001) traces through acceptance criteria (AC-015-01) → user story (US-015) → business objective (OBJ-01). Every line of test code serves a documented business purpose.
+This is the golden thread in action: a test case (TC-006-01) traces through acceptance criteria (AC-006-45) → user story (US-006-15) → business objective (OBJ-006-01). Every line of test code serves a documented business purpose.
 
 ---
 
@@ -447,7 +699,378 @@ The document reader may be a junior developer or AI agent. Therefore:
 - Be explicit and unambiguous
 - Avoid jargon or explain it in glossary
 - Provide enough detail to understand purpose and core logic
-- Number requirements for easy reference (REQ-001, US-001, etc.)
+- Number requirements for easy reference using the canonical folder-based format (OBJ-{feature_number}-{seq}, US-{feature_number}-{seq}, AC-{feature_number}-{seq}, etc.)
 - Use concrete examples where helpful
 - Make acceptance criteria verifiable, not vague
 - Define what "done" looks like for each requirement
+
+---
+
+## Workflow Examples
+
+### Example 1: Successful Folder Path Input and ID Generation
+
+**User Request:** "Create a BRD-PRD for the About Founder feature"
+
+**System Workflow:**
+
+```
+System: Where should this document be saved? (e.g., prds/006_about_founder_name/)
+User: prds/006_about_founder_name/
+
+System: Validating folder name...
+System: ✓ Folder name matches pattern: 006_about_founder_name
+System: ✓ Numeric prefix: 006 (valid range 001-999)
+System: ✓ Underscore separator present
+System: ✓ Feature name: about_founder_name
+
+System: Using feature number 006 from folder '006_about_founder_name'
+System: Proceed with document generation? (yes/no)
+User: yes
+
+System: [Asks clarifying questions with lettered options]
+User: 1A, 2C, 3E, 4A, 5B
+
+System: [Generates BRD-PRD with folder-based IDs]
+
+Generated IDs:
+- Business Objectives: OBJ-006-01, OBJ-006-02
+- Goals: GOAL-006-01, GOAL-006-02
+- User Stories: US-006-01, US-006-02, US-006-03
+- Acceptance Criteria: AC-006-01, AC-006-02, AC-006-03, AC-006-04 (global counter)
+- Risks: RISK-006-01
+- NFRs: NFR-006-01, NFR-006-02
+- Technical Constraints: TC-006-01
+- Functional Requirements: FR-006-01, FR-006-02
+
+System: Document saved to prds/006_about_founder_name/BRD_PRD.md
+System: ✓ Feature ID set to 006 in document metadata
+```
+
+**Sample Output Snippet:**
+
+```markdown
+## Document Metadata
+
+- **Feature ID**: 006
+- **Feature Name**: about_founder_name
+- **Document Type**: BRD_PRD
+- **Generated Date**: 2024-01-15
+
+## Business Objectives
+
+### OBJ-006-01: Increase User Trust
+Build credibility by showcasing founder's expertise and background...
+
+## User Stories
+
+### US-006-01: View Founder Biography
+**As a** potential customer  
+**I want** to read about the founder's background  
+**So that** I can trust the company's expertise
+
+**Acceptance Criteria:**
+- [ ] AC-006-01: Biography section displays founder's name and photo
+- [ ] AC-006-02: Biography includes professional background (minimum 200 words)
+- [ ] AC-006-03: Typecheck passes
+- [ ] AC-006-04: Lint passes
+
+**Validates:** OBJ-006-01
+
+### US-006-02: View Founder Credentials
+**As a** potential customer  
+**I want** to see the founder's credentials and certifications  
+**So that** I can verify their qualifications
+
+**Acceptance Criteria:**
+- [ ] AC-006-05: Credentials section lists all certifications (note: global counter continues)
+- [ ] AC-006-06: Each credential shows issuing organization and date
+- [ ] AC-006-07: Typecheck passes
+
+**Validates:** OBJ-006-01
+```
+
+### Example 2: Validation Error and Retry Flow
+
+**User Request:** "Create a BRD-PRD for the payment gateway feature"
+
+**System Workflow:**
+
+```
+System: Where should this document be saved? (e.g., prds/006_about_founder_name/)
+User: prds/payment_gateway/
+
+System: Validating folder name...
+System: ✗ Validation failed
+
+Invalid folder name format
+
+Expected pattern: {NNN}_{feature_name}
+Example: 006_about_founder_name
+
+Your input: payment_gateway
+Issue: Missing 3-digit numeric prefix at the start
+
+Please provide a valid folder path:
+
+User: prds/10_payment_gateway/
+
+System: Validating folder name...
+System: ✗ Validation failed
+
+Invalid folder name format
+
+Expected pattern: {NNN}_{feature_name}
+Example: 006_about_founder_name
+
+Your input: 10_payment_gateway
+Issue: Numeric prefix must be exactly 3 digits (found 2 digits)
+
+Please provide a valid folder path:
+
+User: prds/010_payment_gateway/
+
+System: Validating folder name...
+System: ✓ Folder name matches pattern: 010_payment_gateway
+System: ✓ Numeric prefix: 010 (valid range 001-999)
+System: ✓ Underscore separator present
+System: ✓ Feature name: payment_gateway
+
+System: Using feature number 010 from folder '010_payment_gateway'
+System: Proceed with document generation? (yes/no)
+User: yes
+
+System: [Continues with document generation]
+System: Document saved to prds/010_payment_gateway/BRD_PRD.md
+```
+
+### Example 3: Complete Document with Folder-Based IDs
+
+**Folder:** `prds/099_final_feature/`
+
+**Generated Document Structure:**
+
+```markdown
+# BRD-PRD: Final Feature Implementation
+
+## Document Metadata
+
+- **Feature ID**: 099
+- **Feature Name**: final_feature
+- **Document Type**: BRD_PRD
+- **Generated Date**: 2024-01-15
+
+## Business Objectives
+
+### OBJ-099-01: Complete Product Launch
+Finalize all remaining features for product launch...
+
+### OBJ-099-02: Achieve Market Readiness
+Ensure product meets all market requirements...
+
+## Goals
+
+### GOAL-099-01: Launch by Q2 2024
+Complete development and testing by March 31, 2024...
+
+## User Stories
+
+### US-099-01: Final Integration Testing
+**As a** QA engineer  
+**I want** to run comprehensive integration tests  
+**So that** all features work together seamlessly
+
+**Acceptance Criteria:**
+- [ ] AC-099-01: All integration tests pass
+- [ ] AC-099-02: No critical bugs remain
+- [ ] AC-099-03: Performance meets NFR-099-01 requirements
+
+**Validates:** GOAL-099-01
+
+### US-099-02: Production Deployment
+**As a** DevOps engineer  
+**I want** to deploy to production environment  
+**So that** users can access the complete product
+
+**Acceptance Criteria:**
+- [ ] AC-099-04: Deployment pipeline executes successfully (global counter continues)
+- [ ] AC-099-05: Health checks pass post-deployment
+- [ ] AC-099-06: Rollback plan tested and documented
+
+**Validates:** GOAL-099-01
+
+## Risks
+
+### RISK-099-01: Deployment Delays
+**Risk:** Integration issues may delay production deployment
+**Mitigation:** Conduct thorough staging environment testing
+
+## Non-Functional Requirements
+
+### NFR-099-01: System Performance
+All API endpoints must respond within 200ms under 1000 concurrent users
+
+### NFR-099-02: System Availability
+99.9% uptime measured monthly, excluding scheduled maintenance
+
+## Technical Constraints
+
+### TC-099-01: Database Migration
+Must migrate existing data without downtime using blue-green deployment
+
+## Functional Requirements
+
+- FR-099-01: System shall support rollback to previous version within 5 minutes
+- FR-099-02: All user data shall be backed up before deployment
+```
+
+---
+
+## Troubleshooting Guide
+
+### Common Validation Errors
+
+#### Error: Missing 3-Digit Numeric Prefix
+
+**Symptom:**
+```
+Invalid folder name format
+Your input: about_founder
+Issue: Missing 3-digit numeric prefix at the start
+```
+
+**Cause:** Folder name doesn't start with 3 digits
+
+**Solution:** Add a 3-digit prefix (001-999) followed by an underscore
+- ❌ Wrong: `about_founder`
+- ✅ Correct: `006_about_founder`
+
+#### Error: Numeric Prefix Wrong Length
+
+**Symptom:**
+```
+Invalid folder name format
+Your input: 6_feature
+Issue: Numeric prefix must be exactly 3 digits (found 1 digit)
+```
+
+**Cause:** Prefix has fewer or more than 3 digits
+
+**Solution:** Use exactly 3 digits with leading zeros if needed
+- ❌ Wrong: `6_feature` (1 digit)
+- ❌ Wrong: `06_feature` (2 digits)
+- ❌ Wrong: `0006_feature` (4 digits)
+- ✅ Correct: `006_feature` (3 digits)
+
+#### Error: Missing Underscore Separator
+
+**Symptom:**
+```
+Invalid folder name format
+Your input: 006feature
+Issue: Missing underscore after the 3-digit prefix
+```
+
+**Cause:** No underscore between prefix and feature name
+
+**Solution:** Add an underscore after the 3-digit prefix
+- ❌ Wrong: `006feature`
+- ❌ Wrong: `006-feature`
+- ❌ Wrong: `006.feature`
+- ✅ Correct: `006_feature`
+
+#### Error: Prefix Out of Range
+
+**Symptom:**
+```
+Invalid folder name format
+Your input: 000_feature
+Issue: Numeric prefix must be between 001 and 999
+```
+
+**Cause:** Prefix is 000 or greater than 999
+
+**Solution:** Use a prefix between 001 and 999
+- ❌ Wrong: `000_feature` (too low)
+- ❌ Wrong: `1000_feature` (too high)
+- ✅ Correct: `001_feature` (minimum)
+- ✅ Correct: `999_feature` (maximum)
+
+### ID Generation Issues
+
+#### Issue: Acceptance Criteria Counter Not Global
+
+**Symptom:** AC IDs reset for each user story (AC-006-01, AC-006-01, AC-006-01...)
+
+**Expected Behavior:** AC IDs should increment globally across all user stories
+
+**Correct Pattern:**
+```markdown
+### US-006-01: First Story
+- AC-006-01: First criterion
+- AC-006-02: Second criterion
+
+### US-006-02: Second Story
+- AC-006-03: First criterion (continues from 03, not reset to 01)
+- AC-006-04: Second criterion
+```
+
+**Solution:** Maintain a single global counter for AC IDs throughout the entire document
+
+#### Issue: Leading Zeros Stripped from Feature Number
+
+**Symptom:** IDs show `US-6-01` instead of `US-006-01`
+
+**Cause:** Feature number converted to integer, losing leading zeros
+
+**Solution:** Keep feature number as a string throughout the process
+- ❌ Wrong: Convert "006" to number 6, then format as `US-6-01`
+- ✅ Correct: Keep "006" as string, format as `US-006-01`
+
+#### Issue: Inconsistent Feature Numbers in Document
+
+**Symptom:** Document contains mixed feature numbers (US-006-01, US-007-01)
+
+**Cause:** Feature number not consistently applied to all IDs
+
+**Solution:** Extract feature number once at the start and use it for all IDs
+- All IDs in a single document must use the same feature number
+- Feature number comes from the folder name prefix
+
+### Metadata Issues
+
+#### Issue: Feature ID Not Set in Metadata
+
+**Symptom:** Document metadata missing Feature ID field
+
+**Solution:** Always include metadata section at the top of the document:
+```markdown
+## Document Metadata
+
+- **Feature ID**: 006
+- **Feature Name**: about_founder_name
+- **Document Type**: BRD_PRD
+- **Generated Date**: 2024-01-15
+```
+
+This ensures proper JSON conversion by the `cc-gen-prd-task` skill.
+
+### File Naming Issues
+
+#### Issue: Document Saved to Wrong Location
+
+**Symptom:** Document saved to root or incorrect folder
+
+**Solution:** Always use the folder path provided by the user
+- User provides: `prds/006_about_founder_name/`
+- Save to: `prds/006_about_founder_name/BRD_PRD.md`
+- Do NOT save to: `prds/BRD_PRD.md` or `BRD_PRD.md`
+
+### Best Practices
+
+1. **Always validate before proceeding:** Don't skip folder name validation
+2. **Display confirmation messages:** Let users verify the extracted feature number
+3. **Use global AC counter:** Never reset AC counter per user story
+4. **Preserve leading zeros:** Keep feature numbers as strings (006, not 6)
+5. **Include metadata section:** Required for JSON conversion
+6. **Follow file naming conventions:** Use exact folder path provided by user

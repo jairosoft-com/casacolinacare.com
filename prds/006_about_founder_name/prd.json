@@ -5,6 +5,11 @@
   "description": "Correct founder name from 'Kriss Judd' to 'Kriss Aseniero' on the About page and in all documentation references",
   "detailedPrdPath": "BRD_PRD.md",
   "technicalSpecPath": "TECH_SPEC.md",
+  "azureWorkItemId": 200268,
+  "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200268",
+  "azureOrganization": "jairo",
+  "azureProject": "CasaColinaCare.com",
+  "lastSyncedToAzure": "2026-03-06T20:42:30Z",
   "userStories": [
     {
       "id": "US-001",
@@ -12,18 +17,52 @@
       "description": "As a site visitor viewing the About page, I want to see the correct founder name 'Kriss Aseniero' so that I have accurate information about who runs the care home.",
       "technicalSpecSection": "#31-us-001-update-founder-name-in-about-page",
       "acceptanceCriteria": [
-        "The `team` array entry at index 0 has `name: 'Kriss Aseniero'`",
-        "The string `'Kriss Judd'` does not appear anywhere in `src/app/about/page.tsx`",
-        "The About page renders 'Kriss Aseniero' in the team section (verified by unit test)",
-        "Lint passes (`npm run lint` exits 0)",
-        "Typecheck passes (`npm run type-check` exits 0)",
-        "Unit tests pass (`npm test -- --run` exits 0)",
-        "E2E tests pass (`npm run test:e2e`)",
-        "Verify in browser using dev-browser skill"
+        {
+          "text": "The `team` array entry at index 0 has `name: 'Kriss Aseniero'`",
+          "azureWorkItemId": 200271,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200271"
+        },
+        {
+          "text": "The string `'Kriss Judd'` does not appear anywhere in `src/app/about/page.tsx`",
+          "azureWorkItemId": 200272,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200272"
+        },
+        {
+          "text": "The About page renders 'Kriss Aseniero' in the team section (verified by unit test)",
+          "azureWorkItemId": 200273,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200273"
+        },
+        {
+          "text": "Lint passes (`npm run lint` exits 0)",
+          "azureWorkItemId": 200274,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200274"
+        },
+        {
+          "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "azureWorkItemId": 200275,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200275"
+        },
+        {
+          "text": "Unit tests pass (`npm test -- --run` exits 0)",
+          "azureWorkItemId": 200276,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200276"
+        },
+        {
+          "text": "E2E tests pass (`npm run test:e2e`)",
+          "azureWorkItemId": 200277,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200277"
+        },
+        {
+          "text": "Verify in browser using dev-browser skill",
+          "azureWorkItemId": 200278,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200278"
+        }
       ],
       "priority": 1,
       "passes": false,
-      "notes": ""
+      "notes": "",
+      "azureWorkItemId": 200269,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200269"
     },
     {
       "id": "US-002",
@@ -31,18 +70,52 @@
       "description": "As a developer or AI assistant working on the codebase, I want all documentation to reference the correct name 'Kriss Aseniero' so that the incorrect name does not propagate into future work.",
       "technicalSpecSection": "#32-us-002-update-documentation-references",
       "acceptanceCriteria": [
-        "`CLAUDE.md` People table lists 'Kriss Aseniero' (not 'Kriss Judd')",
-        "The file `memory/people/kriss-judd.md` no longer exists",
-        "The file `memory/people/kriss-aseniero.md` exists with heading '# Kriss Aseniero'",
-        "`memory/glossary.md` Nicknames table lists 'Kriss Aseniero' (not 'Kriss Judd')",
-        "`memory/projects/casacolinacare-website.md` Key People lists 'Kriss Aseniero' (not 'Kriss Judd')",
-        "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results",
-        "Lint passes (`npm run lint` exits 0)",
-        "Typecheck passes (`npm run type-check` exits 0)"
+        {
+          "text": "`CLAUDE.md` People table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "azureWorkItemId": 200279,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200279"
+        },
+        {
+          "text": "The file `memory/people/kriss-judd.md` no longer exists",
+          "azureWorkItemId": 200280,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200280"
+        },
+        {
+          "text": "The file `memory/people/kriss-aseniero.md` exists with heading '# Kriss Aseniero'",
+          "azureWorkItemId": 200281,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200281"
+        },
+        {
+          "text": "`memory/glossary.md` Nicknames table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "azureWorkItemId": 200282,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200282"
+        },
+        {
+          "text": "`memory/projects/casacolinacare-website.md` Key People lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "azureWorkItemId": 200283,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200283"
+        },
+        {
+          "text": "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results",
+          "azureWorkItemId": 200284,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200284"
+        },
+        {
+          "text": "Lint passes (`npm run lint` exits 0)",
+          "azureWorkItemId": 200285,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200285"
+        },
+        {
+          "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "azureWorkItemId": 200286,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200286"
+        }
       ],
       "priority": 2,
       "passes": false,
-      "notes": ""
+      "notes": "",
+      "azureWorkItemId": 200270,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200270"
     }
   ]
 }

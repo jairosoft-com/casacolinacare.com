@@ -44,8 +44,10 @@
 
 | Objective ID | SMART Business Objective | Key Performance Indicator (KPI) | Current Baseline | Target | Measurement Method |
 |--------------|-------------------------|--------------------------------|------------------|--------|-------------------|
-| OBJ-01 | *e.g., Increase online conversion rate by 15% within 12 months* | Conversion Rate (%) | 2.3% | 2.65% | Google Analytics |
-| OBJ-02 | *e.g., Reduce support tickets by 40% in Q1 post-launch* | Support tickets tagged 'checkout' | 850/month | <510/month | Zendesk |
+| OBJ-{feature_number}-01 | *e.g., Increase online conversion rate by 15% within 12 months* | Conversion Rate (%) | 2.3% | 2.65% | Google Analytics |
+| OBJ-{feature_number}-02 | *e.g., Reduce support tickets by 40% in Q1 post-launch* | Support tickets tagged 'checkout' | 850/month | <510/month | Zendesk |
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number extracted from the folder path (e.g., "006", "010", "099").
 
 ### 4. Project Scope & Boundaries
 
@@ -95,7 +97,9 @@
 
 | Risk ID | Risk Description | Likelihood (1-5) | Impact (1-5) | Mitigation Strategy |
 |---------|-----------------|------------------|--------------|-------------------|
-| RISK-01 | [Description] | 3 | 4 | [Strategy] |
+| RISK-{feature_number}-01 | [Description] | 3 | 4 | [Strategy] |
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number extracted from the folder path.
 
 ---
 
@@ -116,9 +120,9 @@
 
 #### Feature Area 1: [Name]
 
-**US-001: [Title]**
+**US-{feature_number}-01: [Title]**
 - **Story:** As a [persona], I want to [action], so that I can [benefit].
-- **Business Objective Link:** → OBJ-01 (Increase conversion rate)
+- **Business Objective Link:** → OBJ-{feature_number}-01 (Increase conversion rate)
 - **Priority:** Must-Have (MoSCoW)
 - **Acceptance Criteria (Gherkin):**
 
@@ -136,11 +140,21 @@ Scenario: Error handling
   Then [expected error behavior]
 ```
 
-**US-002: [Title]**
+**Numbered Acceptance Criteria:**
+- AC-{feature_number}-01: [First acceptance criterion]
+- AC-{feature_number}-02: [Second acceptance criterion]
+
+**US-{feature_number}-02: [Title]**
 - **Story:** As a [persona], I want to [action], so that I can [benefit].
-- **Business Objective Link:** → OBJ-02 (Reduce support tickets)
+- **Business Objective Link:** → OBJ-{feature_number}-02 (Reduce support tickets)
 - **Priority:** Should-Have
 - **Acceptance Criteria:** [Link to Jira ticket for details]
+
+**Numbered Acceptance Criteria:**
+- AC-{feature_number}-03: [Third acceptance criterion - note global counter continues]
+- AC-{feature_number}-04: [Fourth acceptance criterion]
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number. AC IDs use global sequential numbering across all user stories.
 
 ### 10. Non-Functional Requirements (NFRs)
 
@@ -148,10 +162,12 @@ Scenario: Error handling
 
 | NFR ID | Category | Requirement | Business Objective Link | Test Method |
 |--------|----------|-------------|------------------------|-------------|
-| NFR-01 | Performance | All pages load in <2.5s on 4G mobile (LCP metric) | → OBJ-01 (7% conversion drop per second delay) | Lighthouse CI |
-| NFR-02 | Security | All PII encrypted at rest (AES-256) | → Compliance requirement | Security audit |
-| NFR-03 | Usability | First-time users complete checkout in <3 min | → OBJ-02 (Reduce support tickets) | User testing |
-| NFR-04 | Reliability | 99.95% uptime (excluding scheduled maintenance) | → OBJ-01 (Downtime = lost revenue) | Uptime monitoring |
+| NFR-{feature_number}-01 | Performance | All pages load in <2.5s on 4G mobile (LCP metric) | → OBJ-{feature_number}-01 (7% conversion drop per second delay) | Lighthouse CI |
+| NFR-{feature_number}-02 | Security | All PII encrypted at rest (AES-256) | → Compliance requirement | Security audit |
+| NFR-{feature_number}-03 | Usability | First-time users complete checkout in <3 min | → OBJ-{feature_number}-02 (Reduce support tickets) | User testing |
+| NFR-{feature_number}-04 | Reliability | 99.95% uptime (excluding scheduled maintenance) | → OBJ-{feature_number}-01 (Downtime = lost revenue) | Uptime monitoring |
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number extracted from the folder path.
 
 ### 11. User Interaction & Design
 

@@ -19,13 +19,13 @@ The About page team section displays "Kriss Judd" as the founder name. The corre
 
 **PRD Gap Identified:** The PRD scopes 3 files (`src/app/about/page.tsx`, `CLAUDE.md`, `memory/people/kriss-judd.md`). A codebase-wide grep reveals **5 files** containing "Kriss Judd." Two additional documentation files were missed:
 
-| # | File | Line | Context |
-|---|------|------|---------|
-| 1 | `src/app/about/page.tsx` | 43 | `name: 'Kriss Judd'` in `team` array |
-| 2 | `CLAUDE.md` | 15 | People table: "Kriss Judd, business owner" |
-| 3 | `memory/people/kriss-judd.md` | 1 | Heading: `# Kriss Judd` |
-| 4 | `memory/glossary.md` | 87 | Nicknames table: "Kriss Judd (business owner, Casa Colina)" |
-| 5 | `memory/projects/casacolinacare-website.md` | 22 | Key People: "Kriss Judd — business owner" |
+| #   | File                                        | Line | Context                                                     |
+| --- | ------------------------------------------- | ---- | ----------------------------------------------------------- |
+| 1   | `src/app/about/page.tsx`                    | 43   | `name: 'Kriss Judd'` in `team` array                        |
+| 2   | `CLAUDE.md`                                 | 15   | People table: "Kriss Judd, business owner"                  |
+| 3   | `memory/people/kriss-judd.md`               | 1    | Heading: `# Kriss Judd`                                     |
+| 4   | `memory/glossary.md`                        | 87   | Nicknames table: "Kriss Judd (business owner, Casa Colina)" |
+| 5   | `memory/projects/casacolinacare-website.md` | 22   | Key People: "Kriss Judd — business owner"                   |
 
 Files 4 and 5 are **additional scope** beyond the PRD. They must be updated to satisfy OBJ-02 (`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results).
 

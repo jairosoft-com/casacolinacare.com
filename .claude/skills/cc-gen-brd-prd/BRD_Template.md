@@ -28,7 +28,10 @@
 
 | Objective ID | SMART Objective | KPI | Current | Target |
 |--------------|----------------|-----|---------|--------|
-| OBJ-01 | [Specific, measurable goal] | [Metric] | [Baseline] | [Goal] |
+| OBJ-{feature_number}-01 | [Specific, measurable goal] | [Metric] | [Baseline] | [Goal] |
+| OBJ-{feature_number}-02 | [Another specific goal] | [Metric] | [Baseline] | [Goal] |
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number extracted from the folder path (e.g., "006", "010", "099").
 
 ## 5. Project Scope
 
@@ -72,9 +75,12 @@
 
 ### Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| [Risk] | [1-5] | [1-5] | [Strategy] |
+| Risk ID | Risk | Likelihood | Impact | Mitigation |
+|---------|------|------------|--------|------------|
+| RISK-{feature_number}-01 | [Risk description] | [1-5] | [1-5] | [Strategy] |
+| RISK-{feature_number}-02 | [Another risk] | [1-5] | [1-5] | [Strategy] |
+
+**Note:** Replace `{feature_number}` with the 3-digit feature number extracted from the folder path.
 
 ## 9. Approval
 

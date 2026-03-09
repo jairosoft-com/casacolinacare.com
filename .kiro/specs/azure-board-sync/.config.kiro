@@ -1,0 +1,5 @@
+{
+  "specId": "azure-board-sync-001",
+  "workflowType": "requirements-first",
+  "specType": "feature"
+}

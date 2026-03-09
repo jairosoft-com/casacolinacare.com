@@ -1,0 +1,64 @@
+{
+  "project": "CasaColinaCare",
+  "featureName": "about-founder-name-correction",
+  "featureId": "006",
+  "description": "Correct founder name from 'Kriss Judd' to 'Kriss Aseniero' on the About page and in supporting documentation.",
+  "detailedPrdPath": "BRD_PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
+  "userStories": [
+    {
+      "id": "US-006-01",
+      "title": "Update founder name in About page team section",
+      "description": "As a site visitor viewing the About page, I want to see the correct founder name so that I have accurate information about who runs the care home.",
+      "technicalSpecSection": "#31-us-006-01-update-founder-name-in-about-page-team-section",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-006-01",
+          "text": "The team array entry at index 0 has `name: 'Kriss Aseniero'`."
+        },
+        {
+          "id": "AC-006-02",
+          "text": "The string `Kriss Judd` does not appear anywhere in `src/app/about/page.tsx`."
+        },
+        {
+          "id": "AC-006-03",
+          "text": "Unit tests pass."
+        },
+        {
+          "id": "AC-006-04",
+          "text": "E2E tests pass."
+        }
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006-02",
+      "title": "Update documentation references",
+      "description": "As a developer or AI assistant working on the codebase, I want all documentation to reference the correct founder name so that the incorrect name does not propagate into future work.",
+      "technicalSpecSection": "#32-us-006-02-update-documentation-references",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-006-05",
+          "text": "`CLAUDE.md` lists `Kriss Aseniero` instead of `Kriss Judd`."
+        },
+        {
+          "id": "AC-006-06",
+          "text": "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results."
+        },
+        {
+          "id": "AC-006-07",
+          "text": "Lint passes."
+        },
+        {
+          "id": "AC-006-08",
+          "text": "Typecheck passes."
+        }
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
