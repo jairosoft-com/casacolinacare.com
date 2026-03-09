@@ -428,8 +428,8 @@ Each user story must follow this format:
 
 ```markdown
 ### US-{feature_number}-{seq}: [Descriptive Title]
-**As a** [user type]  
-**I want** [feature/capability]  
+**As a** [user type]
+**I want** [feature/capability]
 **So that** [benefit/value]
 
 **Acceptance Criteria:**
@@ -440,6 +440,8 @@ Each user story must follow this format:
 
 **Validates:** [OBJ-{feature_number}-{seq}, GOAL-{feature_number}-{seq}, or NFR-{feature_number}-{seq} that this story supports]
 ```
+
+**Required Format:** Use `### US-{feature_number}-{seq}: [Title]` format (heading level 3, colon after ID). This format is required for the `cc-gen-prd-task` skill to parse and convert to prd.json.
 
 **Important:**
 

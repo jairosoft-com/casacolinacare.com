@@ -264,6 +264,20 @@ This thread ensures every line of code serves a business purpose.
 
 Generate the PRD with these sections:
 
+### Document Metadata
+
+Include this metadata section at the top of the generated document (after the title):
+
+```markdown
+## Document Metadata
+- **Feature ID**: {feature_number}
+- **Feature Name**: {feature_name}
+- **Document Type**: PRD
+- **Generated Date**: {YYYY-MM-DD}
+```
+
+This ensures downstream skills (`cc-gen-tech-spec`, `cc-gen-prd-task`) can extract the feature number reliably.
+
 ### 1. Overview
 - **Feature ID:** `{feature_number}` (the 3-digit feature number extracted from the folder path, e.g., 006, 010, 099)
 - **Feature Name:** Clear, descriptive title
@@ -288,25 +302,24 @@ Each story follows this format:
 
 ```markdown
 ### US-{feature_number}-{seq}: [Descriptive Title]
-**As a** [user type]  
-**I want** [feature/capability]  
+**As a** [user type]
+**I want** [feature/capability]
 **So that** [benefit/value]
 
 **Acceptance Criteria:**
 - [ ] AC-{feature_number}-{seq}: Specific, verifiable criterion (use numbers, not vague terms)
 - [ ] AC-{feature_number}-{seq}: Another measurable criterion
 - [ ] AC-{feature_number}-{seq}: Error handling: [specific error scenario]
-- [ ] AC-{feature_number}-{seq}: Typecheck
 - [ ] AC-{feature_number}-{seq}: Lint passes
-- [ ] AC-{feature_number}-{seq}: New unit test added to verification suite
-- [ ] AC-{feature_number}-{seq}: New e2e test added to verification suite
-- [ ] AC-{feature_number}-{seq}: Unit Tests passes
-- [ ] AC-{feature_number}-{seq}: E2E Tests passes
 - [ ] AC-{feature_number}-{seq}: Typecheck passes
+- [ ] AC-{feature_number}-{seq}: Unit tests pass
+- [ ] AC-{feature_number}-{seq}: **[UI stories only]** E2E tests pass
 - [ ] AC-{feature_number}-{seq}: **[UI stories only]** Verify in browser using dev-browser skill
 
 **Validates:** [Link back to business objective or goal]
 ```
+
+**Required Format:** Use `### US-{feature_number}-{seq}: [Title]` format (heading level 3, colon after ID). This format is required for the `cc-gen-prd-task` skill to parse and convert to prd.json.
 
 **ID Generation Instructions:**
 
@@ -342,14 +355,9 @@ US-006-02: Second User Story
 - Must be verifiable - no vague terms like "fast", "secure", "easy"
 - Use specific numbers: "<200ms", "99.9% uptime", "<3 clicks"
 - Include error/edge cases
-- New unit test added to verification suite
-- New e2e test added to verification suite
-- Typecheck passes
-- Lint passes
-- Unit Test passes
-- E2E Test passes
-- For UI work, always include browser verification
 - Each acceptance criterion must have a unique AC ID using the global counter
+- **Standard quality criteria for ALL stories:** Lint passes, Typecheck passes, Unit tests pass
+- **Additional for UI stories:** E2E tests pass, Verify in browser using dev-browser skill
 
 ### 5. Functional Requirements
 
@@ -495,131 +503,16 @@ Use Markdown with:
 
 ---
 
-## Example PRD
+## Templates & Examples
 
-```markdown
-# PRD: One-Click Checkout
-
-## Overview
-**Feature ID:** 009
-**Feature Name:** One-Click Checkout for Returning Customers  
-**Business Objective:** Increase checkout conversion rate by 8% (from 65% to 73%)  
-**Success Metric:** Checkout completion time reduced from 2:30 to <1:00 for returning users
-
-## Problem Statement
-
-Analytics show 35% of returning customers abandon their cart during checkout. User interviews reveal the multi-step checkout process feels tedious for repeat purchases. Competitors offer one-click checkout, putting us at a disadvantage.
-
-**Evidence:**
-- 35% cart abandonment rate for returning users
-- Average checkout time: 2 minutes 30 seconds
-- User feedback: "Why do I have to re-enter everything?"
-- Competitor analysis: 3 of 5 top competitors offer one-click
-
-## Goals
-
-- Reduce checkout time from 2:30 to <1:00 for returning customers
-- Increase checkout completion rate from 65% to 73%
-- Maintain PCI compliance and security standards
-- Launch within 6 weeks
-
-## User Stories
-
-### US-009-01: Save payment method securely
-**As a** returning customer  
-**I want** my payment method saved securely  
-**So that** I don't have to re-enter it on every purchase
-
-**Acceptance Criteria:**
-- [ ] AC-009-01: Payment details stored using PCI-compliant tokenization
-- [ ] AC-009-02: User can save up to 3 payment methods
-- [ ] AC-009-03: Saved methods show last 4 digits only
-- [ ] AC-009-04: User can delete saved payment methods
-- [ ] AC-009-05: Typecheck passes
-
-**Validates:** Security requirement for one-click checkout
-
-### US-009-02: One-click purchase button
-**As a** returning customer with saved payment  
-**I want** a "Buy Now" button on product pages  
-**So that** I can complete purchase in one click
-
-**Acceptance Criteria:**
-- [ ] AC-009-06: "Buy Now" button visible only for logged-in users with saved payment
-- [ ] AC-009-07: Clicking button completes purchase within 2 seconds
-- [ ] AC-009-08: Order confirmation displays immediately with order number
-- [ ] AC-009-09: Confirmation email sent within 30 seconds
-- [ ] AC-009-10: Button disabled during processing to prevent double-clicks
-- [ ] AC-009-11: Typecheck passes
-- [ ] AC-009-12: Verify in browser using dev-browser skill
-
-**Validates:** Goal to reduce checkout time to <1:00
-
-### US-009-03: Order confirmation flow
-**As a** customer who used one-click checkout  
-**I want** immediate confirmation of my order  
-**So that** I know my purchase was successful
-
-**Acceptance Criteria:**
-- [ ] AC-009-13: Confirmation page loads within 1 second
-- [ ] AC-009-14: Shows order number, items, total, delivery estimate
-- [ ] AC-009-15: Includes link to order tracking
-- [ ] AC-009-16: Confirmation email sent within 30 seconds
-- [ ] AC-009-17: Typecheck passes
-- [ ] AC-009-18: Verify in browser using dev-browser skill
-
-**Validates:** User confidence in one-click purchase
-
-## Functional Requirements
-
-- FR-009-01: System must securely tokenize and store payment methods using PCI-compliant vault *(Supports US-009-01)*
-- FR-009-02: "Buy Now" button appears on product pages for logged-in users with saved payment *(Supports US-009-02)*
-- FR-009-03: Clicking "Buy Now" completes purchase within 2 seconds (95th percentile) *(Supports US-009-02)*
-- FR-009-04: Order confirmation email sent within 30 seconds of purchase *(Supports US-009-03)*
-- FR-009-05: Users can manage saved payment methods in account settings *(Supports US-009-01)*
-
-## Non-Functional Requirements
-
-- NFR-009-01: **Performance:** Order processing completes in <2 seconds for 95% of requests
-- NFR-009-02: **Security:** All payment data tokenized using PCI DSS Level 1 compliant provider
-- NFR-009-03: **Availability:** 99.9% uptime for checkout service
-- NFR-009-04: **Accessibility:** All UI elements meet WCAG 2.1 AA standards
-- NFR-009-05: **Mobile:** Feature works on iOS Safari and Android Chrome
-
-## Non-Goals
-
-- No support for guest checkout (one-click requires account)
-- No saved shipping addresses in v1 (future enhancement)
-- No subscription/recurring payment support
-- No cryptocurrency payment options
-
-## Success Metrics
-
-**Primary Metrics:**
-- Checkout completion rate: 65% → 73% (target: +8%)
-- Average checkout time: 2:30 → <1:00 (target: 60% reduction)
-
-**Secondary Metrics:**
-- One-click adoption rate: >40% of returning customers
-- Cart abandonment rate: 35% → <27%
-- Customer satisfaction (post-purchase survey): >4.5/5
-
-**Measurement:**
-- Google Analytics event tracking for checkout funnel
-- Server-side timing logs for performance
-- Post-purchase NPS survey
-
-## Open Questions
-
-- Should we require re-authentication for purchases over $500?
-- Do we need to support multiple shipping addresses in v1?
-- What's the fallback if payment processing fails?
-```
+- **[PRD_Template.md](PRD_Template.md):** PRD section structure with placeholders
+- **[PRD_Example.md](PRD_Example.md):** Complete example PRD (One-Click Checkout, feature 009)
 
 ---
 
 ## Checklist Before Saving
 
+- [ ] Document Metadata section included (Feature ID, Feature Name, Document Type, Generated Date)
 - [ ] Asked clarifying questions with lettered options
 - [ ] Incorporated user's answers
 - [ ] Business objective clearly stated and measurable
@@ -632,7 +525,7 @@ Analytics show 35% of returning customers abandon their cart during checkout. Us
 - [ ] Non-goals explicitly defined
 - [ ] Success metrics tie back to business objective
 - [ ] Each user story includes "Validates:" link to objective/goal
-- [ ] Saved to `docs/prd-[feature-name].md` or `tasks/prd-[feature-name].md`
+- [ ] Saved to `prds/{prefix}_{name}/PRD.md`
 
 ---
 
@@ -728,29 +621,28 @@ System: Document saved to prds/009_one_click_checkout/PRD.md
 - [ ] AC-009-02: User can save up to 3 payment methods
 - [ ] AC-009-03: Saved methods show last 4 digits only
 - [ ] AC-009-04: User can delete saved payment methods
-- [ ] AC-009-05: Typecheck passes
-- [ ] AC-009-06: Lint passes
-- [ ] AC-009-07: New unit test added to verification suite
-- [ ] AC-009-08: Unit Tests passes
+- [ ] AC-009-05: Lint passes
+- [ ] AC-009-06: Typecheck passes
+- [ ] AC-009-07: Unit tests pass
 
 **Validates:** Security requirement for one-click checkout
 
 ### US-009-02: One-click purchase button
-**As a** returning customer with saved payment  
-**I want** a "Buy Now" button on product pages  
+**As a** returning customer with saved payment
+**I want** a "Buy Now" button on product pages
 **So that** I can complete purchase in one click
 
 **Acceptance Criteria:**
-- [ ] AC-009-09: "Buy Now" button visible only for logged-in users with saved payment (note: global counter continues)
-- [ ] AC-009-10: Clicking button completes purchase within 2 seconds
-- [ ] AC-009-11: Order confirmation displays immediately with order number
-- [ ] AC-009-12: Confirmation email sent within 30 seconds
-- [ ] AC-009-13: Button disabled during processing to prevent double-clicks
+- [ ] AC-009-08: "Buy Now" button visible only for logged-in users with saved payment (note: global counter continues)
+- [ ] AC-009-09: Clicking button completes purchase within 2 seconds
+- [ ] AC-009-10: Order confirmation displays immediately with order number
+- [ ] AC-009-11: Confirmation email sent within 30 seconds
+- [ ] AC-009-12: Button disabled during processing to prevent double-clicks
+- [ ] AC-009-13: Lint passes
 - [ ] AC-009-14: Typecheck passes
-- [ ] AC-009-15: Lint passes
-- [ ] AC-009-16: New e2e test added to verification suite
-- [ ] AC-009-17: E2E Tests passes
-- [ ] AC-009-18: Verify in browser using dev-browser skill
+- [ ] AC-009-15: Unit tests pass
+- [ ] AC-009-16: E2E tests pass
+- [ ] AC-009-17: Verify in browser using dev-browser skill
 
 **Validates:** Goal to reduce checkout time to <1:00
 
@@ -853,7 +745,7 @@ System: Document saved to prds/015_search/PRD.md
 - [ ] AC-050-03: Unread notifications show badge count
 - [ ] AC-050-04: Typecheck passes
 - [ ] AC-050-05: Lint passes
-- [ ] AC-050-06: Unit Tests passes
+- [ ] AC-050-06: Unit tests pass
 
 **Validates:** Improve user engagement
 
@@ -868,7 +760,7 @@ System: Document saved to prds/015_search/PRD.md
 - [ ] AC-050-09: "Mark all as read" button clears all unread notifications
 - [ ] AC-050-10: Typecheck passes
 - [ ] AC-050-11: Lint passes
-- [ ] AC-050-12: E2E Tests passes
+- [ ] AC-050-12: E2E tests pass
 - [ ] AC-050-13: Verify in browser using dev-browser skill
 
 **Validates:** Improve user engagement
@@ -884,7 +776,7 @@ System: Document saved to prds/015_search/PRD.md
 - [ ] AC-050-16: Preferences persist across sessions
 - [ ] AC-050-17: Typecheck passes
 - [ ] AC-050-18: Lint passes
-- [ ] AC-050-19: E2E Tests passes
+- [ ] AC-050-19: E2E tests pass
 - [ ] AC-050-20: Verify in browser using dev-browser skill
 
 **Validates:** Improve user engagement
@@ -1075,14 +967,12 @@ Issue: Numeric prefix must be between 001 and 999
 **Solution:** Always add standard quality criteria to acceptance criteria
 
 **Required for ALL stories:**
-- Typecheck passes
 - Lint passes
-- New unit test added to verification suite
-- Unit Tests passes
+- Typecheck passes
+- Unit tests pass
 
 **Additional for UI stories:**
-- New e2e test added to verification suite
-- E2E Tests passes
+- E2E tests pass
 - Verify in browser using dev-browser skill
 
 **Example:**
@@ -1091,22 +981,19 @@ Issue: Numeric prefix must be between 001 and 999
 **Acceptance Criteria:**
 - [ ] AC-009-01: API returns correct data
 - [ ] AC-009-02: Error handling works
-- [ ] AC-009-03: Typecheck passes
-- [ ] AC-009-04: Lint passes
-- [ ] AC-009-05: New unit test added to verification suite
-- [ ] AC-009-06: Unit Tests passes
+- [ ] AC-009-03: Lint passes
+- [ ] AC-009-04: Typecheck passes
+- [ ] AC-009-05: Unit tests pass
 
 ### US-009-02: User Interface (UI)
 **Acceptance Criteria:**
-- [ ] AC-009-07: Button displays correctly
-- [ ] AC-009-08: Click triggers action
+- [ ] AC-009-06: Button displays correctly
+- [ ] AC-009-07: Click triggers action
+- [ ] AC-009-08: Lint passes
 - [ ] AC-009-09: Typecheck passes
-- [ ] AC-009-10: Lint passes
-- [ ] AC-009-11: New unit test added to verification suite
-- [ ] AC-009-12: New e2e test added to verification suite
-- [ ] AC-009-13: Unit Tests passes
-- [ ] AC-009-14: E2E Tests passes
-- [ ] AC-009-15: Verify in browser using dev-browser skill
+- [ ] AC-009-10: Unit tests pass
+- [ ] AC-009-11: E2E tests pass
+- [ ] AC-009-12: Verify in browser using dev-browser skill
 ```
 
 ### Measurability Issues

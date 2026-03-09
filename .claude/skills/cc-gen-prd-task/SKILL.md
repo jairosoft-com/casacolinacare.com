@@ -10,6 +10,8 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 ---
 
+> **Schema contract:** See [prd-json-schema.md](../prd-json-schema.md) for the full prd.json field definitions shared with `cc-azure-board-sync`.
+
 ## The Job
 
 Take a source requirements document (`PRD.md` or `BRD_PRD.md`) and convert it to `prd.json` in the same feature folder.
@@ -276,37 +278,82 @@ Add ability to mark tasks with different statuses.
       "notes": ""
     },
     {
-      "id": "US-003",
+      "id": "US-007-03",
       "title": "Add status toggle to task list rows",
       "description": "As a user, I want to change task status directly from the list.",
-      "technicalSpecSection": "#34-us-003-add-status-toggle-to-task-list-rows",
+      "technicalSpecSection": "#33-us-007-03-add-status-toggle-to-task-list-rows",
       "acceptanceCriteria": [
-        "Each row has status dropdown or toggle",
-        "Changing status saves immediately",
-        "UI updates without page refresh",
-        "Lint passes (run project's lint command)",
-        "Typecheck passes (run project's typecheck command)",
-        "Unit tests pass",
-        "E2E tests pass",
-        "Verify in browser using dev-browser skill"
+        {
+          "id": "AC-007-13",
+          "text": "Each row has status dropdown or toggle"
+        },
+        {
+          "id": "AC-007-14",
+          "text": "Changing status saves immediately"
+        },
+        {
+          "id": "AC-007-15",
+          "text": "UI updates without page refresh"
+        },
+        {
+          "id": "AC-007-16",
+          "text": "Lint passes (run project's lint command)"
+        },
+        {
+          "id": "AC-007-17",
+          "text": "Typecheck passes (run project's typecheck command)"
+        },
+        {
+          "id": "AC-007-18",
+          "text": "Unit tests pass"
+        },
+        {
+          "id": "AC-007-19",
+          "text": "E2E tests pass"
+        },
+        {
+          "id": "AC-007-20",
+          "text": "Verify in browser using dev-browser skill"
+        }
       ],
       "priority": 3,
       "passes": false,
       "notes": ""
     },
     {
-      "id": "US-004",
+      "id": "US-007-04",
       "title": "Filter tasks by status",
       "description": "As a user, I want to filter the list to see only certain statuses.",
-      "technicalSpecSection": "#35-us-004-filter-tasks-by-status",
+      "technicalSpecSection": "#34-us-007-04-filter-tasks-by-status",
       "acceptanceCriteria": [
-        "Filter dropdown: All | Pending | In Progress | Done",
-        "Filter persists in URL params",
-        "Lint passes (run project's lint command)",
-        "Typecheck passes (run project's typecheck command)",
-        "Unit tests pass",
-        "E2E tests pass",
-        "Verify in browser using dev-browser skill"
+        {
+          "id": "AC-007-21",
+          "text": "Filter dropdown: All | Pending | In Progress | Done"
+        },
+        {
+          "id": "AC-007-22",
+          "text": "Filter persists in URL params"
+        },
+        {
+          "id": "AC-007-23",
+          "text": "Lint passes (run project's lint command)"
+        },
+        {
+          "id": "AC-007-24",
+          "text": "Typecheck passes (run project's typecheck command)"
+        },
+        {
+          "id": "AC-007-25",
+          "text": "Unit tests pass"
+        },
+        {
+          "id": "AC-007-26",
+          "text": "E2E tests pass"
+        },
+        {
+          "id": "AC-007-27",
+          "text": "Verify in browser using dev-browser skill"
+        }
       ],
       "priority": 4,
       "passes": false,

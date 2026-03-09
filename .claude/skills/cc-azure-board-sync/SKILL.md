@@ -8,6 +8,8 @@ user-invocable: true
 
 You synchronize local requirements artifacts to Azure Boards using Azure DevOps MCP tools.
 
+> **Schema contract:** See [prd-json-schema.md](../prd-json-schema.md) for the full prd.json field definitions shared with `cc-gen-prd-task`.
+
 ## Goal
 
 Create one Azure Feature from a source requirements document, create Azure User Stories and Tasks from the canonical `prd.json`, establish hierarchy, update `prd.json` with Azure work item IDs, and return a synchronization report.
@@ -39,6 +41,27 @@ Before doing any parsing, validate all prerequisites.
 - Verify Azure DevOps MCP tools are available
 - Require organization and project name
 - Validate the connection before attempting any work item creation
+
+### Step 1.5: Detect Existing Azure Sync State
+
+Before parsing, check `prd.json` for existing Azure metadata to determine sync mode.
+
+**Detection logic:**
+1. Check if root-level `azureWorkItemId` exists → Feature already synced
+2. Check each user story for `azureWorkItemId` → Story already synced
+3. Check each acceptance criterion for `azureWorkItemId` → Task already synced
+
+**Classify items:**
+- `alreadySynced`: Items with existing `azureWorkItemId` fields
+- `needsCreation`: Items without `azureWorkItemId` fields
+
+**Sync mode prompt:**
+- If **all items** already synced: prompt user with options:
+  - **Skip**: Do nothing, report current state
+  - **Update**: Update existing Azure work items with current prd.json content
+  - **Force recreate**: Delete Azure references from prd.json and create all items fresh
+- If **some items** already synced (**Partial** mode): create only missing items by default (skip already-synced items)
+- If **no items** synced (**Normal** mode): proceed normally (create all items)
 
 ### Step 2: Parse The Source Document And JSON
 
@@ -113,11 +136,16 @@ Task
 
 Create work items in this order:
 
-1. Feature
-2. User Stories
-3. Tasks
+1. Feature (skip if already synced and not in Update mode)
+2. User Stories (skip items with existing `azureWorkItemId` unless in Update mode)
+3. Tasks (skip items with existing `azureWorkItemId` unless in Update mode)
 
-For each created item:
+**Sync mode behavior:**
+- **Normal/Create mode:** Only create items classified as `needsCreation` in Step 1.5
+- **Update mode:** Update existing Azure work items with current title/description from prd.json
+- **Force recreate mode:** Create all items fresh (Azure references were already cleared in Step 1.5)
+
+For each created or updated item:
 - Capture the Azure work item ID
 - Capture the Azure work item URL
 - Store mapping from canonical source ID to Azure work item ID
@@ -133,6 +161,7 @@ Create relationships using Azure MCP link tools.
 
 - Link every Azure User Story to the single Azure Feature created for the source document
 - Link every Azure Task to its parent Azure User Story using the stored `parentStoryId`
+- **Skip link creation for items that were already synced** (they already have Azure hierarchy links)
 - Do not derive parent story links from the AC ID pattern
 - If a parent item is missing, log a warning and skip the link
 
@@ -167,7 +196,9 @@ Return a Markdown report with:
 - source folder
 - source markdown file
 - Azure organization and project
+- **sync mode** (Normal / Update / Force recreate / Partial)
 - counts for Feature, User Stories, Tasks, links, warnings, and errors
+- **skip/create/update counts** (items skipped due to existing sync, items created, items updated)
 - mismatch count for feature-number validation
 - JSON update status
 - tables of created Azure items with source IDs and Azure URLs
