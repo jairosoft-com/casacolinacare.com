@@ -29,6 +29,18 @@ Ensure documentation and local working artifacts no longer propagate the incorre
 - AC-006-03: Unit tests pass.
 - AC-006-04: E2E tests pass.
 
+```gherkin
+Scenario: Correct founder name is displayed
+  Given a site visitor opens the About page
+  When the team section is rendered
+  Then the founder name shown is "Kriss Aseniero"
+
+Scenario: Old founder name is absent
+  Given a site visitor opens the About page
+  When the team section is rendered
+  Then the page does not contain "Kriss Judd"
+```
+
 **Validates:** OBJ-006-01
 
 ### US-006-02: Update documentation references

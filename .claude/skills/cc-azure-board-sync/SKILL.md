@@ -71,6 +71,13 @@ Use the source markdown for business context and the JSON file for executable st
 - Read the document overview, business objectives, success metrics, and narrative context
 - Do not create separate Azure Features for individual business objectives
 - Build a single Feature description from the document title, description, and summarized objectives or goals
+- For each user story in `prd.json`, locate the matching story section in the markdown document using the story ID
+- Support the story-section formats already present in local docs, including heading-style and bold-label story markers
+- Extract fenced `gherkin` blocks only from the matching story section
+- Ignore Gherkin in separate testing sections such as `Testing Requirements`, `Test Cases`, or other downstream validation sections
+- If the story section has no inline Gherkin, synthesize Gherkin from that story's checklist acceptance criteria
+- When synthesizing Gherkin, exclude quality-gate criteria such as lint, typecheck, unit tests, E2E tests, and browser verification
+- If no behavioral criteria remain after filtering, leave the Azure User Story acceptanceCriteria field empty and log a warning
 
 **From `prd.json`**
 - Require root fields: `project`, `featureName`, `featureId`, `description`, `userStories`
@@ -110,6 +117,8 @@ UserStory
   description
   priority
   technicalSpecSection
+  acceptanceCriteriaGherkin
+  gherkinSource
 
 Task
   id
@@ -126,6 +135,8 @@ Task
 - Title format: `{story.id}: {story.title}`
 - Description comes from the story description
 - Include story priority when available
+- Acceptance Criteria field comes from `acceptanceCriteriaGherkin`
+- Track whether the Gherkin payload was `extracted`, `synthesized`, or `empty`
 
 **Task mapping**
 - Title format: `{criterion.id}: {criterion.text}`
@@ -142,13 +153,18 @@ Create work items in this order:
 
 **Sync mode behavior:**
 - **Normal/Create mode:** Only create items classified as `needsCreation` in Step 1.5
-- **Update mode:** Update existing Azure work items with current title/description from prd.json
+- **Update mode:** Update existing Azure work items with current title, description, and synthesized or extracted acceptance criteria from the source files
 - **Force recreate mode:** Create all items fresh (Azure references were already cleared in Step 1.5)
 
 For each created or updated item:
 - Capture the Azure work item ID
 - Capture the Azure work item URL
 - Store mapping from canonical source ID to Azure work item ID
+
+**User Story create/update payload**
+- When creating or updating a User Story work item, include the Azure `acceptanceCriteria` field if `acceptanceCriteriaGherkin` is non-empty
+- If `acceptanceCriteriaGherkin` is empty, omit the Azure `acceptanceCriteria` field and log a warning
+- In Update mode, overwrite the Azure `acceptanceCriteria` field for stories being updated using the current markdown-derived payload
 
 If creation fails:
 - Log the error with item type, source ID, title, and stage
@@ -199,6 +215,7 @@ Return a Markdown report with:
 - **sync mode** (Normal / Update / Force recreate / Partial)
 - counts for Feature, User Stories, Tasks, links, warnings, and errors
 - **skip/create/update counts** (items skipped due to existing sync, items created, items updated)
+- counts for User Stories using `extracted`, `synthesized`, or `empty` acceptance-criteria payloads
 - mismatch count for feature-number validation
 - JSON update status
 - tables of created Azure items with source IDs and Azure URLs
@@ -214,6 +231,7 @@ Before running this skill, ensure:
 - [ ] User Story IDs use `US-{feature_number}-{seq}`
 - [ ] Acceptance Criteria IDs use `AC-{feature_number}-{seq}`
 - [ ] Acceptance criteria are objects with `id` and `text`
+- [ ] Source markdown contains inline Gherkin for a story, or the checklist criteria are sufficient to synthesize behavioral Gherkin
 - [ ] Azure DevOps MCP access is configured
 
 ## Example
@@ -225,6 +243,29 @@ Before running this skill, ensure:
 ### Source Markdown
 
 `BRD_PRD.md`
+
+~~~markdown
+### US-006-01: Update founder name in About page team section
+**Description:** As a site visitor viewing the About page, I want to see the correct founder name so that I have accurate information about who runs the care home.
+
+**Acceptance Criteria:**
+- AC-006-01: The team array entry at index 0 has `name: 'Kriss Aseniero'`.
+- AC-006-02: The string `Kriss Judd` does not appear anywhere in `src/app/about/page.tsx`.
+- AC-006-03: Unit tests pass.
+- AC-006-04: E2E tests pass.
+
+```gherkin
+Scenario: Correct founder name is displayed
+  Given a site visitor opens the About page
+  When the team section is rendered
+  Then the founder name shown is "Kriss Aseniero"
+
+Scenario: Old founder name is absent
+  Given a site visitor opens the About page
+  When the team section is rendered
+  Then the page does not contain "Kriss Judd"
+```
+~~~
 
 ### Canonical JSON
 
@@ -268,6 +309,12 @@ Before running this skill, ensure:
   - `AC-006-01: The About page team entry shows 'Kriss Aseniero'.`
   - `AC-006-02: The string 'Kriss Judd' does not appear in src/app/about/page.tsx.`
 
+### Expected Azure User Story Acceptance Criteria Field
+
+For `US-006-01`, the Azure User Story `acceptanceCriteria` field should contain the inline Gherkin from the markdown story section.
+
+If a different story has no inline Gherkin, the skill should synthesize Gherkin from its behavioral checklist criteria and exclude quality-gate lines such as lint, typecheck, unit tests, E2E tests, and browser verification.
+
 ### Expected JSON Enrichment
 
 ```json
@@ -302,5 +349,7 @@ Before running this skill, ensure:
 - Missing or invalid source markdown file: halt
 - Missing or invalid `prd.json`: halt
 - Invalid canonical IDs: halt if malformed, warn if parseable but mismatched
+- Missing inline Gherkin: synthesize from behavioral checklist criteria when possible
+- Stories with only quality-gate criteria: leave Azure User Story acceptanceCriteria empty and warn
 - Azure work item creation failure: log and continue where safe
 - JSON write failure: report failure but keep Azure creation results

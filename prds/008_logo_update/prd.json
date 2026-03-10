@@ -1,0 +1,247 @@
+{
+  "project": "CasaColinaCare",
+  "featureName": "ralph/logo-update",
+  "featureId": "008",
+  "description": "Update the text-based logo from Inter (font-sans) to Playfair Display (font-heading) across header, footer, and mobile navigation for typographic consistency.",
+  "detailedPrdPath": "BRD_PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
+  "azureWorkItemId": 200724,
+  "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200724",
+  "lastSyncedToAzure": "2026-03-09T22:59:34Z",
+  "azureOrganization": "jairo",
+  "azureProject": "CasaColinaCare.com",
+  "userStories": [
+    {
+      "id": "US-008-01",
+      "title": "Header Logo Font Update",
+      "description": "As a site visitor, I want to see the \"Casa Colina Care\" logo in the header rendered in Playfair Display font so that the logo visually matches the website's heading typography and conveys a warm, professional brand.",
+      "technicalSpecSection": "#31-us-008-01--header-logo-font-update",
+      "azureWorkItemId": 200725,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200725",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-008-01",
+          "text": "Header logo text \"Casa Colina Care\" renders in Playfair Display (font-heading class applied to Link element at src/components/layout/header.tsx:24)",
+          "azureWorkItemId": 200729,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200729"
+        },
+        {
+          "id": "AC-008-02",
+          "text": "Logo retains font-bold weight and tracking-tight letter spacing",
+          "azureWorkItemId": 200730,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200730"
+        },
+        {
+          "id": "AC-008-03",
+          "text": "Logo remains a clickable <Link> to / (home page)",
+          "azureWorkItemId": 200731,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200731"
+        },
+        {
+          "id": "AC-008-04",
+          "text": "Logo is legible at desktop viewport (1280px+) and mobile viewport (375px)",
+          "azureWorkItemId": 200732,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200732"
+        },
+        {
+          "id": "AC-008-13",
+          "text": "Create unit test tests/unit/header-logo.test.tsx that verifies font-heading class is present on header logo",
+          "azureWorkItemId": 200733,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200733"
+        },
+        {
+          "id": "AC-008-14",
+          "text": "Lint passes (npm run lint -- --fix)",
+          "azureWorkItemId": 200734,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200734"
+        },
+        {
+          "id": "AC-008-15",
+          "text": "Typecheck passes (npm run type-check)",
+          "azureWorkItemId": 200735,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200735"
+        },
+        {
+          "id": "AC-008-16",
+          "text": "Unit tests pass (npm test -- --run)",
+          "azureWorkItemId": 200736,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200736"
+        },
+        {
+          "id": "AC-008-17",
+          "text": "Verify in browser using dev-browser skill",
+          "azureWorkItemId": 200737,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200737"
+        }
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008-02",
+      "title": "Footer Logo Font Consistency",
+      "description": "As a site visitor, I want to see the footer logo in the same Playfair Display font as the header logo so that the brand identity is consistent across the entire page layout.",
+      "technicalSpecSection": "#32-us-008-02--footer-logo-font-consistency",
+      "azureWorkItemId": 200726,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200726",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-008-05",
+          "text": "Footer logo text renders in Playfair Display (font-heading class applied to h3 element at src/components/layout/footer.tsx:17)",
+          "azureWorkItemId": 200738,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200738"
+        },
+        {
+          "id": "AC-008-06",
+          "text": "Footer logo font family matches header logo font family (both use font-heading)",
+          "azureWorkItemId": 200739,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200739"
+        },
+        {
+          "id": "AC-008-18",
+          "text": "Create unit test tests/unit/footer-logo.test.tsx that verifies font-heading class is present on footer logo h3",
+          "azureWorkItemId": 200740,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200740"
+        },
+        {
+          "id": "AC-008-19",
+          "text": "Lint passes (npm run lint -- --fix)",
+          "azureWorkItemId": 200741,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200741"
+        },
+        {
+          "id": "AC-008-20",
+          "text": "Typecheck passes (npm run type-check)",
+          "azureWorkItemId": 200742,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200742"
+        },
+        {
+          "id": "AC-008-21",
+          "text": "Unit tests pass (npm test -- --run)",
+          "azureWorkItemId": 200743,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200743"
+        },
+        {
+          "id": "AC-008-22",
+          "text": "Verify in browser using dev-browser skill",
+          "azureWorkItemId": 200744,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200744"
+        }
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008-03",
+      "title": "Mobile Navigation Logo Font Consistency",
+      "description": "As a mobile site visitor, I want to see the mobile navigation logo in the same Playfair Display font as the header so that the brand experience is consistent when I open the mobile menu.",
+      "technicalSpecSection": "#33-us-008-03--mobile-navigation-logo-font-consistency",
+      "azureWorkItemId": 200727,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200727",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-008-07",
+          "text": "Mobile nav SheetTitle text renders in Playfair Display (font-heading class applied via className prop at src/components/layout/mobile-nav.tsx:41)",
+          "azureWorkItemId": 200745,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200745"
+        },
+        {
+          "id": "AC-008-08",
+          "text": "Mobile nav logo font matches header and footer logo font",
+          "azureWorkItemId": 200746,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200746"
+        },
+        {
+          "id": "AC-008-23",
+          "text": "Create unit test tests/unit/mobile-nav-logo.test.tsx that verifies font-heading class is present on SheetTitle",
+          "azureWorkItemId": 200747,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200747"
+        },
+        {
+          "id": "AC-008-24",
+          "text": "Lint passes (npm run lint -- --fix)",
+          "azureWorkItemId": 200748,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200748"
+        },
+        {
+          "id": "AC-008-25",
+          "text": "Typecheck passes (npm run type-check)",
+          "azureWorkItemId": 200749,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200749"
+        },
+        {
+          "id": "AC-008-26",
+          "text": "Unit tests pass (npm test -- --run)",
+          "azureWorkItemId": 200750,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200750"
+        },
+        {
+          "id": "AC-008-27",
+          "text": "Verify in browser using dev-browser skill",
+          "azureWorkItemId": 200751,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200751"
+        }
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008-04",
+      "title": "Logo Quality Assurance",
+      "description": "As a developer, I want the logo font change to pass all existing lint, typecheck, and test suites so that the change does not introduce regressions.",
+      "technicalSpecSection": "#34-us-008-04--quality-assurance",
+      "azureWorkItemId": 200728,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200728",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-008-09",
+          "text": "npm run lint -- --fix passes with no errors",
+          "azureWorkItemId": 200752,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200752"
+        },
+        {
+          "id": "AC-008-10",
+          "text": "npm run type-check passes with no errors",
+          "azureWorkItemId": 200753,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200753"
+        },
+        {
+          "id": "AC-008-11",
+          "text": "npm test -- --run passes with no failures",
+          "azureWorkItemId": 200754,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200754"
+        },
+        {
+          "id": "AC-008-12",
+          "text": "Lighthouse CLS score remains < 0.1 on all pages",
+          "azureWorkItemId": 200755,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200755"
+        },
+        {
+          "id": "AC-008-28",
+          "text": "Create E2E test tests/e2e/logo-consistency.spec.ts that verifies all 3 logo instances use Playfair Display computed font-family",
+          "azureWorkItemId": 200756,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200756"
+        },
+        {
+          "id": "AC-008-29",
+          "text": "E2E tests pass (npm run test:e2e)",
+          "azureWorkItemId": 200757,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200757"
+        },
+        {
+          "id": "AC-008-30",
+          "text": "Verify in browser using dev-browser skill",
+          "azureWorkItemId": 200758,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200758"
+        }
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
