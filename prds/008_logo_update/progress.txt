@@ -1,0 +1,24 @@
+# Jodex Progress Log
+Started: 2026-03-14 20:42:38.191985 -07:00
+---
+
+## Codebase Patterns
+- SheetTitle (Radix Dialog) only renders its content when the Sheet is open — unit tests must click the trigger button first before querying SheetTitle text
+- ADO Task close: do not set RemainingWork to 0 — the field triggers InvalidNotEmpty error. Only set State=Closed and CompletedWork.
+- Logo text in header, footer, mobile-nav all use `font-heading` class for Playfair Display consistency
+
+## 2026-03-14 20:46 - US-008-03
+- Added `className="font-heading"` to SheetTitle in `src/components/layout/mobile-nav.tsx:41`
+- Created unit test `tests/unit/mobile-nav-logo.test.tsx` that opens the Sheet then verifies font-heading class
+- All quality gates passed: lint, typecheck, 164 unit tests
+- Browser verification confirmed Playfair Display rendered on mobile nav logo
+- Files changed:
+  - `src/components/layout/mobile-nav.tsx` (modified — added font-heading to SheetTitle)
+  - `tests/unit/mobile-nav-logo.test.tsx` (new — unit test for mobile nav logo font)
+  - `prds/008_logo_update/prd.json` (updated — all AC and story passes set to true)
+- ADO cross-check: Feature 200724 not resolved — 1 ADO child story not in Resolved/Closed: 200728 "US-008-04: Logo Quality Assurance" (state: New). This story is not in prd.json scope.
+- **Learnings for future iterations:**
+  - SheetContent (Radix UI) does not render until the Sheet is opened — must use userEvent.click on trigger before querying content
+  - ADO wit_update_work_item rejects RemainingWork=0 with InvalidNotEmpty — omit it when closing tasks
+  - The `cn()` utility in SheetTitle merges className props, so adding `font-heading` via className works without overriding existing styles
+---
