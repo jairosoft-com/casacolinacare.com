@@ -89,48 +89,55 @@
         {
           "id": "AC-008-05",
           "text": "Footer logo text renders in Playfair Display (font-heading class applied to h3 element at src/components/layout/footer.tsx:17)",
+          "passes": true,
           "azureWorkItemId": 200738,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200738"
         },
         {
           "id": "AC-008-06",
           "text": "Footer logo font family matches header logo font family (both use font-heading)",
+          "passes": true,
           "azureWorkItemId": 200739,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200739"
         },
         {
           "id": "AC-008-18",
           "text": "Create unit test tests/unit/footer-logo.test.tsx that verifies font-heading class is present on footer logo h3",
+          "passes": true,
           "azureWorkItemId": 200740,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200740"
         },
         {
           "id": "AC-008-19",
           "text": "Lint passes (npm run lint -- --fix)",
+          "passes": true,
           "azureWorkItemId": 200741,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200741"
         },
         {
           "id": "AC-008-20",
           "text": "Typecheck passes (npm run type-check)",
+          "passes": true,
           "azureWorkItemId": 200742,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200742"
         },
         {
           "id": "AC-008-21",
           "text": "Unit tests pass (npm test -- --run)",
+          "passes": true,
           "azureWorkItemId": 200743,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200743"
         },
         {
           "id": "AC-008-22",
           "text": "Verify in browser using dev-browser skill",
+          "passes": true,
           "azureWorkItemId": 200744,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200744"
         }
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {

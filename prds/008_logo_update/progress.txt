@@ -1,0 +1,30 @@
+# Ralph Progress Log
+Started: 2026-03-15
+---
+
+## Codebase Patterns
+- Fonts: Inter (body/`font-sans`) and Playfair Display (headings/`font-heading`) configured via `next/font/google` CSS variables in layout.tsx and Tailwind fontFamily config
+- Headings h1-h3 automatically get `font-heading` via globals.css base layer
+- The `font-heading` class is the only change needed for logo font — no new font packages, CSS, or Tailwind config required
+- Footer is a server component — no `'use client'` needed
+- E2E tests targeting the site footer should use `page.getByRole('contentinfo')` not `page.locator('footer')` — there are multiple `<footer>` elements on the page
+- ADO closing tasks: do NOT include RemainingWork=0 — ADO rule rejects empty Remaining Work on Closed state. Only set CompletedWork.
+---
+
+## 2026-03-15 - US-008-02 Footer Logo Font Consistency
+- Added `font-heading` class to footer logo `<h3>` in `src/components/layout/footer.tsx` (line 17)
+- Footer logo now renders in Playfair Display, matching header logo for brand consistency
+- Created unit test `tests/unit/footer-logo.test.tsx` (2 tests: font-heading class, font-bold + tracking-tight retained)
+- All quality checks pass: lint, typecheck, 165 unit tests (165/165)
+- Browser verified at desktop (1280px) and mobile (375px) — footer logo renders in serif font matching headings
+- Files changed:
+  - `src/components/layout/footer.tsx` (modified — added `font-heading` to logo h3 className)
+  - `tests/unit/footer-logo.test.tsx` (new)
+  - `prds/008_logo_update/prd.json` (updated — US-008-02 passes: true)
+  - `prds/008_logo_update/progress.txt` (new)
+- **Note:** TECH_SPEC.md describes broader scope (US-008-03 mobile nav, US-008-04 QA) but prd.json contains all 4 stories. Execution limited to US-008-02 this iteration.
+- **Learnings for future iterations:**
+  - Footer logo uses `<h3>` not `<Link>` — query with `getByRole('heading', { name: /casa colina care/i })` in tests
+  - ADO Task closing: omit `RemainingWork` field — ADO throws `InvalidNotEmpty` when setting it to 0 on Closed state
+  - When branching from `main` for a story in a multi-story feature, the prd.json on main may not have `passes: true` from sibling story branches — only update the current story's state
+---
