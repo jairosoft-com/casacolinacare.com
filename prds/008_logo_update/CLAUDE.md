@@ -336,15 +336,17 @@ manual state updates, and continue with the remaining steps.
 
 After completing a user story, check if ALL stories have `passes: true`.
 
-If ALL stories pass, perform the ADO cross-check described in
-"Resolving the Feature" above before resolving the Feature. Reply
-with COMPLETE regardless — the prd.json scope is done even if the
-Feature cannot be resolved due to non-terminal ADO children.
-
-If ALL stories are complete and passing, reply with: <promise>COMPLETE</promise>
+If ALL stories pass:
+1. Perform the ADO cross-check described in "Resolving the Feature" above
+2. Resolve the Feature if the cross-check passes (or skip if blocked)
+3. **Reply with exactly:** <promise>COMPLETE</promise>
+   This tag is REQUIRED — the Jodex runner uses it to stop the loop.
+   Emit it even if the Feature could not be resolved due to non-terminal
+   ADO children. The prd.json scope is done.
 
 If there are still stories with `passes: false`, end your response normally
-(another iteration will pick up the next story).
+(another iteration will pick up the next story). Do NOT emit the
+COMPLETE tag in this case.
 
 ## Important
 
