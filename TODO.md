@@ -20,3 +20,6 @@
 - [x] Do not include the user story identifier and the feature identifier that was generated in the BRD/PRD when creating the work item in Azure Board 
 - [ ]  Jodex should be able to update the related work item in ADO from the task in the PRD.json file
 - [ ] update agent.md and Claude.md regarding the skills that are available for this repo 
+- [ ] Align Ralph/Jodex git workflow conventions and non-interactive commit handling in the future workflow documents and tooling
+- [ ] Fix `ralph/` prefix in cc-gen-prd-task featureName — it bleeds into CLAUDE.md branch derivation (step 11 converts `/` to `-`, producing `ralph-` instead of clean feature names)
+- [x] Add per-AC `passes` tracking to Jodex CLAUDE.md — step 21 only flips story-level `passes: true` but never sets individual AC `passes: true` during execution

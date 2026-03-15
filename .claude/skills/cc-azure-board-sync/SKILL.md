@@ -1,6 +1,6 @@
 ---
 name: cc-azure-board-sync
-description: "Synchronize a PRD.md or BRD_PRD.md and its canonical prd.json to Azure Boards. Creates one Feature for the source document, User Stories for each story, Tasks for each acceptance criterion, then writes Azure work item IDs back to prd.json. Triggers on: sync to azure boards, create azure work items, populate azure boards from prd."
+description: "Synchronize a PRD.md or BRD_PRD.md and its canonical prd.json to Azure Boards. Creates one Feature for the source document, User Stories for each story, Tasks for each acceptance criterion, then writes Azure work item IDs back to prd.json. In State Sync mode, updates work item states based on prd.json passes flags. Triggers on: sync to azure boards, create azure work items, populate azure boards from prd, sync state to azure."
 user-invocable: true
 ---
 
@@ -60,6 +60,7 @@ Before parsing, check `prd.json` for existing Azure metadata to determine sync m
   - **Skip**: Do nothing, report current state
   - **Update**: Update existing Azure work items with current prd.json content
   - **Force recreate**: Delete Azure references from prd.json and create all items fresh
+  - **State sync**: Update Azure work item states based on `passes` flags in prd.json (see [Step 5.5](#step-55-sync-work-item-states)). **Note:** Only run after the Jodex agent has finished iterating to avoid conflicting state updates.
 - If **some items** already synced (**Partial** mode): create only missing items by default (skip already-synced items)
 - If **no items** synced (**Normal** mode): proceed normally (create all items)
 
@@ -181,6 +182,117 @@ Create relationships using Azure MCP link tools.
 - Do not derive parent story links from the AC ID pattern
 - If a parent item is missing, log a warning and skip the link
 
+### Step 5.5: Sync Work Item States
+
+**Ownership boundary:** State Sync is designed for **post-hoc reconciliation**
+— run it AFTER the Jodex agent has completed its iterations, not during. The
+Jodex agent (`CLAUDE.md` in PRD folders) performs in-flight state updates with
+estimates during execution. State Sync complements this by catching regressions
+and mismatches the agent could not handle (e.g., reopening items where `passes`
+regressed to `false`).
+
+**Scope:** State Sync updates `System.State` only. It does **not** set or modify
+estimate fields (`OriginalEstimate`, `CompletedWork`, `RemainingWork`). Estimates
+are set by the Jodex agent during execution (steps 14 and 20 of its workflow).
+If Tasks were never processed by Jodex, their estimate fields will be empty.
+
+This step runs **only in State Sync mode**. It reads `passes` flags from
+`prd.json` and updates Azure work item states to match.
+
+**Prerequisites:**
+- All items must have `azureWorkItemId` (fully synced)
+- Acceptance criteria must have `passes` boolean fields
+
+**For each acceptance criterion (Task):**
+
+1. Read the current Azure work item state using
+   `mcp__azure-devops__wit_get_work_item`
+2. Apply the transition table:
+
+| AC `passes` | Current ADO State  | Action                                        |
+|-------------|--------------------|-----------------------------------------------|
+| `true`      | New                | → **Active** then → **Closed** (two updates)  |
+| `true`      | Active             | → **Closed**                                   |
+| `true`      | Closed             | No change                                      |
+| `false`     | Resolved or Closed | → **Active** (reopen — regression)             |
+| `false`     | New or Active      | No change                                      |
+| Either      | Removed            | Log warning, skip                              |
+
+**For each user story:**
+
+1. Read the current Azure work item state
+2. Apply the transition table:
+
+"Story complete" = story `passes: true` AND every AC `passes: true`
+
+| Story complete? | Current ADO State  | Action                                          |
+|-----------------|--------------------|-------------------------------------------------|
+| Yes             | New                | → **Active** then → **Resolved** (two updates)  |
+| Yes             | Active             | → **Resolved**                                   |
+| Yes             | Resolved           | No change                                        |
+| No              | Resolved or Closed | → **Active** (reopen — regression or new AC)     |
+| No              | New or Active      | No change                                        |
+| —               | Removed            | Log warning, skip                                |
+
+**Story reopen:** If a Story is Resolved or Closed but is NOT complete
+(either story `passes` is false, or any AC has `passes: false` — e.g.,
+a new acceptance criterion was added), reopen the Story to **Active**.
+
+**For each Feature (root-level `azureWorkItemId`):**
+1. Read the current Azure work item state
+2. **ADO cross-check:** Read the Feature work item with `expand: relations`.
+   For each child relation (`System.LinkTypes.Hierarchy-Forward`) that is a
+   User Story, read its current ADO state. Ignore non-User-Story children
+   (e.g., Tasks linked directly to the Feature) and children in `Removed`
+   state (treat as terminal).
+3. Derive completion using **both** sources:
+   - **prd.json check:** all user stories in prd.json have `passes: true`
+   - **ADO check:** all child User Stories in ADO are `Resolved` or `Closed`
+   - "All stories pass?" = **Yes** only when BOTH conditions are true
+   - If prd.json says complete but ADO has non-terminal children, log a
+     warning: "Feature {id} has {N} ADO child story/stories not in
+     Resolved/Closed: {list of ID, title, state}" and treat as **No**
+4. If the Feature has no ADO relations (orphan), fall back to prd.json-only
+5. Apply:
+
+| All stories pass? | Current State  | Action                                  |
+|-------------------|----------------|-----------------------------------------|
+| Yes               | New            | → Active → Resolved (two updates)       |
+| Yes               | Active         | → Resolved                              |
+| Yes               | Resolved       | No change                               |
+| No                | Resolved/Closed| → Active (reopen)                       |
+| No                | New/Active     | No change                               |
+| —                 | Removed        | Log warning, skip                        |
+
+**Feature reopen (regression):** If a Feature is Resolved or Closed but
+NOT all stories pass the combined check (prd.json + ADO cross-check),
+reopen the Feature to **Active**. This catches both prd.json regressions
+AND drift where ADO has child stories not tracked in prd.json. The reopen
+uses a single update:
+`{ "path": "/fields/System.State", "value": "Active" }`.
+
+**Key principle:** Only change state when prd.json and ADO disagree. If an item
+was previously Resolved or Closed but prd.json says `passes: false`, reopen it
+to Active. Otherwise leave the current state untouched.
+
+**Unrecognized states:** If a work item is in a state not listed in the
+transition tables (e.g., Removed), log a warning and skip the item. Do not
+attempt to transition out of terminal or non-standard states.
+
+**Two-step transitions:** When the target state requires an intermediate step
+(e.g., `New → Closed` requires `New → Active → Closed`), issue both updates
+sequentially. If the first update succeeds but the second fails, log the error
+— the item will be in an intermediate state (Active) which is still an
+improvement over stale (New) and can be corrected on the next sync run.
+
+**Implementation:**
+- Use `mcp__azure-devops__wit_update_work_item` with
+  `{ "path": "/fields/System.State", "value": "<target_state>" }`
+- Process Tasks → Stories → Feature (each level depends on children)
+- Skip items without `azureWorkItemId`
+- If a state transition fails (e.g., invalid transition in the ADO process
+  template), log the error and continue with remaining items
+
 ### Step 6: Update `prd.json`
 
 Preserve canonical IDs and add Azure metadata.
@@ -206,6 +318,10 @@ Preserve canonical IDs and add Azure metadata.
 - Preserve unrelated fields
 - Write JSON with 2-space indentation
 
+**State Sync mode:** Even though no new items are created, update
+`lastSyncedToAzure` to the current timestamp after completing state
+transitions.
+
 ### Step 7: Return A Sync Report
 
 Return a Markdown report with:
@@ -215,6 +331,9 @@ Return a Markdown report with:
 - **sync mode** (Normal / Update / Force recreate / Partial)
 - counts for Feature, User Stories, Tasks, links, warnings, and errors
 - **skip/create/update counts** (items skipped due to existing sync, items created, items updated)
+- **state sync counts** (tasks closed, tasks reopened, stories resolved, stories reopened) — State Sync mode only
+- **estimates_missing** — count of Tasks closed by State Sync that have no `OriginalEstimate` set. If > 0, append a note: "N task(s) closed without estimates — run Jodex or set estimates manually in ADO." — State Sync mode only
+- **feature_blocked_by** — if Feature resolve was blocked by the ADO cross-check, list the non-terminal ADO child stories (ID, title, state) and append a note: "Feature not resolved — N ADO child story/stories still in {states}. Resolve these stories or remove them from the Feature in ADO." — State Sync mode only
 - counts for User Stories using `extracted`, `synthesized`, or `empty` acceptance-criteria payloads
 - mismatch count for feature-number validation
 - JSON update status
@@ -286,11 +405,13 @@ Scenario: Old founder name is absent
       "acceptanceCriteria": [
         {
           "id": "AC-006-01",
-          "text": "The About page team entry shows 'Kriss Aseniero'."
+          "text": "The About page team entry shows 'Kriss Aseniero'.",
+          "passes": false
         },
         {
           "id": "AC-006-02",
-          "text": "The string 'Kriss Judd' does not appear in src/app/about/page.tsx."
+          "text": "The string 'Kriss Judd' does not appear in src/app/about/page.tsx.",
+          "passes": false
         }
       ],
       "priority": 1,
@@ -334,6 +455,7 @@ If a different story has no inline Gherkin, the skill should synthesize Gherkin 
         {
           "id": "AC-006-01",
           "text": "The About page team entry shows 'Kriss Aseniero'.",
+          "passes": false,
           "azureWorkItemId": 200270,
           "azureWorkItemUrl": "https://dev.azure.com/example/project/_workitems/edit/200270"
         }
