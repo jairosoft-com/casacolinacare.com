@@ -181,28 +181,28 @@
         {
           "id": "AC-008-24",
           "text": "Lint passes (npm run lint -- --fix)",
-          "passes": true,
+          "passes": false,
           "azureWorkItemId": 200748,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200748"
         },
         {
           "id": "AC-008-25",
           "text": "Typecheck passes (npm run type-check)",
-          "passes": true,
+          "passes": false,
           "azureWorkItemId": 200749,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200749"
         },
         {
           "id": "AC-008-26",
           "text": "Unit tests pass (npm test -- --run)",
-          "passes": true,
+          "passes": false,
           "azureWorkItemId": 200750,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200750"
         },
         {
           "id": "AC-008-27",
           "text": "Verify in browser using dev-browser skill",
-          "passes": true,
+          "passes": false,
           "azureWorkItemId": 200751,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200751"
         }
