@@ -1,12 +1,12 @@
 ---
 name: cc-gen-prd-task
-description: "Convert a PRD.md or BRD_PRD.md into canonical prd.json for Ralph autonomous execution. Preserve folder-based IDs from the source requirements document and emit TECH_SPEC.md references when available. Triggers on: convert this prd, turn this into ralph format, create prd.json from this, ralph json."
+description: "Convert a PRD.md or BRD_PRD.md into canonical prd.json for Jodex autonomous execution. Preserve folder-based IDs from the source requirements document and emit TECH_SPEC.md references when available. Triggers on: convert this prd, turn this into jodex format, create prd.json from this, jodex json."
 user-invocable: true
 ---
 
-# Ralph PRD Converter
+# Jodex PRD Converter
 
-Converts existing PRDs to the prd.json format that Ralph uses for autonomous execution.
+Converts existing PRDs to the prd.json format that Jodex uses for autonomous execution.
 
 ---
 
@@ -51,15 +51,19 @@ If you have multiple features, create separate requirements documents and conver
         {
           "id": "AC-007-01",
           "text": "Criterion 1",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-02",
           "text": "Criterion 2",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         }
       ],
       "priority": 1,
+      "storyPoints": 2,
+      "totalEstimatedHours": 1.25,
       "passes": false,
       "notes": ""
     }
@@ -71,9 +75,9 @@ If you have multiple features, create separate requirements documents and conver
 
 ## Story Size: The Number One Rule
 
-**Each story must be completable in ONE Ralph iteration (one context window).**
+**Each story must be completable in ONE Jodex iteration (one context window).**
 
-Ralph spawns a fresh Amp instance per iteration with no memory of previous work. If a story is too big, the LLM runs out of context before finishing and produces broken code.
+Jodex spawns a fresh agent instance per iteration with no memory of previous work. If a story is too big, the LLM runs out of context before finishing and produces broken code.
 
 ### Right-sized stories:
 - Add a database column and migration
@@ -106,9 +110,82 @@ Stories execute in priority order. Earlier stories must not depend on later ones
 
 ---
 
+## Hour Estimation
+
+Every acceptance criterion gets an `estimatedHours` value. Every user story gets `totalEstimatedHours` (sum of its ACs) and `storyPoints` (Fibonacci relative sizing).
+
+### Estimation Procedure
+
+Before assigning `estimatedHours` to any AC, read the source documents to understand the implementation scope:
+
+1. **Read the source PRD/BRD_PRD.md** — identify for each user story:
+   - How many files/components does the story touch?
+   - Are there design constraints (responsive, a11y, brand rules)?
+   - What is the functional complexity (simple swap vs. new logic)?
+   - What are the non-goals (scope explicitly excluded)?
+
+2. **Read TECH_SPEC.md** (if `technicalSpecPath` exists) — for each story:
+   - Use `technicalSpecSection` to find the relevant heading
+   - Identify specific files listed for modification
+   - Note the implementation approach (class change vs. refactor)
+   - Note edge cases, constraints, or dependencies called out
+
+3. **Read the story description** — the "As a..., I want..., so that..." clause reveals scope:
+   - "As a developer" stories are usually internal/tooling (lower hours)
+   - "As a site visitor" stories involve user-facing UI (consider a11y, responsiveness, visual verification)
+
+4. **Then classify each AC** using the Hour Scale table below, adjusting based on scope context from steps 1–3.
+
+### Hour Scale (per AC)
+
+| Hours | Label | When to use |
+|-------|-------|-------------|
+| 0.25 | Trivial | Quality gates: lint, typecheck, unit tests passing |
+| 0.5 | Simple | E2E test pass, browser verification, single data/config change |
+| 1 | Moderate | New test file, component update, multi-file change |
+| 2 | Complex | New feature logic, significant refactor, cross-cutting change |
+
+### Scope Adjustments
+
+After reading the source documents, adjust the base hour value:
+
+| Signal from source docs | Adjustment |
+|------------------------|------------|
+| TECH_SPEC lists 1 file to modify | No change |
+| TECH_SPEC lists 3+ files for this AC | +0.5h (bump to next tier) |
+| PRD specifies responsive/a11y constraints | +0.25h on UI ACs |
+| TECH_SPEC calls out edge cases or gotchas | +0.25h |
+| AC involves cross-component coordination | Bump to 2h |
+| Story non-goals explicitly exclude scope | -0.25h (simpler than it looks) |
+| Test AC: single assertion vs. multi-scenario | 0.5h vs 1h vs 2h |
+
+**Cap:** No single AC exceeds 2h. If adjustments push past 2h, the AC is too large — flag it for splitting.
+
+### Story Points (per User Story)
+
+| Points | Label | Signals |
+|--------|-------|---------|
+| 1 | Trivial | 1–2 ACs, single file, ≤ 0.75h, no TECH_SPEC constraints |
+| 2 | Small | 2–3 ACs, 1–2 files, ≤ 1.5h, simple implementation |
+| 3 | Medium | 3–5 ACs, 2–4 files, ≤ 3h, some constraints/edge cases |
+| 5 | Large | 5–7 ACs, 4–6 files, ≤ 5h, responsive/a11y/multi-concern |
+| 8 | Extra Large | 7+ ACs, 6+ files, cross-cutting — consider splitting |
+
+### Quick Reference
+
+- **Read PRD/BRD_PRD.md and TECH_SPEC.md BEFORE estimating** — AC text alone is insufficient
+- Quality gate ACs (lint, typecheck, unit tests) → always **0.25h** (no scope read needed)
+- E2E tests / browser verification → always **0.5h** (no scope read needed)
+- Content/logic ACs → **0.5h–2h** based on source document scope
+- Apply scope adjustments from TECH_SPEC (file count, edge cases, constraints)
+- `totalEstimatedHours` = sum of all AC `estimatedHours`
+- `storyPoints` = Fibonacci value based on AC count + totalEstimatedHours + scope complexity
+
+---
+
 ## Acceptance Criteria: Must Be Verifiable
 
-Each criterion must be something Ralph can CHECK, not something vague.
+Each criterion must be something Jodex can CHECK, not something vague.
 
 ### Good criteria (verifiable):
 - "Add `status` column to tasks table with default 'pending'"
@@ -142,7 +219,7 @@ For stories with testable logic, also include:
 
 **Note:** The prd skill automatically adds these standard quality criteria based on story type, so they should already be present in the source PRD.
 
-Frontend stories are NOT complete until visually verified. Ralph will use the dev-browser skill to navigate to the page, interact with the UI, and confirm changes work.
+Frontend stories are NOT complete until visually verified. Jodex will use the dev-browser skill to navigate to the page, interact with the UI, and confirm changes work.
 
 ---
 
@@ -152,7 +229,7 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
 2. **IDs**: Preserve source IDs exactly as written in the source document
 3. **Priority**: Based on dependency order, then document order
 4. **All stories**: `passes: false` and empty `notes`
-5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
+5. **branchName**: Derive from feature name, kebab-case, prefixed with `jodex/`
 6. **detailedPrdPath**: Set to the actual source document name (`PRD.md` or `BRD_PRD.md`)
 7. **technicalSpecPath** (optional): Set to `TECH_SPEC.md` if technical specifications are available
 8. **technicalSpecSection** (per story, optional): Set to the markdown heading anchor for each story
@@ -160,8 +237,11 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
    - Format: lowercase, spaces→hyphens, special chars removed
    - Example: `### 3.1 US-007-01: Update Schema.org Structured Data` → `#31-us-007-01-update-schemaorg-structured-data`
    - Example: `### 3.2 US-007-02: Update Contact Page — Phone, Fax, and Address` → `#32-us-007-02-update-contact-page--phone-fax-and-address`
-9. **Acceptance criteria**: Emit canonical objects with `id`, `text`, and `passes: false`, preserving source IDs exactly
+9. **Acceptance criteria**: Emit canonical objects with `id`, `text`, `passes: false`, and `estimatedHours`, preserving source IDs exactly
 10. **Preserve all acceptance criteria** from the source PRD (quality checks like lint, typecheck, tests are already included by the PRD skill)
+11. **estimatedHours**: Read source PRD/BRD_PRD.md and TECH_SPEC.md first, then estimate each AC using the hour scale (0.25, 0.5, 1, 2) based on implementation scope. Quality gates are always 0.25h
+12. **totalEstimatedHours**: Sum of all AC `estimatedHours` for the story
+13. **storyPoints**: Fibonacci estimate (1, 2, 3, 5, 8) based on AC count, `totalEstimatedHours`, and scope complexity from source documents
 
 ---
 
@@ -203,7 +283,7 @@ Add ability to mark tasks with different statuses.
 ```json
 {
   "project": "TaskApp",
-  "featureName": "ralph/task-status",
+  "featureName": "jodex/task-status",
   "featureId": "007",
   "description": "Task Status Feature - Track task progress with status indicators",
   "detailedPrdPath": "PRD.md",
@@ -218,30 +298,37 @@ Add ability to mark tasks with different statuses.
         {
           "id": "AC-007-01",
           "text": "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-02",
           "text": "Generate and run migration successfully",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-007-03",
           "text": "Lint passes (run project's lint command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-04",
           "text": "Typecheck passes (run project's typecheck command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-05",
           "text": "Unit tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         }
       ],
       "priority": 1,
+      "storyPoints": 2,
+      "totalEstimatedHours": 2.25,
       "passes": false,
       "notes": ""
     },
@@ -254,40 +341,49 @@ Add ability to mark tasks with different statuses.
         {
           "id": "AC-007-06",
           "text": "Each task card shows colored status badge",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-07",
           "text": "Badge colors: gray=pending, blue=in_progress, green=done",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-007-08",
           "text": "Lint passes (run project's lint command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-09",
           "text": "Typecheck passes (run project's typecheck command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-10",
           "text": "Unit tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-11",
           "text": "E2E tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-007-12",
           "text": "Verify in browser using dev-browser skill",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         }
       ],
       "priority": 2,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.25,
       "passes": false,
       "notes": ""
     },
@@ -300,45 +396,55 @@ Add ability to mark tasks with different statuses.
         {
           "id": "AC-007-13",
           "text": "Each row has status dropdown or toggle",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-14",
           "text": "Changing status saves immediately",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-15",
           "text": "UI updates without page refresh",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-16",
           "text": "Lint passes (run project's lint command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-17",
           "text": "Typecheck passes (run project's typecheck command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-18",
           "text": "Unit tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-19",
           "text": "E2E tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-007-20",
           "text": "Verify in browser using dev-browser skill",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         }
       ],
       "priority": 3,
+      "storyPoints": 5,
+      "totalEstimatedHours": 4.75,
       "passes": false,
       "notes": ""
     },
@@ -351,40 +457,49 @@ Add ability to mark tasks with different statuses.
         {
           "id": "AC-007-21",
           "text": "Filter dropdown: All | Pending | In Progress | Done",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-22",
           "text": "Filter persists in URL params",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 1
         },
         {
           "id": "AC-007-23",
           "text": "Lint passes (run project's lint command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-24",
           "text": "Typecheck passes (run project's typecheck command)",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-25",
           "text": "Unit tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         },
         {
           "id": "AC-007-26",
           "text": "E2E tests pass",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-007-27",
           "text": "Verify in browser using dev-browser skill",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         }
       ],
       "priority": 4,
+      "storyPoints": 5,
+      "totalEstimatedHours": 3.75,
       "passes": false,
       "notes": ""
     }
@@ -405,7 +520,7 @@ Add ability to mark tasks with different statuses.
    - Copy current `prd.json` and `progress.txt` to archive
    - Reset `progress.txt` with fresh header
 
-**The ralph.sh script handles this automatically** when you run it, but if you are manually updating prd.json between runs, archive first.
+**The jodex.sh script handles this automatically** when you run it, but if you are manually updating prd.json between runs, archive first.
 
 ---
 
@@ -424,3 +539,7 @@ Before writing prd.json, verify:
 - [ ] Quality criteria present (lint, typecheck, unit tests for all stories; e2e tests and browser verification for UI stories)
 - [ ] Acceptance criteria are verifiable (not vague)
 - [ ] No story depends on a later story
+- [ ] Source PRD/BRD_PRD.md and TECH_SPEC.md read before setting estimates
+- [ ] `estimatedHours` set for every AC (0.25, 0.5, 1, or 2)
+- [ ] `totalEstimatedHours` set for every story (sum of AC hours)
+- [ ] `storyPoints` set for every story (1, 2, 3, 5, or 8)

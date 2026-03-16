@@ -9,7 +9,7 @@ This document defines the canonical schema for `prd.json`, the shared contract b
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `project` | string | Yes | Project name (e.g., "CasaColinaCare") |
-| `featureName` | string | Yes | Feature name in kebab-case, prefixed with `ralph/` for branch naming |
+| `featureName` | string | Yes | Feature name in kebab-case, prefixed with `jodex/` for branch naming |
 | `featureId` | string | Yes | 3-digit feature number from folder name, preserving leading zeros (e.g., "006", "010") |
 | `description` | string | Yes | Feature description from PRD title/intro |
 | `detailedPrdPath` | string | Yes | Source document filename: `PRD.md` or `BRD_PRD.md` |
@@ -38,6 +38,8 @@ This document defines the canonical schema for `prd.json`, the shared contract b
 | `technicalSpecSection` | string | No | Markdown anchor to TECH_SPEC.md section (e.g., "#31-us-006-01-story-title") |
 | `acceptanceCriteria` | array | Yes | Array of Acceptance Criteria objects (see below) |
 | `priority` | number | Yes | Execution order (1-based, dependency-ordered) |
+| `storyPoints` | number | Yes | Fibonacci estimate (1, 2, 3, 5, 8). Always set when generated |
+| `totalEstimatedHours` | number | Yes | Sum of all AC `estimatedHours`. Always set when generated |
 | `passes` | boolean | Yes | Whether story passes all criteria. Always `false` when generated |
 | `notes` | string | Yes | Execution notes. Always `""` when generated |
 
@@ -59,6 +61,7 @@ This document defines the canonical schema for `prd.json`, the shared contract b
 | `id` | string | Yes | Format: `AC-{feature_number}-{seq}` with global sequential numbering |
 | `text` | string | Yes | Verifiable criterion text |
 | `passes` | boolean | Yes | Whether this criterion has been verified. Always `false` when generated |
+| `estimatedHours` | number | Yes | Hour estimate: 0.25, 0.5, 1, or 2. Always set when generated |
 
 ### Azure Sync Fields (added by cc-azure-board-sync)
 
@@ -100,15 +103,19 @@ From `prds/006_about_founder_name/prd.json`:
         {
           "id": "AC-006-01",
           "text": "The About page team entry shows 'Kriss Aseniero'.",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.5
         },
         {
           "id": "AC-006-02",
           "text": "The string 'Kriss Judd' does not appear in src/app/about/page.tsx.",
-          "passes": false
+          "passes": false,
+          "estimatedHours": 0.25
         }
       ],
       "priority": 1,
+      "storyPoints": 1,
+      "totalEstimatedHours": 0.75,
       "passes": false,
       "notes": ""
     }
