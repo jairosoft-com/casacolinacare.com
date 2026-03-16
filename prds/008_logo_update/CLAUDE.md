@@ -15,49 +15,67 @@ You are an autonomous coding agent working on a software project.
 5. Treat `prd.json` as the execution source of truth for scope, user story
    order, acceptance criteria, and completion state
 6. Pick the **highest priority** user story where `passes: false`
-7. Use `prd.json` to determine what is required for that story. Treat BRD, PRD and
-   Technical Spec documents as context only
-8. If BRD, PRD or Technical Spec documents describe broader scope than `prd.json`,
-   do **not** expand the implementation scope. Append a note to `progress.txt`
-   stating that broader context exists, but execution remained limited to the
-   `prd.json` story set
-9. Derive the story branch name using this pattern:
-   `[feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`
-10. Build `feature-name-kebab-case` by lowercasing `featureName` and converting
+7. **Activate the User Story in Azure DevOps** — if the story has an
+   `azureWorkItemId`, update its state to **Active** (see
+   [Azure DevOps Work Item Updates](#azure-devops-work-item-updates))
+8. Use `prd.json` to determine what is required for that story. Treat BRD, PRD
+   and Technical Spec documents as context only
+9. If BRD, PRD or Technical Spec documents describe broader scope than
+   `prd.json`, do **not** expand the implementation scope. Append a note to
+   `progress.txt` stating that broader context exists, but execution remained
+   limited to the `prd.json` story set
+10. Derive the story branch name using this pattern:
+    `[feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`
+11. Build `feature-name-kebab-case` by lowercasing `featureName` and converting
     `/`, `_`, and spaces to `-`, then collapsing repeated hyphens
-11. Build `story-name-slugified` by lowercasing the story title and converting
+12. Build `story-name-slugified` by lowercasing the story title and converting
     `/`, `_`, and spaces to `-`, then collapsing repeated hyphens
-12. Check you're on the correct derived branch. If not, check it out or create
+13. Check you're on the correct derived branch. If not, check it out or create
     it from `main`
-13. Implement that single user story
-14. Run the baseline health check:
+14. **Activate and estimate Tasks in Azure DevOps** — for each acceptance
+    criterion with an `azureWorkItemId`, set the Task state to **Active** and
+    provide an Original Estimate in hours (see
+    [Azure DevOps Work Item Updates](#azure-devops-work-item-updates))
+15. Implement that single user story
+16. Run the baseline health check:
 
     ```bash
     npm run lint -- --fix && npm run type-check && npm test -- --run
     ```
 
-15. Run browser verification only if the selected story's `prd.json`
+17. Run browser verification only if the selected story's `prd.json`
     acceptance criteria explicitly require browser verification
-16. Run E2E tests only if the selected story's `prd.json` acceptance criteria
+18. Run E2E tests only if the selected story's `prd.json` acceptance criteria
     explicitly require E2E coverage
-17. Update CLAUDE.md files if you discover reusable patterns (see below)
-18. Update the PRD to set `passes: true` for the completed story
-19. Append your progress to `progress.txt`
-20. Stage only files intentionally changed for the selected story, plus
+19. **Update per-AC passes in prd.json** — after all checks pass, set
+    `passes: true` on each acceptance criterion in the story's
+    `acceptanceCriteria` array. This ensures prd.json reflects verified
+    state before ADO is updated.
+20. **Close Tasks in Azure DevOps** — after all checks pass, update each Task
+    to **Closed** with Completed Work and Remaining Work = 0 (see
+    [Azure DevOps Work Item Updates](#azure-devops-work-item-updates))
+21. Update CLAUDE.md files if you discover reusable patterns (see below)
+22. Update the PRD to set `passes: true` for the completed story — only
+    after all its acceptance criteria have `passes: true` (set in step 19)
+23. **Resolve the User Story in Azure DevOps** — update the story state to
+    **Resolved** (see
+    [Azure DevOps Work Item Updates](#azure-devops-work-item-updates))
+24. Append your progress to `progress.txt`
+25. Stage only files intentionally changed for the selected story, plus
     required state files such as `prd.json` and `progress.txt`
-21. Ignore unrelated tracked and untracked changes outside the selected story
+26. Ignore unrelated tracked and untracked changes outside the selected story
     scope. Do not stop the loop solely because unrelated changes exist
-22. If a selected story requires editing a file that already contains unrelated
+27. If a selected story requires editing a file that already contains unrelated
     changes, preserve those changes and make only the minimal required story
     change
-23. Before committing, confirm that the selected story was selected from the
+28. Before committing, confirm that the selected story was selected from the
     current `passes: false` set, required checks passed, any broader-scope
     mismatch was logged, and only story-scoped files are staged
-24. If checks pass, commit the staged story-scoped changes with message:
+29. If checks pass, commit the staged story-scoped changes with message:
     `feat: [Feature ID] - [Feature Name]: [Story ID] - [Story Title]`
-25. Push the story branch to the remote:
+30. Push the story branch to the remote:
     `git push -u origin [feature-id]-[feature-name-kebab-case]/[story-id]-[story-name-slugified]`
-26. Open a pull request targeting `main` using the GitHub CLI:
+31. Open a pull request targeting `main` using the GitHub CLI:
 
     ```bash
     gh pr create --base main \
@@ -72,7 +90,7 @@ You are an autonomous coding agent working on a software project.
     Review requested."
     ```
 
-27. If `gh` CLI is not available or not authenticated, skip the PR creation, log
+32. If `gh` CLI is not available or not authenticated, skip the PR creation, log
     a message in `progress.txt` noting that a PR needs to be created manually
     for this branch, and continue.
 
@@ -198,9 +216,130 @@ configured (e.g., via MCP):
 If no browser tools are available, note in your progress report that manual
 browser verification is needed.
 
+## Azure DevOps Work Item Updates
+
+**Ownership boundary:** Jodex owns **in-flight** ADO state transitions during
+active iteration — forward-only lifecycle updates (New → Active → Closed →
+Resolved). The `cc-azure-board-sync` skill (invoked manually via
+`/cc-azure-board-sync`) owns **post-hoc reconciliation** — catching regressions
+and mismatches after iterations complete. Do not run State Sync while Jodex is
+actively iterating.
+
+When `prd.json` contains Azure DevOps metadata (`azureWorkItemId` fields),
+update work items at each lifecycle stage using the
+`mcp__azure-devops__wit_update_work_item` MCP tool.
+
+### State Machine
+
+| Work Item Type | Transition         | When                                     |
+| -------------- | ------------------ | ---------------------------------------- |
+| User Story     | New → **Active**   | After picking the story (step 7)         |
+| Task           | New → **Active**   | Before implementation begins (step 14)   |
+| Task           | Active → **Closed**| After all quality checks pass (step 20)  |
+| User Story     | Active → **Resolved** | After setting `passes: true` (step 23) |
+| Feature        | New → **Active**      | After picking the first story (step 7)   |
+| Feature        | Active → **Resolved** | At stop condition when ALL stories pass + ADO cross-check |
+| Feature        | Resolved → **Active** | State Sync reopen when new story added    |
+
+### Activating a User Story (step 7)
+
+Use the story's `azureWorkItemId` from `prd.json`.
+
+Also activate the Feature if it is still in **New** state.
+Use the root-level `azureWorkItemId` from `prd.json`:
+
+```json
+{
+  "id": "<story.azureWorkItemId>",
+  "updates": [
+    { "path": "/fields/System.State", "value": "Active" }
+  ]
+}
+```
+
+### Activating Tasks with Estimates (step 14)
+
+For each acceptance criterion that has an `azureWorkItemId`, estimate the effort
+in hours based on complexity:
+
+- **0.25h** — trivial (lint pass, typecheck pass, already-passing check)
+- **0.5h** — simple (add a CSS class, update a test assertion)
+- **1h** — moderate (new test file, component refactor, multi-file change)
+- **2h** — complex (new feature, significant logic change)
+
+```json
+{
+  "id": "<criterion.azureWorkItemId>",
+  "updates": [
+    { "path": "/fields/System.State", "value": "Active" },
+    { "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" }
+  ]
+}
+```
+
+### Closing Tasks (step 20)
+
+After quality gates pass, close each Task and record actuals. Use the same
+estimate as Original Estimate unless the work took notably more or less effort.
+
+```json
+{
+  "id": "<criterion.azureWorkItemId>",
+  "updates": [
+    { "path": "/fields/System.State", "value": "Closed" },
+    { "path": "/fields/Microsoft.VSTS.Scheduling.CompletedWork", "value": "<actual_hours>" },
+    { "path": "/fields/Microsoft.VSTS.Scheduling.RemainingWork", "value": 0 }
+  ]
+}
+```
+
+### Resolving a User Story (step 23)
+
+```json
+{
+  "id": "<story.azureWorkItemId>",
+  "updates": [
+    { "path": "/fields/System.State", "value": "Resolved" }
+  ]
+}
+```
+
+### Resolving the Feature (stop condition)
+
+When ALL stories in prd.json have `passes: true` and you are about to
+reply with COMPLETE, perform an **ADO cross-check** before resolving:
+
+1. Read the Feature work item using `mcp__azure-devops__wit_get_work_item`
+   with `expand: relations` using the root `azureWorkItemId`
+2. For each child relation (`System.LinkTypes.Hierarchy-Forward`) that is
+   a User Story, read its current ADO state
+3. Check that ALL child User Stories are in **Resolved** or **Closed** state
+   - Ignore non-User-Story children (Tasks linked directly to the Feature)
+   - Treat children in `Removed` state as terminal (don't block)
+4. If ALL ADO children are terminal → resolve the Feature (Active → Resolved)
+5. If any ADO child is NOT terminal (New or Active):
+   - Log to `progress.txt`: "Feature {id} not resolved — {N} ADO child
+     story/stories not in Resolved/Closed: {list of ID, title, state}"
+   - Do NOT resolve the Feature
+   - Still reply with COMPLETE (prd.json scope is done)
+6. If `azureWorkItemId` is not present at root level, skip entirely
+7. If the Feature has no ADO relations (orphan), fall back to prd.json-only
+   check and resolve if all stories pass
+
+### Fallback
+
+If the Azure DevOps MCP tools are not available or return errors, skip the work
+item updates, log a message in `progress.txt` noting which work items need
+manual state updates, and continue with the remaining steps.
+
 ## Stop Condition
 
 After completing a user story, check if ALL stories have `passes: true`.
+
+If ALL stories pass, perform the ADO cross-check described in
+"Resolving the Feature" above before resolving the Feature. Reply
+with COMPLETE regardless — the prd.json scope is done even if the
+Feature cannot be resolved due to non-terminal ADO children.
 
 If ALL stories are complete and passing, reply with: <promise>COMPLETE</promise>
 

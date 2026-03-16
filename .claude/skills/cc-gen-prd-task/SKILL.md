@@ -50,11 +50,13 @@ If you have multiple features, create separate requirements documents and conver
       "acceptanceCriteria": [
         {
           "id": "AC-007-01",
-          "text": "Criterion 1"
+          "text": "Criterion 1",
+          "passes": false
         },
         {
           "id": "AC-007-02",
-          "text": "Criterion 2"
+          "text": "Criterion 2",
+          "passes": false
         }
       ],
       "priority": 1,
@@ -158,7 +160,7 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
    - Format: lowercase, spaces→hyphens, special chars removed
    - Example: `### 3.1 US-007-01: Update Schema.org Structured Data` → `#31-us-007-01-update-schemaorg-structured-data`
    - Example: `### 3.2 US-007-02: Update Contact Page — Phone, Fax, and Address` → `#32-us-007-02-update-contact-page--phone-fax-and-address`
-9. **Acceptance criteria**: Emit canonical objects with `id` and `text`, preserving source IDs exactly
+9. **Acceptance criteria**: Emit canonical objects with `id`, `text`, and `passes: false`, preserving source IDs exactly
 10. **Preserve all acceptance criteria** from the source PRD (quality checks like lint, typecheck, tests are already included by the PRD skill)
 
 ---
@@ -215,23 +217,28 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         {
           "id": "AC-007-01",
-          "text": "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')"
+          "text": "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
+          "passes": false
         },
         {
           "id": "AC-007-02",
-          "text": "Generate and run migration successfully"
+          "text": "Generate and run migration successfully",
+          "passes": false
         },
         {
           "id": "AC-007-03",
-          "text": "Lint passes (run project's lint command)"
+          "text": "Lint passes (run project's lint command)",
+          "passes": false
         },
         {
           "id": "AC-007-04",
-          "text": "Typecheck passes (run project's typecheck command)"
+          "text": "Typecheck passes (run project's typecheck command)",
+          "passes": false
         },
         {
           "id": "AC-007-05",
-          "text": "Unit tests pass"
+          "text": "Unit tests pass",
+          "passes": false
         }
       ],
       "priority": 1,
@@ -246,31 +253,38 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         {
           "id": "AC-007-06",
-          "text": "Each task card shows colored status badge"
+          "text": "Each task card shows colored status badge",
+          "passes": false
         },
         {
           "id": "AC-007-07",
-          "text": "Badge colors: gray=pending, blue=in_progress, green=done"
+          "text": "Badge colors: gray=pending, blue=in_progress, green=done",
+          "passes": false
         },
         {
           "id": "AC-007-08",
-          "text": "Lint passes (run project's lint command)"
+          "text": "Lint passes (run project's lint command)",
+          "passes": false
         },
         {
           "id": "AC-007-09",
-          "text": "Typecheck passes (run project's typecheck command)"
+          "text": "Typecheck passes (run project's typecheck command)",
+          "passes": false
         },
         {
           "id": "AC-007-10",
-          "text": "Unit tests pass"
+          "text": "Unit tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-11",
-          "text": "E2E tests pass"
+          "text": "E2E tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-12",
-          "text": "Verify in browser using dev-browser skill"
+          "text": "Verify in browser using dev-browser skill",
+          "passes": false
         }
       ],
       "priority": 2,
@@ -285,35 +299,43 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         {
           "id": "AC-007-13",
-          "text": "Each row has status dropdown or toggle"
+          "text": "Each row has status dropdown or toggle",
+          "passes": false
         },
         {
           "id": "AC-007-14",
-          "text": "Changing status saves immediately"
+          "text": "Changing status saves immediately",
+          "passes": false
         },
         {
           "id": "AC-007-15",
-          "text": "UI updates without page refresh"
+          "text": "UI updates without page refresh",
+          "passes": false
         },
         {
           "id": "AC-007-16",
-          "text": "Lint passes (run project's lint command)"
+          "text": "Lint passes (run project's lint command)",
+          "passes": false
         },
         {
           "id": "AC-007-17",
-          "text": "Typecheck passes (run project's typecheck command)"
+          "text": "Typecheck passes (run project's typecheck command)",
+          "passes": false
         },
         {
           "id": "AC-007-18",
-          "text": "Unit tests pass"
+          "text": "Unit tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-19",
-          "text": "E2E tests pass"
+          "text": "E2E tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-20",
-          "text": "Verify in browser using dev-browser skill"
+          "text": "Verify in browser using dev-browser skill",
+          "passes": false
         }
       ],
       "priority": 3,
@@ -328,31 +350,38 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         {
           "id": "AC-007-21",
-          "text": "Filter dropdown: All | Pending | In Progress | Done"
+          "text": "Filter dropdown: All | Pending | In Progress | Done",
+          "passes": false
         },
         {
           "id": "AC-007-22",
-          "text": "Filter persists in URL params"
+          "text": "Filter persists in URL params",
+          "passes": false
         },
         {
           "id": "AC-007-23",
-          "text": "Lint passes (run project's lint command)"
+          "text": "Lint passes (run project's lint command)",
+          "passes": false
         },
         {
           "id": "AC-007-24",
-          "text": "Typecheck passes (run project's typecheck command)"
+          "text": "Typecheck passes (run project's typecheck command)",
+          "passes": false
         },
         {
           "id": "AC-007-25",
-          "text": "Unit tests pass"
+          "text": "Unit tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-26",
-          "text": "E2E tests pass"
+          "text": "E2E tests pass",
+          "passes": false
         },
         {
           "id": "AC-007-27",
-          "text": "Verify in browser using dev-browser skill"
+          "text": "Verify in browser using dev-browser skill",
+          "passes": false
         }
       ],
       "priority": 4,
@@ -389,7 +418,7 @@ Before writing prd.json, verify:
 - [ ] `technicalSpecPath` field set to `TECH_SPEC.md` (if technical specs available)
 - [ ] `technicalSpecSection` set for each user story using full markdown anchor (e.g., `#31-us-007-01-update-schemaorg-structured-data`)
 - [ ] User story IDs preserved exactly from the source document
-- [ ] Acceptance criteria emitted as objects with `id` and `text`
+- [ ] Acceptance criteria emitted as objects with `id`, `text`, and `passes: false`
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] Quality criteria present (lint, typecheck, unit tests for all stories; e2e tests and browser verification for UI stories)

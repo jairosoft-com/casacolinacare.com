@@ -58,6 +58,7 @@ This document defines the canonical schema for `prd.json`, the shared contract b
 |-------|------|----------|-------------|
 | `id` | string | Yes | Format: `AC-{feature_number}-{seq}` with global sequential numbering |
 | `text` | string | Yes | Verifiable criterion text |
+| `passes` | boolean | Yes | Whether this criterion has been verified. Always `false` when generated |
 
 ### Azure Sync Fields (added by cc-azure-board-sync)
 
@@ -98,11 +99,13 @@ From `prds/006_about_founder_name/prd.json`:
       "acceptanceCriteria": [
         {
           "id": "AC-006-01",
-          "text": "The About page team entry shows 'Kriss Aseniero'."
+          "text": "The About page team entry shows 'Kriss Aseniero'.",
+          "passes": false
         },
         {
           "id": "AC-006-02",
-          "text": "The string 'Kriss Judd' does not appear in src/app/about/page.tsx."
+          "text": "The string 'Kriss Judd' does not appear in src/app/about/page.tsx.",
+          "passes": false
         }
       ],
       "priority": 1,
@@ -134,6 +137,7 @@ After `cc-azure-board-sync` runs, the same file gains Azure metadata:
         {
           "id": "AC-006-01",
           "text": "The About page team entry shows 'Kriss Aseniero'.",
+          "passes": false,
           "azureWorkItemId": 200270,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200270"
         }
