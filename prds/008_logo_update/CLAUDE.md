@@ -133,7 +133,7 @@ You are an autonomous coding agent working on a software project.
 
 APPEND to progress.txt (never replace, always append):
 
-```
+```text
 ## [Date/Time] - [Story ID]
 - What was implemented
 - Files changed
@@ -154,7 +154,7 @@ it to the `## Codebase Patterns` section at the TOP of progress.txt (create it
 if it doesn't exist). This section should consolidate the most important
 learnings:
 
-```
+```text
 ## Codebase Patterns
 - Example: Use `sql<number>` template for aggregations
 - Example: Always use `IF NOT EXISTS` for migrations
@@ -231,15 +231,15 @@ update work items at each lifecycle stage using the
 
 ### State Machine
 
-| Work Item Type | Transition         | When                                     |
-| -------------- | ------------------ | ---------------------------------------- |
-| User Story     | New → **Active**   | After picking the story (step 7)         |
-| Task           | New → **Active**   | Before implementation begins (step 14)   |
-| Task           | Active → **Closed**| After all quality checks pass (step 20)  |
-| User Story     | Active → **Resolved** | After setting `passes: true` (step 23) |
-| Feature        | New → **Active**      | After picking the first story (step 7)   |
+| Work Item Type | Transition            | When                                                      |
+| -------------- | --------------------- | --------------------------------------------------------- |
+| User Story     | New → **Active**      | After picking the story (step 7)                          |
+| Task           | New → **Active**      | Before implementation begins (step 14)                    |
+| Task           | Active → **Closed**.  | After all quality checks pass (step 20)                   |
+| User Story     | Active → **Resolved** | After setting `passes: true` (step 23)                    |
+| Feature        | New → **Active**      | After picking the first story (step 7)                    |
 | Feature        | Active → **Resolved** | At stop condition when ALL stories pass + ADO cross-check |
-| Feature        | Resolved → **Active** | State Sync reopen when new story added    |
+| Feature        | Resolved → **Active** | State Sync reopen when new story added                    |
 
 ### Activating a User Story (step 7)
 
@@ -259,8 +259,9 @@ Use the root-level `azureWorkItemId` from `prd.json`:
 
 ### Activating Tasks with Estimates (step 14)
 
-For each acceptance criterion that has an `azureWorkItemId`, estimate the effort
-in hours based on complexity:
+For each acceptance criterion that has an `azureWorkItemId`, use the
+`estimatedHours` value from the criterion in `prd.json` as the Original
+Estimate. If `estimatedHours` is not present, estimate independently:
 
 - **0.25h** — trivial (lint pass, typecheck pass, already-passing check)
 - **0.5h** — simple (add a CSS class, update a test assertion)
@@ -272,23 +273,24 @@ in hours based on complexity:
   "id": "<criterion.azureWorkItemId>",
   "updates": [
     { "path": "/fields/System.State", "value": "Active" },
-    { "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" }
+    { "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<criterion.estimatedHours or estimated hours>" }
   ]
 }
 ```
 
 ### Closing Tasks (step 20)
 
-After quality gates pass, close each Task and record actuals. Use the same
-estimate as Original Estimate unless the work took notably more or less effort.
+After quality gates pass, close each Task and record actuals. Use the
+`estimatedHours` from prd.json as CompletedWork unless the work took
+notably more or less effort. Do **not** set RemainingWork — ADO rejects
+it with an InvalidNotEmpty error on close.
 
 ```json
 {
   "id": "<criterion.azureWorkItemId>",
   "updates": [
     { "path": "/fields/System.State", "value": "Closed" },
-    { "path": "/fields/Microsoft.VSTS.Scheduling.CompletedWork", "value": "<actual_hours>" },
-    { "path": "/fields/Microsoft.VSTS.Scheduling.RemainingWork", "value": 0 }
+    { "path": "/fields/Microsoft.VSTS.Scheduling.CompletedWork", "value": "<criterion.estimatedHours or actual_hours>" }
   ]
 }
 ```
@@ -337,16 +339,17 @@ manual state updates, and continue with the remaining steps.
 After completing a user story, check if ALL stories have `passes: true`.
 
 If ALL stories pass:
+
 1. Perform the ADO cross-check described in "Resolving the Feature" above
 2. Resolve the Feature if the cross-check passes (or skip if blocked)
-3. **Reply with exactly:** <promise>COMPLETE</promise>
+3. **Reply with exactly:** `<promise>COMPLETE</promise>`
    This tag is REQUIRED — the Jodex runner uses it to stop the loop.
    Emit it even if the Feature could not be resolved due to non-terminal
    ADO children. The prd.json scope is done.
 
 If there are still stories with `passes: false`, end your response normally
 (another iteration will pick up the next story). Do NOT emit the
-COMPLETE tag in this case.
+`<promise>COMPLETE</promise>` tag in this case.
 
 ## Important
 
