@@ -251,7 +251,7 @@
         {
           "id": "AC-008-09",
           "text": "npm run lint -- --fix passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200752,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200752"
@@ -259,7 +259,7 @@
         {
           "id": "AC-008-10",
           "text": "npm run type-check passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200753,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200753"
@@ -267,7 +267,7 @@
         {
           "id": "AC-008-11",
           "text": "npm test -- --run passes with no failures",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200754,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200754"
@@ -275,7 +275,7 @@
         {
           "id": "AC-008-12",
           "text": "Lighthouse CLS score remains < 0.1 on all pages",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 1,
           "azureWorkItemId": 200755,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200755"
@@ -283,7 +283,7 @@
         {
           "id": "AC-008-28",
           "text": "Create E2E test tests/e2e/logo-consistency.spec.ts that verifies all 3 logo instances use Playfair Display computed font-family",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 2,
           "azureWorkItemId": 200756,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200756"
@@ -291,7 +291,7 @@
         {
           "id": "AC-008-29",
           "text": "E2E tests pass (npm run test:e2e)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200757,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200757"
@@ -299,7 +299,7 @@
         {
           "id": "AC-008-30",
           "text": "Verify in browser using dev-browser skill",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200758,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200758"
@@ -308,7 +308,7 @@
       "priority": 4,
       "storyPoints": 5,
       "totalEstimatedHours": 4.75,
-      "passes": false,
+      "passes": true,
       "notes": ""
     }
   ]

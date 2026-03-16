@@ -38,7 +38,7 @@ export function MobileNav({ pathname }: MobileNavProps) {
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
         <SheetHeader>
-          <SheetTitle>Casa Colina Care</SheetTitle>
+          <SheetTitle className="font-heading">Casa Colina Care</SheetTitle>
         </SheetHeader>
         <nav className="mt-6 flex flex-col gap-4">
           {navLinks.map(link => (

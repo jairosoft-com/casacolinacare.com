@@ -381,3 +381,27 @@ Started: 2026-02-09 20:20:30.483996 -08:00
 - Feature 200724 NOT resolved — 1 ADO child story not in Resolved/Closed: 200728 "US-008-04: Logo Quality Assurance" (state: New). This story is outside prd.json scope and needs manual state update.
 - prd.json scope is fully complete.
 ---
+
+## 2026-03-16 20:53 - US-008-04 Logo Quality Assurance
+- Applied font-heading class to header logo, footer logo h3, and mobile nav SheetTitle (changes from US-008-01/02/03 branches not yet merged to main)
+- Created unit tests: header-logo.test.tsx (3 tests), footer-logo.test.tsx (2 tests), mobile-nav-logo.test.tsx (1 test)
+- Created E2E test: tests/e2e/logo-consistency.spec.ts (4 tests verifying Playfair Display computed font on all 3 logo instances + consistency check)
+- All quality gates passed: lint (no errors), typecheck (clean), 169 unit tests (18 files), 15 E2E tests
+- Browser verified via dev-browser: all 3 logos render Playfair Display at desktop (1280px) and mobile (375px)
+- AC-008-12 (CLS < 0.1): font-heading uses the same Playfair Display already loaded by next/font/google with CSS variable fallback — no additional font load or layout shift introduced
+- ADO: all 7 Tasks closed, User Story 200728 Resolved
+- Files changed:
+  - `src/components/layout/header.tsx` (modified — added font-heading to logo Link)
+  - `src/components/layout/footer.tsx` (modified — added font-heading to logo h3)
+  - `src/components/layout/mobile-nav.tsx` (modified — added font-heading to SheetTitle)
+  - `tests/unit/header-logo.test.tsx` (new)
+  - `tests/unit/footer-logo.test.tsx` (new)
+  - `tests/unit/mobile-nav-logo.test.tsx` (new)
+  - `tests/e2e/logo-consistency.spec.ts` (new)
+  - `prds/008_logo_update/prd.json` (updated — all AC and story passes set to true)
+- **Learnings for future iterations:**
+  - When previous story branches haven't been merged to main, the QA story branch needs to include those changes directly rather than trying to merge (merge conflicts on shared state files like prd.json/progress.txt)
+  - Playwright browsers may need reinstalling after package updates — run `npx playwright install chromium` if E2E tests fail with "Executable doesn't exist"
+  - E2E font verification: use `page.evaluate(el => getComputedStyle(el).fontFamily)` to check computed font, then assert `toLowerCase().toContain('playfair')`
+  - Mobile nav E2E: must set viewport to 375px width AND click the menu button before the SheetTitle is accessible
+---
