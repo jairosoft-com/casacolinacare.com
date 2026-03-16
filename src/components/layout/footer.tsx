@@ -14,7 +14,7 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           {/* Business Info */}
           <div>
-            <h3 className="text-lg font-bold tracking-tight">
+            <h3 className="font-heading text-lg font-bold tracking-tight">
               Casa Colina Care
             </h3>
             <address className="mt-3 space-y-1 text-sm not-italic text-muted-foreground">
