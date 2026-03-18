@@ -26,8 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | US-XXX | User Story (e.g. US-001 = Header Nav) |
 | PRD | Product Requirements Document |
 | ADO | Azure DevOps — project management & work tracking |
-| ralph | AI agent branch prefix (ralph/US-XXX) |
-| jodex | AI skill prefix for doc generation |
+| jodex | AI agent branch prefix (jodex/US-XXX) |
 | shadcn | shadcn/ui component library |
 | 002 | PRD #002 — initial site build (10 user stories) |
 | 004 | PRD #004 — contact info update |
@@ -59,7 +58,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Evening work sessions (peak at 10 PM)
 - Sprint-driven development (concentrated bursts)
 - Conventional commits, feature branches, PR workflow
-- AI-assisted development (ralph agent, jodex doc gen)
+- AI-assisted development (jodex agent)
 
 ### Known Issues
 1. CTA banner has placeholder phone number (+1 800 888-8888)

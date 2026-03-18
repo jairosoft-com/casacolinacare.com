@@ -20,7 +20,7 @@ Create detailed Product Requirements Documents for complex features that need ex
 
 **Important:**
 - Do NOT start implementing. Just create the PRD.
-- This PRD will be converted to `prd.json` format for Ralph autonomous execution using the `cc-gen-prd-task` skill.
+- This PRD will be converted to `prd.json` format for Jodex autonomous execution using the `cc-gen-prd-task` skill.
 
 **Use this skill when:**
 - The feature spans multiple subsystems or teams

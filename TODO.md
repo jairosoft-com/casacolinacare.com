@@ -23,3 +23,4 @@
 - [ ] Align Ralph/Jodex git workflow conventions and non-interactive commit handling in the future workflow documents and tooling
 - [ ] Fix `ralph/` prefix in cc-gen-prd-task featureName — it bleeds into CLAUDE.md branch derivation (step 11 converts `/` to `-`, producing `ralph-` instead of clean feature names)
 - [x] Add per-AC `passes` tracking to Jodex CLAUDE.md — step 21 only flips story-level `passes: true` but never sets individual AC `passes: true` during execution
+- [x] Add story point estimation to cc-gen-prd-task — when prd.json is created, estimate story points for each user story based on complexity and AC count

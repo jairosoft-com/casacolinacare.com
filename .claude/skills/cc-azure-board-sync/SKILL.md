@@ -138,11 +138,13 @@ Task
 - Include story priority when available
 - Acceptance Criteria field comes from `acceptanceCriteriaGherkin`
 - Track whether the Gherkin payload was `extracted`, `synthesized`, or `empty`
+- Set `Microsoft.VSTS.Scheduling.StoryPoints` from `story.storyPoints` (if present in prd.json)
 
 **Task mapping**
 - Title format: `{criterion.id}: {criterion.text}`
 - Description comes from the criterion text
 - Parent linkage comes from the stored `parentStoryId`, never from inferring a parent from AC numbering
+- Set `Microsoft.VSTS.Scheduling.OriginalEstimate` from `criterion.estimatedHours` (if present in prd.json)
 
 ### Step 4: Create Azure Work Items
 
@@ -191,10 +193,11 @@ estimates during execution. State Sync complements this by catching regressions
 and mismatches the agent could not handle (e.g., reopening items where `passes`
 regressed to `false`).
 
-**Scope:** State Sync updates `System.State` only. It does **not** set or modify
-estimate fields (`OriginalEstimate`, `CompletedWork`, `RemainingWork`). Estimates
-are set by the Jodex agent during execution (steps 14 and 20 of its workflow).
-If Tasks were never processed by Jodex, their estimate fields will be empty.
+**Scope:** State Sync updates `System.State` only. It does **not** modify
+estimate fields (`OriginalEstimate`, `CompletedWork`, `RemainingWork`).
+Initial estimates are set during work item creation (Step 4) from prd.json
+`estimatedHours` and `storyPoints` fields. The Jodex agent may adjust
+`OriginalEstimate` and set `CompletedWork` during execution (steps 14 and 20).
 
 This step runs **only in State Sync mode**. It reads `passes` flags from
 `prd.json` and updates Azure work item states to match.
