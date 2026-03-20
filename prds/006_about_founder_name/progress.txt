@@ -425,3 +425,22 @@ Started: 2026-02-09
   - E2E font verification: use `page.evaluate(el => getComputedStyle(el).fontFamily)` to check computed font, then assert `toLowerCase().toContain('playfair')`
   - Mobile nav E2E: must set viewport to 375px width AND click the menu button before the SheetTitle is accessible
 ---
+
+## [PRD-006] 2026-03-20 07:04 - US-006-01 Update Founder Name in About Page Team Section
+- Changed `name: 'Kriss Judd'` to `name: 'Kriss Aseniero'` in `team` array at index 0 in `src/app/about/page.tsx` (line 43)
+- Created unit test `tests/unit/about-page.test.tsx` (2 tests: correct name renders, old name absent)
+- Created E2E test `tests/e2e/about-founder.spec.ts` (1 test: correct name visible, old name hidden)
+- All quality gates passed: lint (no errors), typecheck (clean), 171 unit tests, 16 E2E tests
+- Browser verified via dev-browser: "Kriss Aseniero" displayed in team section at 1280px desktop
+- ADO: all 8 Tasks closed, User Story 200269 Resolved
+- Files changed:
+  - `src/app/about/page.tsx` (modified — name string replacement)
+  - `tests/unit/about-page.test.tsx` (new)
+  - `tests/e2e/about-founder.spec.ts` (new)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-01 all AC passes: true, story passes: true)
+- **Note:** TECH_SPEC.md and BRD_PRD.md describe broader scope (US-006-02 documentation updates) but execution limited to prd.json US-006-01 this iteration.
+- **Learnings for future iterations:**
+  - About page team data is an inline `team` array in the page component — not extracted to a shared data file
+  - The About page is a server component (RSC) — no `'use client'` needed for the team section
+  - Simple string replacement in static data arrays requires no schema or type changes
+---

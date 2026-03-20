@@ -20,7 +20,7 @@
         {
           "id": "AC-006-01",
           "text": "The `team` array entry at index 0 has `name: 'Kriss Aseniero'`",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200271,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200271"
@@ -28,7 +28,7 @@
         {
           "id": "AC-006-02",
           "text": "The string `'Kriss Judd'` does not appear anywhere in `src/app/about/page.tsx`",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200272,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200272"
@@ -36,7 +36,7 @@
         {
           "id": "AC-006-03",
           "text": "The About page renders 'Kriss Aseniero' in the team section (verified by unit test)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 1,
           "azureWorkItemId": 200273,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200273"
@@ -44,7 +44,7 @@
         {
           "id": "AC-006-04",
           "text": "Typecheck passes (`npm run type-check` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200275,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200275"
@@ -52,7 +52,7 @@
         {
           "id": "AC-006-05",
           "text": "Lint passes (`npm run lint` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200274,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200274"
@@ -60,7 +60,7 @@
         {
           "id": "AC-006-12",
           "text": "Unit tests pass (`npm test -- --run` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200276,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200276"
@@ -68,7 +68,7 @@
         {
           "id": "AC-006-13",
           "text": "E2E tests pass (`npm run test:e2e`)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200277,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200277"
@@ -76,7 +76,7 @@
         {
           "id": "AC-006-14",
           "text": "Verify in browser using dev-browser skill",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200278,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200278"
@@ -85,7 +85,7 @@
       "priority": 1,
       "storyPoints": 3,
       "totalEstimatedHours": 3.5,
-      "passes": false,
+      "passes": true,
       "notes": "",
       "azureWorkItemId": 200269,
       "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200269"
