@@ -2,10 +2,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Author(s)** | @jairo |
-| **Reviewer(s)** | @jairo |
+| **Author(s)** | Ramon Aseniero |
+| **Reviewer(s)** | Ramon Aseniero |
 | **Status** | Draft |
-| **Last Updated** | 2026-03-05 |
+| **Last Updated** | 2026-03-18 |
 | **PRD** | `prds/006_about_founder_name/BRD_PRD.md` |
 | **ADO Board** | https://dev.azure.com/jairo/CasaColinaCare.com/_boards/board/t/CasaColinaCare.com%20Team/Stories |
 
@@ -15,26 +15,24 @@
 
 ### 1.1 Background & Problem Statement
 
-The About page team section displays "Kriss Judd" as the founder name. The correct name is "Kriss Aseniero." The error was introduced during the initial site build (PRD 002) and propagated into multiple documentation files. This is a static string replacement across source code and documentation — no logic, layout, or behavior changes.
+The About page team section displays "Kriss Judd" as the founder name. The correct name is "Kriss Aseniero." The error was introduced during the initial site build (PRD 002) and propagated into 4 documentation files. This is a static string replacement across source code and documentation — no logic, layout, or behavior changes.
 
-**PRD Gap Identified:** The PRD scopes 3 files (`src/app/about/page.tsx`, `CLAUDE.md`, `memory/people/kriss-judd.md`). A codebase-wide grep reveals **5 files** containing "Kriss Judd." Two additional documentation files were missed:
+**Affected files** (5 total, confirmed by codebase-wide grep):
 
-| #   | File                                        | Line | Context                                                     |
-| --- | ------------------------------------------- | ---- | ----------------------------------------------------------- |
-| 1   | `src/app/about/page.tsx`                    | 43   | `name: 'Kriss Judd'` in `team` array                        |
-| 2   | `CLAUDE.md`                                 | 15   | People table: "Kriss Judd, business owner"                  |
-| 3   | `memory/people/kriss-judd.md`               | 1    | Heading: `# Kriss Judd`                                     |
-| 4   | `memory/glossary.md`                        | 87   | Nicknames table: "Kriss Judd (business owner, Casa Colina)" |
-| 5   | `memory/projects/casacolinacare-website.md` | 22   | Key People: "Kriss Judd — business owner"                   |
-
-Files 4 and 5 are **additional scope** beyond the PRD. They must be updated to satisfy OBJ-02 (`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results).
+| # | File | Line | Context |
+|---|------|------|---------|
+| 1 | `src/app/about/page.tsx` | 43 | `name: 'Kriss Judd'` in `team` array |
+| 2 | `CLAUDE.md` | 15 | People table: "Kriss Judd, business owner" |
+| 3 | `memory/people/kriss-judd.md` | 1 | Heading: `# Kriss Judd` |
+| 4 | `memory/glossary.md` | 87 | Nicknames table: "Kriss Judd (business owner, Casa Colina)" |
+| 5 | `memory/projects/casacolinacare-website.md` | 22 | Key People: "Kriss Judd — business owner" |
 
 ### 1.2 User Stories
 
 From the PRD:
 
-- **US-001:** As a site visitor viewing the About page, I want to see the correct founder name "Kriss Aseniero" so that I have accurate information about who runs the care home.
-- **US-002:** As a developer or AI assistant working on the codebase, I want all documentation to reference the correct name "Kriss Aseniero" so that the incorrect name does not propagate into future work.
+- **US-006-01:** As a site visitor viewing the About page, I want to see the correct founder name "Kriss Aseniero" so that I have accurate information about who runs the care home.
+- **US-006-02:** As a developer or AI assistant working on the codebase, I want all documentation to reference the correct name "Kriss Aseniero" so that the incorrect name does not propagate into future work.
 
 ### 1.3 Goals & Non-Goals
 
@@ -51,6 +49,7 @@ From the PRD:
 - Profile images or headshots
 - Pages other than About (source code)
 - Contact information updates
+- Extracting team data to a centralized data file (see Alternatives Considered)
 
 ---
 
@@ -93,7 +92,7 @@ The About page (`src/app/about/page.tsx`) is a React Server Component that rende
 
 ## 3. Design Details
 
-### 3.1 US-001: Update Founder Name in About Page
+### 3.1 US-006-01: Update Founder Name in About Page
 
 **Trigger:** Developer executes the change.
 
@@ -128,6 +127,7 @@ The `team` array is an inline constant (not a separate data file or API response
 
 ```json
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "TeamMember",
   "type": "object",
   "properties": {
@@ -151,9 +151,9 @@ Not applicable — this is a static string in a static array. No runtime errors,
 
 ---
 
-### 3.2 US-002: Update Documentation References
+### 3.2 US-006-02: Update Documentation References
 
-**Trigger:** Developer executes the changes alongside US-001.
+**Trigger:** Developer executes the changes alongside US-006-01.
 
 **System Behavior (EARS Syntax):**
 
@@ -182,14 +182,14 @@ Not applicable — this is a static string in a static array. No runtime errors,
 
 All other content (email, role, contact info, notes) remains unchanged.
 
-#### 3.2.3 `memory/glossary.md` (line 87) — **Additional scope**
+#### 3.2.3 `memory/glossary.md` (line 87)
 
 ```diff
 -| Kriss | Kriss Judd (business owner, Casa Colina) |
 +| Kriss | Kriss Aseniero (business owner, Casa Colina) |
 ```
 
-#### 3.2.4 `memory/projects/casacolinacare-website.md` (line 22) — **Additional scope**
+#### 3.2.4 `memory/projects/casacolinacare-website.md` (line 22)
 
 ```diff
 -- **Kriss Judd** — business owner, receives contact form emails
@@ -206,8 +206,8 @@ All other content (email, role, contact info, notes) remains unchanged.
 
 | Alternative | Description | Reason for Rejection |
 |-------------|-------------|----------------------|
-| Extract team data to `constants.ts` | Centralize team member data in `src/lib/constants.ts` alongside other business info | Out of scope — the PRD explicitly limits this to a name correction. Centralization is a separate refactoring concern (known issue #4 in CLAUDE.md). |
-| Partial update (PRD scope only) | Update only the 3 files listed in the PRD | Insufficient — `grep` verification (OBJ-02 acceptance criteria) would fail because `memory/glossary.md` and `memory/projects/casacolinacare-website.md` also contain the old name. |
+| Extract team data to `constants.ts` | Centralize team member data in `src/lib/constants.ts` alongside other business info. This would address known issue #4 in CLAUDE.md ("Business info not fully centralized in constants.ts") | Out of scope — the PRD explicitly limits this to a name correction. Centralization is a separate refactoring concern. Recommended as a future improvement to prevent similar data-scatter issues. |
+| Partial update (3 files only) | Update only the original 3 files from the first PRD draft | Insufficient — `grep` verification (AC-006-11) would fail because `memory/glossary.md` and `memory/projects/casacolinacare-website.md` also contain the old name. |
 
 ---
 
@@ -236,13 +236,43 @@ No data migration required.
 
 ---
 
-## 5. Testing Strategies
+## 5. Technical Constraints
 
-### 5.1 Unit Tests (Vitest + React Testing Library)
+### TC-006-01: Build Pipeline Integrity
 
-**Location:** `tests/unit/app/about/page.test.tsx`
+All changes must pass the existing build, lint, and type-check pipelines with exit code 0.
 
-**TC-001: About page renders "Kriss Aseniero"**
+**Rationale**: OBJ-006-03 requires zero regressions
+**Impact**: Any introduced syntax error would block deployment
+**Mitigation**: Run `npm run lint -- --fix && npm run type-check && npm test -- --run` before committing
+
+### TC-006-02: Same-Day Deployment
+
+Implementation and deployment must complete within a single day.
+
+**Rationale**: Business owner has confirmed the correct name; delayed correction extends the period of inaccuracy
+**Impact**: No multi-phase rollout; all changes ship together
+**Mitigation**: Scope is minimal (5 string replacements); single commit, single deploy
+
+### TC-006-03: Zero Incremental Cost
+
+No new packages, services, or infrastructure may be added.
+
+**Rationale**: This is a data correction, not a feature
+**Impact**: Must use only existing tools and dependencies
+**Mitigation**: All changes are static string edits in existing files
+
+---
+
+## 6. Testing Strategies
+
+### TEST-006-01: About page renders "Kriss Aseniero"
+
+**Related Requirements**: US-006-01, AC-006-01, AC-006-03
+
+**Test Type**: Unit
+**Framework**: Vitest + React Testing Library
+**Location**: `tests/unit/app/about/page.test.tsx`
 
 ```typescript
 import { render, screen } from '@testing-library/react';
@@ -254,7 +284,17 @@ test('renders correct founder name', () => {
 });
 ```
 
-**TC-002: About page does not contain "Kriss Judd"**
+**Expected Result**: The text "Kriss Aseniero" is found in the rendered output.
+
+---
+
+### TEST-006-02: About page does not contain "Kriss Judd"
+
+**Related Requirements**: US-006-01, AC-006-02
+
+**Test Type**: Unit
+**Framework**: Vitest + React Testing Library
+**Location**: `tests/unit/app/about/page.test.tsx`
 
 ```typescript
 test('does not render old founder name', () => {
@@ -263,13 +303,17 @@ test('does not render old founder name', () => {
 });
 ```
 
-**Run:** `npm test -- --run`
+**Expected Result**: The text "Kriss Judd" is NOT found in the rendered output.
 
-### 5.2 E2E Test (Playwright)
+---
 
-**Location:** `tests/e2e/about.spec.ts`
+### TEST-006-03: About page displays correct founder name (E2E)
 
-**TC-003: About page displays correct founder name**
+**Related Requirements**: US-006-01, AC-006-01, AC-006-02, AC-006-03
+
+**Test Type**: E2E
+**Framework**: Playwright
+**Location**: `tests/e2e/about.spec.ts`
 
 ```typescript
 import { test, expect } from '@playwright/test';
@@ -281,40 +325,56 @@ test('about page shows correct founder name', async ({ page }) => {
 });
 ```
 
-**Run:** `npm run test:e2e`
+**Expected Result**: "Kriss Aseniero" is visible on the page; "Kriss Judd" is not.
 
-### 5.3 Grep Verification (Manual / CI)
+---
+
+### TEST-006-04: Grep verification — no "Kriss Judd" in source or docs
+
+**Related Requirements**: US-006-01, AC-006-02, US-006-02, AC-006-11
+
+**Test Type**: Manual / CI
+**Framework**: Shell
 
 ```bash
 # Must return 0 results (exit code 1 = no matches = success)
 grep -r 'Kriss Judd' src/ CLAUDE.md memory/
 ```
 
-### 5.4 Build Integrity
+**Expected Result**: Zero matches. Exit code 1 (grep returns 1 when no matches found).
+
+---
+
+### TEST-006-05: Build integrity after all changes
+
+**Related Requirements**: AC-006-04, AC-006-05, NFR-006-01, NFR-006-02, NFR-006-03
+
+**Test Type**: Integration
+**Framework**: npm scripts
 
 ```bash
 npm run lint -- --fix && npm run type-check && npm test -- --run
 ```
 
-All three must exit with code 0.
+**Expected Result**: All three commands exit with code 0.
 
 ---
 
-## 6. Cross-Cutting Concerns
+## 7. Cross-Cutting Concerns
 
-### 6.1 Security & Privacy
+### 7.1 Security & Privacy
 
 Not applicable. No user input, authentication, authorization, or PII handling is involved. The change is a static string in server-rendered HTML.
 
-### 6.2 Scalability & Performance
+### 7.2 Scalability & Performance
 
 Not applicable. No runtime behavior changes. SSG build time is unaffected by a string value change.
 
-### 6.3 Monitoring & Alerting
+### 7.3 Monitoring & Alerting
 
 Not applicable. No new metrics, logs, or alerts needed.
 
-### 6.4 Deployment & Rollback
+### 7.4 Deployment & Rollback
 
 - **Deployment:** Standard Vercel deployment via `git push` to `main`. Vercel rebuilds the static About page automatically.
 - **Rollback:** `git revert <commit-sha>` restores the previous name. Zero-downtime rollback.
@@ -340,6 +400,6 @@ Not applicable. No new metrics, logs, or alerts needed.
 
 | Business Objective | User Story | Design Section | Test Cases |
 |--------------------|-----------|----------------|------------|
-| OBJ-01: Zero "Kriss Judd" in `src/` | US-001 | 3.1 | TC-001, TC-002, TC-003 |
-| OBJ-02: Zero "Kriss Judd" in docs | US-002 | 3.2 | Grep verification |
-| OBJ-03: Build/lint/type integrity | US-001, US-002 | — | Verification checklist #5-8 |
+| OBJ-006-01: Zero "Kriss Judd" in `src/` | US-006-01 | 3.1 | TEST-006-01, TEST-006-02, TEST-006-03 |
+| OBJ-006-02: Zero "Kriss Judd" in docs | US-006-02 | 3.2 | TEST-006-04 |
+| OBJ-006-03: Build/lint/type integrity | US-006-01, US-006-02 | — | TEST-006-05, Verification checklist #5-8 |
