@@ -126,3 +126,38 @@ Eliminate avoidable setup noise and contradictory examples that slow down users 
 - GOAL-007-02: Zero active skill docs in `.claude/skills/` use sequential story IDs such as `US-001` as the canonical output contract.
 - GOAL-007-03: The active Azure-sync skill, its sample markdown, and its sample JSON all describe the same one-document, one-feature model.
 - GOAL-007-04: `dev-browser` setup instructions match the actual repo path and no longer reinstall dependencies on every run.
+
+---
+
+## Verification Report
+
+**Verified:** 2026-03-20 by Claude Code
+
+All 22 acceptance criteria and 4 success metrics have been verified against the current codebase. PRD 007 is **fully implemented**.
+
+### Acceptance Criteria Results
+
+| Story | AC Range | Result |
+|---|---|---|
+| US-007-01: Rename tech-spec skill | AC-007-01..04 | 4/4 PASS |
+| US-007-02: PRD skill routing | AC-007-05..08 | 4/4 PASS |
+| US-007-03: prd.json contract | AC-007-09..13 | 5/5 PASS |
+| US-007-04: Azure-sync normalization | AC-007-14..19 | 6/6 PASS |
+| US-007-05: dev-browser friction | AC-007-20..22 | 3/3 PASS |
+
+### Success Metrics Results
+
+| Metric | Result | Evidence |
+|---|---|---|
+| GOAL-007-01 | PASS | `grep -r 'cc-gen-tds\|TDS.md' .claude/skills/` returns zero matches |
+| GOAL-007-02 | PASS | `grep -r 'US-001' .claude/skills/*/SKILL.md` returns zero matches |
+| GOAL-007-03 | PASS | Sample_prd.json and Sample_BRD_PRD.md both describe one-document one-feature model |
+| GOAL-007-04 | PASS | `server.sh` conditionally checks `node_modules/` before `npm install` |
+
+### Key Evidence
+
+- `.claude/skills/cc-gen-tds/` does not exist; replaced by `.claude/skills/cc-gen-tech-spec/`
+- All three PRD skills have distinct, non-overlapping descriptions in frontmatter
+- `prd.json` schema enforces `US-{feature_number}-{seq}` and AC object format with `id` and `text`
+- Azure-sync uses explicit `parentStoryId`, not inferred from AC numbering
+- `dev-browser/server.sh` lines 19-24 wrap `npm install` in `if [[ ! -d node_modules ]]`
