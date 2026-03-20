@@ -12,106 +12,158 @@
   "lastSyncedToAzure": "2026-03-06T20:42:30Z",
   "userStories": [
     {
-      "id": "US-001",
-      "title": "Update founder name in About page team section",
+      "id": "US-006-01",
+      "title": "Update Founder Name in About Page Team Section",
       "description": "As a site visitor viewing the About page, I want to see the correct founder name 'Kriss Aseniero' so that I have accurate information about who runs the care home.",
-      "technicalSpecSection": "#31-us-001-update-founder-name-in-about-page",
+      "technicalSpecSection": "#31-us-006-01-update-founder-name-in-about-page",
       "acceptanceCriteria": [
         {
+          "id": "AC-006-01",
           "text": "The `team` array entry at index 0 has `name: 'Kriss Aseniero'`",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200271,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200271"
         },
         {
+          "id": "AC-006-02",
           "text": "The string `'Kriss Judd'` does not appear anywhere in `src/app/about/page.tsx`",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200272,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200272"
         },
         {
+          "id": "AC-006-03",
           "text": "The About page renders 'Kriss Aseniero' in the team section (verified by unit test)",
+          "passes": false,
+          "estimatedHours": 1,
           "azureWorkItemId": 200273,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200273"
         },
         {
-          "text": "Lint passes (`npm run lint` exits 0)",
-          "azureWorkItemId": 200274,
-          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200274"
-        },
-        {
+          "id": "AC-006-04",
           "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200275,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200275"
         },
         {
+          "id": "AC-006-05",
+          "text": "Lint passes (`npm run lint` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 200274,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200274"
+        },
+        {
+          "id": "AC-006-12",
           "text": "Unit tests pass (`npm test -- --run` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200276,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200276"
         },
         {
+          "id": "AC-006-13",
           "text": "E2E tests pass (`npm run test:e2e`)",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200277,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200277"
         },
         {
+          "id": "AC-006-14",
           "text": "Verify in browser using dev-browser skill",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200278,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200278"
         }
       ],
       "priority": 1,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.5,
       "passes": false,
       "notes": "",
       "azureWorkItemId": 200269,
       "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200269"
     },
     {
-      "id": "US-002",
-      "title": "Update documentation references",
+      "id": "US-006-02",
+      "title": "Update Documentation References",
       "description": "As a developer or AI assistant working on the codebase, I want all documentation to reference the correct name 'Kriss Aseniero' so that the incorrect name does not propagate into future work.",
-      "technicalSpecSection": "#32-us-002-update-documentation-references",
+      "technicalSpecSection": "#32-us-006-02-update-documentation-references",
       "acceptanceCriteria": [
         {
+          "id": "AC-006-06",
           "text": "`CLAUDE.md` People table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200279,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200279"
         },
         {
+          "id": "AC-006-07",
           "text": "The file `memory/people/kriss-judd.md` no longer exists",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200280,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200280"
         },
         {
+          "id": "AC-006-08",
           "text": "The file `memory/people/kriss-aseniero.md` exists with heading '# Kriss Aseniero'",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200281,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200281"
         },
         {
+          "id": "AC-006-09",
           "text": "`memory/glossary.md` Nicknames table lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200282,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200282"
         },
         {
+          "id": "AC-006-10",
           "text": "`memory/projects/casacolinacare-website.md` Key People lists 'Kriss Aseniero' (not 'Kriss Judd')",
+          "passes": false,
+          "estimatedHours": 0.5,
           "azureWorkItemId": 200283,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200283"
         },
         {
+          "id": "AC-006-11",
           "text": "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200284,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200284"
         },
         {
+          "id": "AC-006-15",
           "text": "Lint passes (`npm run lint` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200285,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200285"
         },
         {
+          "id": "AC-006-16",
           "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
           "azureWorkItemId": 200286,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200286"
         }
       ],
       "priority": 2,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.0,
       "passes": false,
       "notes": "",
       "azureWorkItemId": 200270,
