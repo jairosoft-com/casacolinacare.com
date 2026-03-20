@@ -84,4 +84,4 @@ Workplace shorthand, acronyms, and internal language for the Casa Colina Care pr
 | Nickname | Person |
 |----------|--------|
 | Ramon | Ramon Aseniero (developer, owner) |
-| Kriss | Kriss Judd (business owner, Casa Colina) |
+| Kriss | Kriss Aseniero (business owner, Casa Colina) |

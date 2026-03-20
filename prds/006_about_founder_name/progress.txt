@@ -426,6 +426,25 @@ Started: 2026-02-09
   - Mobile nav E2E: must set viewport to 375px width AND click the menu button before the SheetTitle is accessible
 ---
 
+## [PRD-006] 2026-03-20 07:08 - US-006-02 Update Documentation References
+- Replaced 'Kriss Judd' with 'Kriss Aseniero' in all documentation files
+- Deleted `memory/people/kriss-judd.md`, created `memory/people/kriss-aseniero.md`
+- Updated CLAUDE.md People table, memory/glossary.md Nicknames table, memory/projects/casacolinacare-website.md Key People
+- Verified `grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results
+- All quality gates passed: lint (no errors), typecheck (clean), 169 unit tests
+- ADO: all 8 Tasks closed, User Story 200270 Resolved
+- Files changed:
+  - `CLAUDE.md` (modified — People table name update)
+  - `memory/people/kriss-judd.md` (deleted)
+  - `memory/people/kriss-aseniero.md` (new — renamed with updated heading)
+  - `memory/glossary.md` (modified — Nicknames table update)
+  - `memory/projects/casacolinacare-website.md` (modified — Key People update)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-02 all AC passes: true, story passes: true)
+- **Learnings for future iterations:**
+  - Documentation-only stories don't require source code changes — only markdown/memory files
+  - `git rm` is needed for tracked file deletions (not just filesystem delete)
+  - The memory/people/ directory stores per-person profiles — rename the file when a person's name changes
+---
 ## [PRD-006] 2026-03-20 07:04 - US-006-01 Update Founder Name in About Page Team Section
 - Changed `name: 'Kriss Judd'` to `name: 'Kriss Aseniero'` in `team` array at index 0 in `src/app/about/page.tsx` (line 43)
 - Created unit test `tests/unit/about-page.test.tsx` (2 tests: correct name renders, old name absent)
