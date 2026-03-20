@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Who | Role |
 |-----|------|
 | **Ramon** | Ramon Aseniero, developer & project owner (raseniero@gmail.com) |
-| **Kriss** | Kriss Judd, business owner — Casa Colina Care LLC (kriss@casacolinacare.com) |
+| **Kriss** | Kriss Aseniero, business owner — Casa Colina Care LLC (kriss@casacolinacare.com) |
 
 → Full profiles: memory/people/
 

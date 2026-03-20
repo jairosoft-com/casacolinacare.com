@@ -19,7 +19,7 @@ Adult children (35-65) researching care options for aging parents.
 
 ## Key People
 - **Ramon** — sole developer, builds and maintains everything
-- **Kriss Judd** — business owner, receives contact form emails
+- **Kriss Aseniero** — business owner, receives contact form emails
 
 ## Architecture
 - Server-first (RSC by default)

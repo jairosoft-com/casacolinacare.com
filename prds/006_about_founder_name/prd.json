@@ -99,7 +99,7 @@
         {
           "id": "AC-006-06",
           "text": "`CLAUDE.md` People table lists 'Kriss Aseniero' (not 'Kriss Judd')",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200279,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200279"
@@ -107,7 +107,7 @@
         {
           "id": "AC-006-07",
           "text": "The file `memory/people/kriss-judd.md` no longer exists",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200280,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200280"
@@ -115,7 +115,7 @@
         {
           "id": "AC-006-08",
           "text": "The file `memory/people/kriss-aseniero.md` exists with heading '# Kriss Aseniero'",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200281,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200281"
@@ -123,7 +123,7 @@
         {
           "id": "AC-006-09",
           "text": "`memory/glossary.md` Nicknames table lists 'Kriss Aseniero' (not 'Kriss Judd')",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200282,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200282"
@@ -131,7 +131,7 @@
         {
           "id": "AC-006-10",
           "text": "`memory/projects/casacolinacare-website.md` Key People lists 'Kriss Aseniero' (not 'Kriss Judd')",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 200283,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200283"
@@ -139,7 +139,7 @@
         {
           "id": "AC-006-11",
           "text": "`grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200284,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200284"
@@ -147,7 +147,7 @@
         {
           "id": "AC-006-15",
           "text": "Lint passes (`npm run lint` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200285,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200285"
@@ -155,7 +155,7 @@
         {
           "id": "AC-006-16",
           "text": "Typecheck passes (`npm run type-check` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 200286,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200286"
@@ -164,7 +164,7 @@
       "priority": 2,
       "storyPoints": 3,
       "totalEstimatedHours": 3.0,
-      "passes": false,
+      "passes": true,
       "notes": "",
       "azureWorkItemId": 200270,
       "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200270"
