@@ -30,8 +30,12 @@ You are an autonomous coding agent working on a software project.
     `/`, `_`, and spaces to `-`, then collapsing repeated hyphens
 12. Build `story-name-slugified` by lowercasing the story title and converting
     `/`, `_`, and spaces to `-`, then collapsing repeated hyphens
-13. Check you're on the correct derived branch. If not, check it out or create
-    it from `main`
+13. Check you're on the correct derived branch. If not:
+    - If a predecessor story branch exists for this feature (a branch matching
+      the same `[feature-id]-[feature-name]` prefix with a lower story number),
+      create the new branch from that predecessor branch to preserve prd.json
+      state from prior iterations
+    - If no predecessor exists, create from `main`
 14. **Activate and estimate Tasks in Azure DevOps** — for each acceptance
     criterion with an `azureWorkItemId`, set the Task state to **Active** and
     provide an Original Estimate in hours (see
