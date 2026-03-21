@@ -30,3 +30,4 @@
 	- [ ] **cc-gen-prd-task** — document hour estimations rationale, quality gates added, AC count changes
 	- [ ] **cc-azure-board-sync** — document sync mode used, items created/updated/skipped, hierarchy link issues, existing ADO item detection
 	- [ ] **Jodex execution** — document iterations completed, branching strategy, state loss issues, ADO state transitions
+- [ ] Jodex should not execute if there is no `progress.txt` file in the PRD folder — require it as a prerequisite alongside `prd.json` and `CLAUDE.md` before starting the iteration loop
