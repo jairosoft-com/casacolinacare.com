@@ -463,3 +463,17 @@ Started: 2026-02-09
   - The About page is a server component (RSC) — no `'use client'` needed for the team section
   - Simple string replacement in static data arrays requires no schema or type changes
 ---
+
+## [PRD-005] 2026-03-21 - US-005-01: Correct Phone Number in CTA Banner
+- Replaced placeholder phone number `+1 (800) 888-8888` / `tel:+18008888888` with correct business number `+1 (808) 200-1840` / `tel:+18082001840` in CTA banner component
+- Files changed:
+  - `src/components/sections/cta-banner.tsx` (modified — phone number and tel: href updated)
+  - `prds/005_cta_phone_fix/prd.json` (AC passes updated)
+- All quality gates passed: lint, typecheck, 171 unit tests, 16 E2E tests
+- Browser verification confirmed via dev-browser skill on localhost:3000
+- ADO work items updated: Feature 200138 → Active, Story 200139 → Resolved, all 9 Tasks → Closed
+- **Learnings for future iterations:**
+  - Turbopack dev server may cache RSC output — restart dev server (kill + npm run dev) to see changes in browser verification
+  - The CTA banner is used on Home, About, and FAQ pages via `<CtaBanner />` — phone number is hardcoded in the component, not passed as a prop
+  - `section.bg-primary` selector matches multiple sections (Hero + CTA) — use heading text to identify the correct CTA section in browser tests
+---
