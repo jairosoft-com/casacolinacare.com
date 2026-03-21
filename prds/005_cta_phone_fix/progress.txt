@@ -463,3 +463,16 @@ Started: 2026-02-09
   - The About page is a server component (RSC) — no `'use client'` needed for the team section
   - Simple string replacement in static data arrays requires no schema or type changes
 ---
+
+## 2026-03-20T18:36 - US-005-02
+- Implemented regression test for CTA banner phone number at `tests/unit/cta-banner.test.tsx`
+- Test verifies: correct phone `+1 (808) 200-1840` present, old placeholder `+1 (800) 888-8888` absent, `tel:` href is `tel:+18082001840`
+- Also applied phone number fix to `cta-banner.tsx` on this branch (branched from main where US-005-01 fix hasn't merged yet)
+- Files changed: `tests/unit/cta-banner.test.tsx` (new), `src/components/sections/cta-banner.tsx` (phone fix), `prds/005_cta_phone_fix/prd.json` (passes: true)
+- All quality gates passed: lint, typecheck, 175/175 unit tests
+- ADO: Story 200140 Resolved, all 7 tasks Closed
+- **Learnings for future iterations:**
+  - When branching from main for a dependent story (US-005-02 depends on US-005-01), the prerequisite fix may not be on main yet — include it on the new branch
+  - Follow existing test patterns in `tests/unit/footer.test.tsx` for phone number regression tests (same assertions style)
+  - CtaBanner is an RSC — test renders fine without 'use client' in test environment
+---

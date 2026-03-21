@@ -107,7 +107,7 @@
         {
           "id": "AC-005-07",
           "text": "A test file exists at `tests/unit/cta-banner.test.tsx` that renders `CtaBanner` and asserts `+1 (808) 200-1840` is present",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 1,
           "azureWorkItemId": 201364,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201364"
@@ -115,7 +115,7 @@
         {
           "id": "AC-005-08",
           "text": "The test asserts that `+1 (800) 888-8888` is NOT present in the rendered output",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 201365,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201365"
@@ -123,7 +123,7 @@
         {
           "id": "AC-005-09",
           "text": "The test asserts the `tel:` link has `href=\"tel:+18082001840\"`",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 201366,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201366"
@@ -131,7 +131,7 @@
         {
           "id": "AC-005-10",
           "text": "The test file is in the `tests/unit/` directory (not colocated with source)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 201367,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201367"
@@ -139,7 +139,7 @@
         {
           "id": "AC-005-11",
           "text": "All unit tests pass (`npm test -- --run` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 201370,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201370"
@@ -147,7 +147,7 @@
         {
           "id": "AC-005-15",
           "text": "Lint passes (`npm run lint` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 201368,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201368"
@@ -155,7 +155,7 @@
         {
           "id": "AC-005-16",
           "text": "Typecheck passes (`npm run type-check` exits 0)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 201369,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201369"
@@ -164,7 +164,7 @@
       "priority": 2,
       "storyPoints": 3,
       "totalEstimatedHours": 3.0,
-      "passes": false,
+      "passes": true,
       "notes": "",
       "azureWorkItemId": 200140,
       "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200140"
