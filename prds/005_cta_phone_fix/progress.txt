@@ -1,0 +1,479 @@
+# Project Progress Log
+Started: 2026-02-09
+---
+
+## Codebase Patterns
+- Shadcn components import `cn` from `@/utils` — barrel file at `src/utils/index.ts` re-exports from `./cn`
+- Use `ZDOTDIR=/dev/null bash -c 'cd /path && command'` to avoid zoxide shell hook errors
+- Shadcn components generated with double quotes and no semicolons — run `npx next lint --fix` to auto-format to project style (single quotes, semicolons, sorted imports)
+- `components.json` aliases utils to `@/utils` (not `@/utils/cn`)
+- The project uses `md:` breakpoint (768px) for desktop/mobile nav toggle
+- `lucide-react` and `class-variance-authority` are not included in the starter — must be installed when adding shadcn components that use them
+- Nav links array (`navLinks`) is duplicated in `header.tsx` and `footer.tsx` — consider extracting to shared constant if adding more nav items
+- Brand colors are set as HSL CSS variables in `src/styles/globals.css` — use `hsl(var(--primary))` etc. via Tailwind utility classes
+- Fonts: Inter (body/`font-sans`) and Playfair Display (headings/`font-heading`) configured via `next/font/google` CSS variables in layout.tsx and Tailwind fontFamily config
+- Headings h1-h3 automatically get `font-heading` via globals.css base layer
+- Metadata uses `title.template` pattern — child pages can set `title: 'Page Name'` and it becomes `Page Name | Casa Colina Care`
+- Section components live in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+- Use `SectionHeading` from `@/components/shared/section-heading` for consistent section titles across pages
+- Hero height uses `min-h-[calc(100vh-4rem)]` to account for sticky header (h-16 = 4rem)
+- Follow [NextJS best practices and standards](../ai_docs/next.js-project-standards-best-practices.md)
+- Follow [TDD protocol](../ai_docs/test-driven-development-typescript.md)
+- Study the agent instructions found in [AGENTS.md](../AGENTS.md)
+- Study the project structure found in [CLAUDE.md](../CLAUDE.md)
+- `CtaBanner` component (`src/components/sections/cta-banner.tsx`) is reusable — accepts `heading`, `description`, `buttonText`, `buttonHref` props for use on About, FAQ, Contact pages
+- `bg-secondary` = Warm Sand (#F5E6D3), `bg-primary` = Ocean Teal (#0D7377) — use these for alternating section backgrounds
+- Shadcn Accordion installed — use `type="multiple"` for independent expand/collapse per item
+- Resend email: use `src/lib/email.ts` for HTML builder, `RESEND_API_KEY` env var required, dev sender `onboarding@resend.dev`
+- `.env.example` requires `git add -f` due to `.env*` gitignore pattern
+- JSON-LD structured data: exported from `src/lib/structured-data.ts`, rendered with `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+- `robots.ts` and `sitemap.ts` in `src/app/` use `MetadataRoute.Robots` and `MetadataRoute.Sitemap` return types
+- Per-page OG tags override root layout OG tags — child pages should set og:title, og:description, og:url specifically
+- E2E tests targeting the site footer should use `page.getByRole('contentinfo')` not `page.locator('footer')` — there are multiple `<footer>` elements on the page
+- Radix Accordion (`type="multiple"`) does NOT render collapsed content in DOM — extract FAQ data to `src/lib/faq-data.ts` for unit testability
+- SheetTitle (Radix Dialog) only renders its content when the Sheet is open — unit tests must click the trigger button first before querying SheetTitle text
+- ADO Task close: do not set RemainingWork to 0 — the field triggers InvalidNotEmpty error. Only set State=Closed and CompletedWork.
+- Logo text in header, footer, mobile-nav all use `font-heading` class for Playfair Display consistency
+- The `font-heading` class is the only change needed for logo font — no new font packages, CSS, or Tailwind config required
+- Footer is a server component — no `'use client'` needed
+---
+
+## [PRD-002] 2026-02-10 - US-001 Header & Navigation
+- Implemented sticky header with desktop navigation and mobile Sheet-based menu
+- Installed shadcn Button and Sheet components (plus lucide-react, class-variance-authority)
+- Created `src/utils/index.ts` barrel for shadcn cn import compatibility
+- Active page link highlighting via `usePathname()`
+- Files changed:
+  - `src/components/layout/header.tsx` (new)
+  - `src/components/layout/mobile-nav.tsx` (new)
+  - `src/components/ui/button.tsx` (new, shadcn)
+  - `src/components/ui/sheet.tsx` (new, shadcn)
+  - `src/utils/index.ts` (new)
+  - `src/app/layout.tsx` (modified — added Header import and render)
+  - `package.json` / `package-lock.json` (updated deps)
+- **Learnings for future iterations:**
+  - Shadcn install generates files with double quotes — always run lint --fix afterward
+  - The starter template has no lucide-react or cva installed — these are peer deps for shadcn components
+  - `next lint` must be run from the project root (it needs to find app/ directory)
+  - `ralph` and `ralph.d` binaries exist as untracked files — exclude from commits
+---
+
+## [PRD-002] 2026-02-10 - US-002 Footer
+- Implemented footer component with three-column layout (business info, navigation, contact)
+- Business name and address displayed in first column
+- Navigation links matching header (Home, About Us, FAQ, Contact) in second column
+- Phone (click-to-call tel: link) and email (mailto: link) in third column
+- Copyright line with dynamic current year
+- Added Footer import and render in root layout below {children}
+- Files changed:
+  - `src/components/layout/footer.tsx` (new)
+  - `src/app/layout.tsx` (modified — added Footer import and render)
+- **Learnings for future iterations:**
+  - Footer is a server component (no `'use client'` needed) — it has no interactive state
+  - Nav links are duplicated between header and footer — consider extracting to a shared constant in a future refactor
+  - The `md:grid-cols-3` pattern works well for responsive footer columns (stacks on mobile)
+---
+
+## [PRD-002] 2026-02-10 - US-003 Root Layout
+- Replaced Geist fonts with Playfair Display (headings) and Inter (body) via `next/font/google`
+- Added Tailwind fontFamily config: `font-sans` (Inter) and `font-heading` (Playfair Display)
+- Added base CSS rule applying `font-heading` to h1, h2, h3 elements automatically
+- Updated CSS variables with Casa Colina brand colors (Ocean Teal primary, Warm Sand secondary, Sunset Coral accent, Ivory background, Deep Charcoal foreground, Soft Sage muted)
+- Removed dark mode CSS block (not needed for this project)
+- Added skip-to-content link as first focusable element
+- Wrapped children in `<main id="main-content">` for skip-to-content target
+- Set default metadata with title template, description, and Open Graph base tags
+- Files changed:
+  - `src/app/layout.tsx` (modified — replaced fonts, added metadata, skip-to-content, main wrapper)
+  - `src/styles/globals.css` (modified — replaced CSS variables with brand colors, added heading font rule)
+  - `tailwind.config.ts` (modified — added fontFamily config)
+- **Learnings for future iterations:**
+  - `next/font/google` Playfair_Display uses underscored name for import (not hyphenated)
+  - Use `title.template: '%s | Casa Colina Care'` so child pages just set a simple title string
+  - The skip-to-content link uses `sr-only` + `focus:not-sr-only` pattern for accessibility
+  - Brand HSL values: primary 182 80% 26%, secondary 34 63% 89%, accent 13 68% 63%, background 60 23% 97%, foreground 240 28% 14%
+---
+
+## [PRD-002] 2026-02-10 - US-004 Home Page — Hero Section
+- Replaced default Next.js starter page content with hero section
+- Created `src/components/sections/hero.tsx` — full-viewport hero with gradient background, Playfair Display heading, subtitle, and two CTA buttons
+- Created `src/components/shared/section-heading.tsx` — reusable section heading component with optional subtitle and centering
+- Updated `src/app/page.tsx` to render the Hero component
+- Files changed:
+  - `src/components/sections/hero.tsx` (new)
+  - `src/components/shared/section-heading.tsx` (new)
+  - `src/app/page.tsx` (modified — replaced starter content with Hero)
+- **Learnings for future iterations:**
+  - Section components go in `src/components/sections/`, shared/reusable components in `src/components/shared/`
+  - Hero uses `min-h-[calc(100vh-4rem)]` to account for the sticky header height (h-16 = 4rem)
+  - The `bg-gradient-to-br from-primary/10 via-background to-secondary/30` gradient creates a subtle brand-colored hero background
+  - Button component supports `asChild` prop with `<Link>` for navigation buttons via shadcn's Slot pattern
+  - Browser verified: desktop (1440px) and mobile (375px) — hero renders correctly at both breakpoints
+---
+
+## [PRD-002] 2026-02-12 - US-005 Home Page — Introduction & Services Overview Sections
+- Created Introduction section (`src/components/sections/intro.tsx`) with two-column layout: image placeholder left, welcome text right, "Read more about us" link to /about
+- Created Services Overview section (`src/components/sections/services-overview.tsx`) with 4 icon cards in responsive grid: Personalized Care Plans (ClipboardList), 24/7 Professional Support (Shield), Home-Cooked Meals (UtensilsCrossed), Beautiful Surroundings (Palmtree)
+- Updated `src/app/page.tsx` to render Hero, Intro, ServicesOverview in order
+- Files changed:
+  - `src/components/sections/intro.tsx` (new)
+  - `src/components/sections/services-overview.tsx` (new)
+  - `src/app/page.tsx` (modified — added Intro and ServicesOverview imports/renders)
+- **Learnings for future iterations:**
+  - `Palmtree` icon exists in lucide-react v0.563.0 — use it directly (no need for `TreePalm` alternative)
+  - `bg-muted/50` creates a subtle alternating section background that visually separates content areas
+  - Service cards use dynamic component rendering (`<service.icon />`) from a data array — keeps the markup DRY
+  - SectionHeading `centered={false}` works well for two-column layouts where the heading aligns with text content
+  - Browser verified at 1440px desktop — all sections render correctly with proper spacing
+---
+
+## [PRD-002] 2026-02-12 - US-006 Home Page — Testimonial, CTA Banner & Page Assembly
+- Created Testimonial section (`src/components/sections/testimonial.tsx`) with blockquote on warm sand (secondary) background, Quote icon from lucide-react
+- Created reusable CTA Banner (`src/components/sections/cta-banner.tsx`) with configurable props: `heading`, `description`, `buttonText`, `buttonHref` — defaults to "Schedule Your Visit Today" with phone, email, and "Request Consultation" button on primary (teal) background
+- Updated `src/app/page.tsx` to render all 5 sections in order: Hero, Introduction, Services Overview, Testimonial, CTA Banner
+- Page metadata uses root layout default title: "Casa Colina Care | Compassionate Care Home in Hawaii Kai"
+- Files changed:
+  - `src/components/sections/testimonial.tsx` (new)
+  - `src/components/sections/cta-banner.tsx` (new)
+  - `src/app/page.tsx` (modified — added Testimonial and CtaBanner imports/renders)
+- **Learnings for future iterations:**
+  - `bg-secondary` maps directly to warm sand (#F5E6D3) — no need for custom hex values
+  - CTA Banner uses `variant="secondary"` Button on primary background for good contrast
+  - The `Quote` icon from lucide-react works well for testimonial decoration
+  - CTA Banner is designed to be reused on About, FAQ, and Contact pages with custom `heading` prop
+  - Home page doesn't need explicit metadata export — root layout default title already matches the requirement
+  - When branching for dependent stories, branch from the predecessor branch (not main) to avoid merge conflicts
+---
+
+## [PRD-002] 2026-02-12 - US-007 About Us Page
+- Created About Us page at `src/app/about/page.tsx` with 5 sections:
+  1. Page header with gradient banner ("About Casa Colina Care")
+  2. Our Story section with 3 paragraphs of placeholder content
+  3. Mission & Values section with 4 value cards in 2x2 grid (Aloha Spirit, Dignity & Independence, Family First, Community Connection)
+  4. Meet Our Team section with 3 placeholder team cards (circular photo placeholder, name, role, bio)
+  5. Reused CtaBanner with heading "Have Questions? We're Here to Help."
+- Page metadata uses title template: `title: 'About Us'` → "About Us | Casa Colina Care"
+- Files changed:
+  - `src/app/about/page.tsx` (new)
+- **Learnings for future iterations:**
+  - Child pages only need `title: 'Page Name'` — the root layout template appends `| Casa Colina Care`
+  - Page header sections reuse the same gradient as the hero (`from-primary/10 via-background to-secondary/30`) but with shorter padding (`py-16 sm:py-24` vs `min-h-[calc(100vh-4rem)]`)
+  - Value/card data arrays with `.map()` keep page components clean — define data objects at module level, render in JSX
+  - Team member placeholder uses `h-32 w-32 rounded-full bg-muted` for circular photo placeholders
+  - CtaBanner reuse confirmed working — just pass `heading` prop, defaults handle the rest
+---
+
+## [PRD-002] 2026-02-12 - US-008 FAQ Page
+- Installed Shadcn Accordion component (`npx shadcn@latest add accordion --yes`) — added `@radix-ui/react-accordion` dep, accordion keyframes/animations in tailwind.config.ts
+- Created FAQ page at `src/app/faq/page.tsx` with:
+  1. Page header with gradient banner ("Frequently Asked Questions")
+  2. FAQ Accordion with 4 categories (General, Admissions & Getting Started, Daily Life, Care & Services), 3 questions each = 12 total
+  3. `type="multiple"` so each question expands/collapses independently
+  4. Reused CtaBanner with heading "Still Have Questions? Contact Us Directly."
+- Page metadata: `title: 'Frequently Asked Questions'` → "Frequently Asked Questions | Casa Colina Care"
+- Files changed:
+  - `src/app/faq/page.tsx` (new)
+  - `src/components/ui/accordion.tsx` (new, shadcn)
+  - `tailwind.config.ts` (modified — added accordion keyframes/animations, darkMode)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-accordion)
+- **Learnings for future iterations:**
+  - Shadcn Accordion install adds `darkMode: ['class']` and accordion keyframes to tailwind.config.ts — always run lint --fix after
+  - Use `type="multiple"` for independent expand/collapse, `type="single"` for single-item-at-a-time
+  - FAQ data structure: array of `{ category, questions: [{ question, answer }] }` works well for grouped accordion layout
+  - The `last:mb-0` utility on category containers removes bottom margin from the last group
+---
+
+## [PRD-002] 2026-02-12 - US-009 Contact Page — Form Component
+- Installed Shadcn Input, Textarea, and Label components
+- Created `src/components/sections/contact-form.tsx` — client component with:
+  - 6 form fields: First Name (required, max 50), Last Name (required, max 50), Email (required, valid format), Phone (optional, valid format), Relationship to Resident (optional, max 100), Message (required, max 2000)
+  - Client-side validation with inline error messages
+  - 4 UI states: Idle (button enabled), Loading (spinner + "Sending..."), Success (green message + form cleared), Error (red message + form preserved)
+  - POSTs to /api/contact and handles JSON response
+- Created minimal `src/app/contact/page.tsx` for browser testing (will be expanded in US-010)
+- Files changed:
+  - `src/components/sections/contact-form.tsx` (new)
+  - `src/components/ui/input.tsx` (new, shadcn)
+  - `src/components/ui/textarea.tsx` (new, shadcn)
+  - `src/components/ui/label.tsx` (new, shadcn)
+  - `src/app/contact/page.tsx` (new, minimal — to be expanded in US-010)
+  - `package.json` / `package-lock.json` (added @radix-ui/react-label)
+- **Learnings for future iterations:**
+  - `'use client'` is required for form components with useState/event handlers
+  - Shadcn Label installs `@radix-ui/react-label` — Input and Textarea have no extra deps
+  - Use `noValidate` on `<form>` to disable native browser validation and use custom inline errors
+  - The `Loader2` icon from lucide-react with `animate-spin` works well for loading spinners
+  - Phone validation regex `^\+?[\d\s().-]{7,20}$` handles international formats
+  - `aria-invalid` and `aria-describedby` attributes connect error messages for screen readers
+---
+
+## [PRD-002] 2026-02-12 - US-010 Contact Page — Info Column, Map & Page Assembly
+- Expanded `src/app/contact/page.tsx` with full two-column layout:
+  - Page header with gradient banner ("Contact Us")
+  - Left column: "Send Us a Message" heading + ContactForm component
+  - Right column: "Get in Touch" heading + contact info (Phone, Email, Address, Hours) with Lucide icons + Google Maps iframe embed
+- Created `src/components/shared/map-embed.tsx` — Google Maps iframe embed with placeholder coordinates
+- Page metadata: `title: 'Contact Us'` → "Contact Us | Casa Colina Care"
+- Files changed:
+  - `src/app/contact/page.tsx` (modified — expanded from minimal to full layout)
+  - `src/components/shared/map-embed.tsx` (new)
+- **Learnings for future iterations:**
+  - Contact info items use `flex items-start gap-4` with `shrink-0` icons for consistent alignment
+  - Google Maps embed uses placeholder coordinates — update with real ones when available
+  - `lg:grid-cols-2` breakpoint works well for form + info two-column layout
+  - Lucide icons `Phone`, `Mail`, `MapPin`, `Clock` match contact info semantics well
+  - Map iframe uses `loading="lazy"` and `referrerPolicy="no-referrer-when-downgrade"` for performance and security
+---
+
+## [PRD-002] 2026-02-12 - US-011 Contact Form API Route & Resend Integration
+- Installed `resend` npm package
+- Created `src/lib/email.ts` — HTML email builder with branded styling (Ocean Teal header), table layout for form fields, newline-to-br conversion for message field
+- Created `src/app/api/contact/route.ts` — POST handler with:
+  - Server-side re-validation of all fields matching client-side rules
+  - 400 response with joined error messages for invalid input
+  - Resend email send: from `Casa Colina Care <onboarding@resend.dev>`, to `kriss@casacolinacare.com`, reply-to submitter's email
+  - 200 response with success message on send
+  - 500 response with user-friendly error on Resend failure
+- Created `.env.example` documenting `RESEND_API_KEY` env var
+- Files changed:
+  - `src/app/api/contact/route.ts` (new)
+  - `src/lib/email.ts` (new)
+  - `.env.example` (new)
+  - `package.json` / `package-lock.json` (added resend)
+- **Learnings for future iterations:**
+  - `.env.example` is caught by `.env*` in .gitignore — use `git add -f` to force-add it
+  - Resend dev sender is `onboarding@resend.dev` — must be changed to verified domain sender for production
+  - Server-side validation should mirror client-side validation exactly for consistency
+  - `resend.emails.send()` returns `{ data, error }` — check for error to handle failures
+  - Email HTML uses inline styles (not Tailwind) since email clients don't support CSS classes
+---
+
+## [PRD-002] 2026-02-12 - US-012: SEO, Metadata & Structured Data
+- Added per-page metadata descriptions matching SPEC.md section 4 on all 4 pages
+- Added Open Graph tags (og:title, og:description, og:url) on all pages, including root layout OG base with url
+- Added JSON-LD LocalBusiness structured data to root layout with: business name, address, phone, email, geo coordinates, opening hours, area served
+- Created `src/app/robots.ts` — generates robots.txt allowing all crawlers, linking to sitemap
+- Created `src/app/sitemap.ts` — generates sitemap.xml with all 4 pages (/, /about, /faq, /contact)
+- Verified semantic HTML: single h1 per page, sequential h2/h3 hierarchy with no skips
+- Home page metadata uses root layout defaults (title.default), child pages use title template
+- Files changed: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/about/page.tsx`, `src/app/faq/page.tsx`, `src/app/contact/page.tsx`, `src/app/robots.ts` (new), `src/app/sitemap.ts` (new)
+- **Learnings for future iterations:**
+  - Next.js Metadata API merges child page metadata with root layout — child pages only need to set fields that differ
+  - Root layout `title.template` pattern means child pages just set `title: 'Page Name'` and get `Page Name | Casa Colina Care` automatically
+  - JSON-LD in Next.js App Router: use `<script type="application/ld+json" dangerouslySetInnerHTML>` in `<head>` of layout.tsx
+  - `MetadataRoute.Robots` and `MetadataRoute.Sitemap` are the correct return types for robots.ts and sitemap.ts
+  - OG tags set on child pages override root layout OG tags for those specific fields
+---
+
+## [PRD-004] 2026-02-14 - US-001 Update Schema.org Structured Data — Phone, Fax, Address
+- Updated JSON-LD structured data in `src/app/layout.tsx`:
+  - Changed `telephone` from `+18008888888` to `+18082001840`
+  - Added `faxNumber: '+18086701163'` between telephone and email
+  - Fixed `streetAddress` typo: `Anapalua` → `Anapalau` (removed "(Hawaii Kai)")
+  - Changed `addressLocality` from `Hawaii Kai` to `Honolulu`
+- Extracted `jsonLd` object to `src/lib/structured-data.ts` for testability
+- Added unit test `tests/unit/structured-data.test.ts` (7 assertions: telephone, fax, street, locality, old values don't exist)
+- Added E2E test `tests/e2e/structured-data.spec.ts` (verifies JSON-LD in rendered page)
+- All quality checks pass: typecheck, lint, unit tests (7/7), E2E (1/1)
+- Files changed: `src/app/layout.tsx`, `src/lib/structured-data.ts` (new), `tests/unit/structured-data.test.ts` (new), `tests/e2e/structured-data.spec.ts` (new)
+- **Learnings for future iterations:**
+  - Extract JSON-LD structured data to `src/lib/structured-data.ts` for unit testability — import in layout.tsx
+  - JSON-LD fields are plain JS object properties — easy to add new fields like `faxNumber` in the right position
+  - The street name spelling is "Anapalau" (not "Anapalua") — correct Hawaiian spelling
+  - E2E tests for JSON-LD: use `locator('script[type="application/ld+json"]').textContent()` then `JSON.parse()`
+  - Suppress `playwright/prefer-web-first-assertions` lint rule for script tag textContent (need raw text to parse JSON)
+---
+
+## [PRD-004] 2026-02-16 - US-002 Update Contact Page — Phone, Fax, and Address
+- Updated `src/app/contact/page.tsx`:
+  - Changed phone href from `tel:+18008888888` to `tel:+18082001840` and display to `+1 (808) 200-1840`
+  - Inserted fax block between Phone and Email blocks: plain `<p>` text `+1 (808) 670-1163` with `Phone` icon, label "Fax"
+  - Fixed street to `189 Anapalau Street (Hawaii Kai)` (display includes neighborhood label)
+  - Changed city from `Hawaii Kai, HI 96825` to `Honolulu, HI 96825`
+- Added unit test `tests/unit/contact-page.test.tsx` (6 tests: phone href, fax plain text, fax position, street, city, old phone absent)
+- Added E2E test `tests/e2e/contact-info.spec.ts` (3 tests: phone link, fax not clickable, address correct)
+- All quality checks pass: typecheck, lint, unit tests (6/6), E2E (3/3)
+- Browser verified at 1440px desktop — all contact info renders correctly
+- Files changed: `src/app/contact/page.tsx`, `tests/unit/contact-page.test.tsx` (new), `tests/e2e/contact-info.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Fax numbers should be plain `<p>` text, NOT `<a>` links — fax numbers are not dialable from phones
+  - Contact page reuses `Phone` icon from lucide-react for fax block — no new imports needed
+  - E2E tests checking for "old values absent" should scope to `main` locator (not full `body`) when footer hasn't been updated yet — footer is a separate story
+  - Contact info blocks use `flex items-start gap-4` pattern consistently — new blocks should match
+  - `beforeEach` must be imported from `vitest` explicitly when not using `globals: true` in tsconfig for tests
+---
+
+## [PRD-004] 2026-02-16 - US-003 Update Footer — Phone, Fax, and Address
+- Updated `src/components/layout/footer.tsx`:
+  - Changed phone href from `tel:+18008888888` to `tel:+18082001840` and display to `+1 (808) 200-1840`
+  - Inserted fax entry between Phone and Email: `Fax: +1 (808) 670-1163` as plain text (not a link)
+  - Fixed street to `189 Anapalau Street (Hawaii Kai)`
+  - Changed city from `Hawaii Kai, HI 96825` to `Honolulu, HI 96825`
+- Added unit test `tests/unit/footer.test.tsx` (10 tests: phone href, phone text, fax exists, fax not link, fax label, street, city, old phone absent, old street absent, old city absent)
+- Added E2E test `tests/e2e/footer-contact.spec.ts` (3 tests: phone link, fax not clickable, address correct & old values absent)
+- All quality checks pass: typecheck, lint, unit tests (10/10), E2E (3/3)
+- Browser verified at 1440px desktop — footer renders correctly with updated contact info
+- Files changed: `src/components/layout/footer.tsx`, `tests/unit/footer.test.tsx` (new), `tests/e2e/footer-contact.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Footer fax uses `<span className="text-foreground">Fax: </span>` pattern for the label — matches tech spec
+  - E2E tests for footer must use `page.getByRole('contentinfo')` instead of `page.locator('footer')` — there are 2 `<footer>` elements on the page (one in testimonial section, one is the actual site footer)
+  - Footer is a server component — no `'use client'` needed, no icon imports needed for fax (unlike contact page)
+---
+
+## [PRD-004] 2026-02-17 - US-004 Update FAQ Location Answer
+- Updated FAQ location answer: `189 Anapalua Street in beautiful Hawaii Kai, HI 96825` → `189 Anapalau Street (Hawaii Kai), Honolulu, HI 96825`
+- Updated FAQ admissions answer phone: `+1 (800) 888-8888` → `+1 (808) 200-1840`
+- Extracted `faqCategories` data array from `src/app/faq/page.tsx` to `src/lib/faq-data.ts` for unit testability (Radix Accordion hides collapsed content from DOM)
+- Added unit test `tests/unit/faq-page.test.tsx` (5 tests: correct address, correct phone, marketing references preserved, old phone absent, old street absent)
+- All quality checks pass: typecheck, lint, unit tests (28/28), E2E (10/10)
+- Browser verified at 1440px desktop — expanded accordion items show correct address and phone
+- Files changed: `src/app/faq/page.tsx`, `src/lib/faq-data.ts` (new), `tests/unit/faq-page.test.tsx` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - Radix Accordion with `type="multiple"` does NOT render collapsed content in the DOM — `textContent` and `innerHTML` won't find answer text in unit tests
+  - Extract FAQ data to `src/lib/faq-data.ts` and test the data directly (same pattern as `src/lib/structured-data.ts`)
+  - When testing accordion content, either test the data source directly or use E2E tests that can click to expand items
+---
+
+## [PRD-004] 2026-02-17 - US-005 Update LLM Context File
+- Updated `public/llms.txt` line 7: `189 Anapalua Street, Honolulu, HI` → `189 Anapalau Street (Hawaii Kai), Honolulu, HI`
+- No other lines in the file were modified
+- Added E2E test `tests/e2e/llms-txt.spec.ts` (1 test: HTTP 200, Content-Type text/plain, correct address, old value absent)
+- All quality checks pass: typecheck, lint, E2E (1/1)
+- Files changed: `public/llms.txt`, `tests/e2e/llms-txt.spec.ts` (new), `prd/004_contact_update/prd.json`
+- **Learnings for future iterations:**
+  - E2E tests for static files in `public/` can use Playwright's `request` API (no page navigation needed) — faster than full page tests
+  - `public/llms.txt` is served directly by Next.js at `/llms.txt` — no route handler needed
+---
+
+## [PRD-008] 2026-03-13 - US-008-01 Header Logo Font Update
+- Added `font-heading` class to header logo `<Link>` in `src/components/layout/header.tsx` (line 24)
+- Logo now renders in Playfair Display, matching all page headings for brand consistency
+- Created unit test `tests/unit/header-logo.test.tsx` (3 tests: font-heading class, font-bold + tracking-tight retained, links to /)
+- All quality checks pass: lint, typecheck, 166 unit tests (166/166)
+- Browser verified at desktop (1280px) and mobile (375px) — logo is legible and uses serif font
+- Files changed:
+  - `src/components/layout/header.tsx` (modified — added `font-heading` to logo Link className)
+  - `tests/unit/header-logo.test.tsx` (new)
+  - `prds/008_logo_update/prd.json` (updated — US-008-01 passes: true)
+- **Note:** TECH_SPEC.md describes broader scope (US-008-02 footer, US-008-03 mobile nav, US-008-04 QA) but prd.json only contains US-008-01. Execution limited to prd.json story set.
+- **Learnings for future iterations:**
+  - The `font-heading` class is the only change needed for logo font — no new font packages, CSS, or Tailwind config required
+  - Lint auto-fix reformats the header.tsx Link element to multi-line when className grows — this is expected
+  - Header logo uses `<Link>` not `<h1>` — query with `getByRole('link', { name: /casa colina care/i })` in tests
+---
+
+## [PRD-008] 2026-03-14 20:46 - US-008-03 Mobile Navigation Logo Font
+- Added `className="font-heading"` to SheetTitle in `src/components/layout/mobile-nav.tsx:41`
+- Created unit test `tests/unit/mobile-nav-logo.test.tsx` that opens the Sheet then verifies font-heading class
+- All quality gates passed: lint, typecheck, 164 unit tests
+- Browser verification confirmed Playfair Display rendered on mobile nav logo
+- Files changed:
+  - `src/components/layout/mobile-nav.tsx` (modified — added font-heading to SheetTitle)
+  - `tests/unit/mobile-nav-logo.test.tsx` (new — unit test for mobile nav logo font)
+  - `prds/008_logo_update/prd.json` (updated — all AC and story passes set to true)
+- ADO cross-check: Feature 200724 not resolved — 1 ADO child story not in Resolved/Closed: 200728 "US-008-04: Logo Quality Assurance" (state: New). This story is not in prd.json scope.
+- **Learnings for future iterations:**
+  - SheetContent (Radix UI) does not render until the Sheet is opened — must use userEvent.click on trigger before querying content
+  - ADO wit_update_work_item rejects RemainingWork=0 with InvalidNotEmpty — omit it when closing tasks
+  - The `cn()` utility in SheetTitle merges className props, so adding `font-heading` via className works without overriding existing styles
+---
+
+## [PRD-008] 2026-03-14 21:15 - COMPLETION CHECK
+- All 3 prd.json stories (US-008-01, US-008-02, US-008-03) have `passes: true`
+- ADO cross-check confirmed: 200725 Resolved, 200726 Resolved, 200727 Resolved
+- Feature 200724 NOT resolved — 1 ADO child story not in Resolved/Closed: 200728 "US-008-04: Logo Quality Assurance" (state: New). This story is outside prd.json scope and needs manual state update.
+- prd.json scope is fully complete.
+---
+
+## [PRD-008] 2026-03-15 - US-008-02 Footer Logo Font Consistency
+- Added `font-heading` class to footer logo `<h3>` in `src/components/layout/footer.tsx` (line 17)
+- Footer logo now renders in Playfair Display, matching header logo for brand consistency
+- Created unit test `tests/unit/footer-logo.test.tsx` (2 tests: font-heading class, font-bold + tracking-tight retained)
+- All quality checks pass: lint, typecheck, 165 unit tests (165/165)
+- Browser verified at desktop (1280px) and mobile (375px) — footer logo renders in serif font matching headings
+- Files changed:
+  - `src/components/layout/footer.tsx` (modified — added `font-heading` to logo h3 className)
+  - `tests/unit/footer-logo.test.tsx` (new)
+  - `prds/008_logo_update/prd.json` (updated — US-008-02 passes: true)
+- **Note:** TECH_SPEC.md describes broader scope (US-008-03 mobile nav, US-008-04 QA) but prd.json contains all 4 stories. Execution limited to US-008-02 this iteration.
+- **Learnings for future iterations:**
+  - Footer logo uses `<h3>` not `<Link>` — query with `getByRole('heading', { name: /casa colina care/i })` in tests
+  - ADO Task closing: omit `RemainingWork` field — ADO throws `InvalidNotEmpty` when setting it to 0 on Closed state
+  - When branching from `main` for a story in a multi-story feature, the prd.json on main may not have `passes: true` from sibling story branches — only update the current story's state
+---
+
+## [PRD-008] 2026-03-16 20:53 - US-008-04 Logo Quality Assurance
+- Applied font-heading class to header logo, footer logo h3, and mobile nav SheetTitle (changes from US-008-01/02/03 branches not yet merged to main)
+- Created unit tests: header-logo.test.tsx (3 tests), footer-logo.test.tsx (2 tests), mobile-nav-logo.test.tsx (1 test)
+- Created E2E test: tests/e2e/logo-consistency.spec.ts (4 tests verifying Playfair Display computed font on all 3 logo instances + consistency check)
+- All quality gates passed: lint (no errors), typecheck (clean), 169 unit tests (18 files), 15 E2E tests
+- Browser verified via dev-browser: all 3 logos render Playfair Display at desktop (1280px) and mobile (375px)
+- AC-008-12 (CLS < 0.1): font-heading uses the same Playfair Display already loaded by next/font/google with CSS variable fallback — no additional font load or layout shift introduced
+- ADO: all 7 Tasks closed, User Story 200728 Resolved
+- Files changed:
+  - `src/components/layout/header.tsx` (modified — added font-heading to logo Link)
+  - `src/components/layout/footer.tsx` (modified — added font-heading to logo h3)
+  - `src/components/layout/mobile-nav.tsx` (modified — added font-heading to SheetTitle)
+  - `tests/unit/header-logo.test.tsx` (new)
+  - `tests/unit/footer-logo.test.tsx` (new)
+  - `tests/unit/mobile-nav-logo.test.tsx` (new)
+  - `tests/e2e/logo-consistency.spec.ts` (new)
+  - `prds/008_logo_update/prd.json` (updated — all AC and story passes set to true)
+- **Learnings for future iterations:**
+  - When previous story branches haven't been merged to main, the QA story branch needs to include those changes directly rather than trying to merge (merge conflicts on shared state files like prd.json/progress.txt)
+  - Playwright browsers may need reinstalling after package updates — run `npx playwright install chromium` if E2E tests fail with "Executable doesn't exist"
+  - E2E font verification: use `page.evaluate(el => getComputedStyle(el).fontFamily)` to check computed font, then assert `toLowerCase().toContain('playfair')`
+  - Mobile nav E2E: must set viewport to 375px width AND click the menu button before the SheetTitle is accessible
+---
+
+## [PRD-006] 2026-03-20 07:08 - US-006-02 Update Documentation References
+- Replaced 'Kriss Judd' with 'Kriss Aseniero' in all documentation files
+- Deleted `memory/people/kriss-judd.md`, created `memory/people/kriss-aseniero.md`
+- Updated CLAUDE.md People table, memory/glossary.md Nicknames table, memory/projects/casacolinacare-website.md Key People
+- Verified `grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results
+- All quality gates passed: lint (no errors), typecheck (clean), 169 unit tests
+- ADO: all 8 Tasks closed, User Story 200270 Resolved
+- Files changed:
+  - `CLAUDE.md` (modified — People table name update)
+  - `memory/people/kriss-judd.md` (deleted)
+  - `memory/people/kriss-aseniero.md` (new — renamed with updated heading)
+  - `memory/glossary.md` (modified — Nicknames table update)
+  - `memory/projects/casacolinacare-website.md` (modified — Key People update)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-02 all AC passes: true, story passes: true)
+- **Learnings for future iterations:**
+  - Documentation-only stories don't require source code changes — only markdown/memory files
+  - `git rm` is needed for tracked file deletions (not just filesystem delete)
+  - The memory/people/ directory stores per-person profiles — rename the file when a person's name changes
+---
+## [PRD-006] 2026-03-20 07:04 - US-006-01 Update Founder Name in About Page Team Section
+- Changed `name: 'Kriss Judd'` to `name: 'Kriss Aseniero'` in `team` array at index 0 in `src/app/about/page.tsx` (line 43)
+- Created unit test `tests/unit/about-page.test.tsx` (2 tests: correct name renders, old name absent)
+- Created E2E test `tests/e2e/about-founder.spec.ts` (1 test: correct name visible, old name hidden)
+- All quality gates passed: lint (no errors), typecheck (clean), 171 unit tests, 16 E2E tests
+- Browser verified via dev-browser: "Kriss Aseniero" displayed in team section at 1280px desktop
+- ADO: all 8 Tasks closed, User Story 200269 Resolved
+- Files changed:
+  - `src/app/about/page.tsx` (modified — name string replacement)
+  - `tests/unit/about-page.test.tsx` (new)
+  - `tests/e2e/about-founder.spec.ts` (new)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-01 all AC passes: true, story passes: true)
+- **Note:** TECH_SPEC.md and BRD_PRD.md describe broader scope (US-006-02 documentation updates) but execution limited to prd.json US-006-01 this iteration.
+- **Learnings for future iterations:**
+  - About page team data is an inline `team` array in the page component — not extracted to a shared data file
+  - The About page is a server component (RSC) — no `'use client'` needed for the team section
+  - Simple string replacement in static data arrays requires no schema or type changes
+---
+
+## [PRD-005] 2026-03-21 - US-005-01: Correct Phone Number in CTA Banner
+- Replaced placeholder phone number `+1 (800) 888-8888` / `tel:+18008888888` with correct business number `+1 (808) 200-1840` / `tel:+18082001840` in CTA banner component
+- Files changed:
+  - `src/components/sections/cta-banner.tsx` (modified — phone number and tel: href updated)
+  - `prds/005_cta_phone_fix/prd.json` (AC passes updated)
+- All quality gates passed: lint, typecheck, 171 unit tests, 16 E2E tests
+- Browser verification confirmed via dev-browser skill on localhost:3000
+- ADO work items updated: Feature 200138 → Active, Story 200139 → Resolved, all 9 Tasks → Closed
+- **Learnings for future iterations:**
+  - Turbopack dev server may cache RSC output — restart dev server (kill + npm run dev) to see changes in browser verification
+  - The CTA banner is used on Home, About, and FAQ pages via `<CtaBanner />` — phone number is hardcoded in the component, not passed as a prop
+  - `section.bg-primary` selector matches multiple sections (Hero + CTA) — use heading text to identify the correct CTA section in browser tests
+---

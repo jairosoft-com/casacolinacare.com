@@ -1,0 +1,169 @@
+# Skills Pipeline — Lessons Learned
+Date: 2026-03-20
+Session: PRD 006 regeneration + PRD 005 full pipeline build
+
+---
+
+## 1. Don't Retroactively Regenerate Completed PRDs
+
+PRDs written before skill normalization (004, 005, 006) have structural debt
+(legacy IDs, missing metadata, non-standard structure). Regenerating brings
+them into alignment but has downstream costs — cascading updates to TECH_SPEC,
+prd.json, and ADO work items.
+
+**Rule:** Only regenerate unimplemented PRDs where the full pipeline still
+needs to run. For completed PRDs, carry the learnings forward to new ones.
+
+---
+
+## 2. Get ID Format Right at Generation Time
+
+Legacy IDs (US-001, AC-001-01) vs canonical IDs (US-006-01, AC-006-01) create
+traceability breaks across the entire artifact chain. Regenerating BRD_PRD.md
+with 006-prefixed IDs required cascading updates to TECH_SPEC.md section
+anchors, prd.json story/AC IDs, and ADO work item titles.
+
+**Rule:** Always use folder-based IDs ({TYPE}-{feature_number}-{seq}) from
+the first generation. The cc-gen-brd-prd skill enforces this now.
+
+---
+
+## 3. Branch-From-Main Causes prd.json State Loss
+
+Each Jodex story branch created from main gets the stale prd.json where prior
+stories still show passes: false. When US-006-02's branch writes prd.json, it
+overwrites US-006-01's state because it never saw that update — it's stranded
+on an unmerged PR branch.
+
+ADO is unaffected because state updates are API calls, not file commits.
+
+**Evidence:** US-006-01 was Resolved in ADO but passes: false in local
+prd.json after US-006-02 completed.
+
+**Fix applied:** Updated CLAUDE.md step 13 to chain branches from the
+predecessor story branch instead of main. If no predecessor exists, branch
+from main.
+
+**Rule:** prd.json is a shared state file — branch isolation breaks it.
+Chain branches or accept post-hoc reconciliation via cc-azure-board-sync
+state-sync.
+
+---
+
+## 4. Regenerating prd.json Strips Azure Metadata
+
+The cc-gen-prd-task skill doesn't know about Azure fields (azureWorkItemId,
+azureWorkItemUrl, azureOrganization, etc.). Regenerating prd.json removes
+all 19+ Azure work item ID fields that were added by cc-azure-board-sync.
+
+**Fix for PRD 006:** Saved prd.json.orig before regeneration, then manually
+merged Azure metadata back into the new prd.json using text-matched AC
+mapping.
+
+**Rule:** Before regenerating prd.json for a synced feature, save Azure
+metadata first (backup or .orig file), then merge it back after regeneration.
+
+---
+
+## 5. BRD_PRD Skill Doesn't Always Emit All Quality Gate ACs
+
+PRD 006 BRD_PRD.md v2 had lint + typecheck on US-006-01 but no quality gates
+on US-006-02. The cc-gen-prd-task skill auto-appends missing gates (unit tests,
+E2E, browser verify, lint, typecheck), but the AC count mismatch caused
+confusion when comparing existing vs regenerated prd.json (16 vs 11 ACs).
+
+**Rule:** The BRD_PRD skill should emit all standard quality gates per story:
+- All stories: lint, typecheck, unit tests
+- UI stories: + E2E tests, + browser verify
+This prevents cc-gen-prd-task from needing to add them and avoids AC count
+mismatches.
+
+---
+
+## 6. Always Check ADO for Existing Work Items Before Sync
+
+PRD 005 had 3 manually-created ADO items (Feature 200138, Stories 200139,
+200140) from 2026-03-04 — created before the skill pipeline existed. Running
+cc-azure-board-sync in Normal mode would have created 19 duplicate work items.
+
+**Fix:** Queried ADO first with search_workitem, found existing items, added
+their IDs to prd.json, then ran sync in Partial mode (update existing +
+create missing Tasks only).
+
+**Rule:** Before cc-azure-board-sync, search ADO for the feature name/tags.
+If items exist, add their IDs to prd.json and use Update/Partial mode. The
+skill should ideally do this check automatically.
+
+---
+
+## 7. System.Parent Field Is Silently Ignored on Create
+
+All 16 Tasks for PRD 005 were created with System.Parent set to their parent
+Story IDs via wit_create_work_item. ADO accepted the request without error
+but created orphan Tasks with no parent link. System.Parent is a read-only
+computed field — it's populated by the system when a hierarchy link exists,
+but setting it during creation does NOT create the link.
+
+**Fix:** Used wit_work_items_link with type="child" to batch-link all Tasks
+to their parent Stories after creation. GitHub issue #37 filed.
+
+**Rule:** Never use System.Parent as a create-time field. Always use
+wit_work_items_link (or wit_add_child_work_items) to establish parent-child
+hierarchy. The cc-azure-board-sync skill Step 5 needs to be updated to use
+the link API instead of relying on System.Parent.
+
+---
+
+## 8. Automated PR Reviewers Lack Cross-PR Context
+
+PR #32 (US-006-01) received a comment from chatgpt-codex-connector flagging
+that CLAUDE.md and memory files still reference "Kriss Judd." However,
+US-006-02 (PR #33) handles those exact files. The reviewer analyzed the PR
+in isolation without knowing the multi-PR story structure.
+
+**Rule:** When reviewing multi-story PRs, check if flagged issues are
+addressed by a sibling PR before creating issues. Cross-PR context is a
+blind spot for automated reviewers. Resolve invalid threads with a note
+referencing the sibling PR.
+
+---
+
+## 9. Folder Name Should Match Feature Content
+
+PRD 005 was originally in 005_code_refactoring/ but the content was about
+fixing the CTA banner phone number — not general code refactoring. The
+misleading name caused confusion when analyzing PRD status.
+
+**Fix:** Renamed to 005_cta_phone_fix/ before regenerating.
+
+**Rule:** Name PRD folders for the specific feature, not a generic category.
+The folder name becomes:
+- featureName in prd.json
+- Feature title in ADO
+- Branch prefix for Jodex
+
+---
+
+## 10. Simulate Before Executing State-Changing Operations
+
+Simulating cc-azure-board-sync on PRD 005 predicted Normal mode would create
+duplicates — the actual ADO query confirmed 3 existing items. Simulating
+Jodex on PRD 006 predicted the branching state loss that was later confirmed.
+Simulating cc-gen-prd-task on PRD 006 revealed the AC count mismatch (11 vs
+16) before it was written.
+
+**Rule:** Simulate before running destructive or state-changing operations.
+The simulation cost is minutes; the fix cost for duplicates, orphans, or
+state corruption is much higher. Use "simulate if I run X on Y" as a
+pre-flight check.
+
+---
+
+## GitHub Issues Created This Session
+
+| # | Title | Source |
+|---|-------|--------|
+| 34 | fix: E2E toBeHidden() → toHaveCount(0) for absence check | PR #32 review |
+| 35 | fix: TECH_SPEC test file paths don't match actual locations | PR #32 review |
+| 36 | fix: Broken relative markdown links in progress.txt | PR #33 review |
+| 37 | fix: System.Parent silently ignored — orphan Tasks | PRD 005 sync |
