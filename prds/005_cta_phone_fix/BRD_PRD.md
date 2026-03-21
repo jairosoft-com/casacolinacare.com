@@ -1,296 +1,385 @@
-# Unified BRD-PRD: Fix Wrong Phone Number in CTA Banner
+# CTA Banner Phone Number Fix - Unified Requirements Document
 
-**Document ID:** BRD-PRD-005-001\
-**Date:** 2026-02-20\
-**Priority:** P0 — Fix immediately\
-**Status:** Draft\
-**Author:** Project Analysis Audit
+## Document Metadata
 
----
+- **Feature ID**: 005
+- **Feature Name**: cta_phone_fix
+- **Document Type**: BRD_PRD
+- **Generated Date**: 2026-03-20
 
-## Executive Summary
+## Document Control
 
-The CTA banner component (`cta-banner.tsx`) displays the wrong phone number
-(`+1 (800) 888-8888`) to users on the Home, About, and FAQ pages. The correct
-business number is `+1 (808) 200-1840`. This is a user-facing data error that
-causes potential leads to reach a non-existent or wrong number when attempting
-to contact Casa Colina Care.
-
-**Business Impact:** Every Home, About, and FAQ visitor who calls the displayed
-CTA number reaches a dead end. Affected pages represent 3 of 4 site pages.
-
-**Fix:** Update the hardcoded value in `cta-banner.tsx` to the correct number
-and add a regression test to the CTA banner to prevent recurrence.
-
----
-
-## Part 1: Business Requirements (BRD)
-
-### 1.1 Problem Statement
-
-The Casa Colina Care website CTA banner — present on 3 of 4 pages (Home, About,
-FAQ) — has been displaying a placeholder phone number `+1 (800) 888-8888` that
-was inherited from a starter template and never replaced with the real business
-number `+1 (808) 200-1840`.
-
-**Quantitative evidence:**
-
-- 3 of 4 pages (75% of the site) are affected
-- 100% of users on those pages see the wrong number in the primary CTA section
-- The `tel:` link `href="tel:+18008888888"` directs calls away from the business
-- The existing unit test `TC-009` confirms the old number must not appear on the
-  contact _page_ — but it does not cover the CTA banner component, allowing this
-  defect to persist undetected
-
-**Qualitative evidence:**
-
-- A prospective resident's family member who dials the CTA number cannot reach
-  Casa Colina Care and may assume the business is unreachable or unprofessional
-- The error undermines trust in a high-stakes, high-emotion purchase decision
-  (residential elder care)
-
-### 1.2 Business Objectives
-
-| ID     | Objective                                                                                                                   | Metric                                                                    |
-| ------ | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| OBJ-01 | Ensure every phone number displayed on the website routes callers to the correct Casa Colina Care business line             | 0 pages display `+1 (800) 888-8888`; all `tel:` hrefs use `+18082001840`  |
-| OBJ-02 | Prevent regression: once fixed, the wrong number must never reappear on any page without a failing test blocking the commit | Automated test suite catches any reintroduction of the placeholder number |
-
-### 1.3 Stakeholders
-
-| Role             | Name / Reference                 | Interest                                    |
-| ---------------- | -------------------------------- | ------------------------------------------- |
-| Business Owner   | Kriss (<kriss@casacolinacare.com>) | Correct contact number displayed to clients |
-| Developer        | Engineering team                 | Clear fix scope, regression coverage        |
-| Website Visitors | Prospective families (35–65)     | Accurate number to call for consultation    |
-
-### 1.4 Success Metrics
-
-| Metric                                  | Target                                        |
-| --------------------------------------- | --------------------------------------------- |
-| Pages displaying correct phone number   | 4 of 4 (100%)                                 |
-| `tel:` href accuracy                    | All `tel:` links point to `tel:+18082001840`  |
-| Regression test coverage for CTA banner | New test TC-010 passes and catches old number |
-| CI health after fix                     | `npm test -- --run` passes with 0 failures    |
-
-### 1.5 Scope
-
-**In scope:**
-
-- Fix phone number displayed and linked in `cta-banner.tsx`
-- Add a unit test covering the CTA banner phone number (TC-010)
-
-**Out of scope:**
-
-- Centralizing all business data into `constants.ts` (tracked separately as P1
-  in the refactoring priority matrix)
-- Updating the email address displayed in the CTA banner (it is correct)
-- Changes to any other component or page
-
-### 1.6 Assumptions & Constraints
-
-- The correct phone number is `+1 (808) 200-1840` / `tel:+18082001840` as
-  confirmed by all other data sources in the project
-- No database, CMS, or external config is involved — this is a source code fix
-- The fix must not break any existing tests (currently 28 unit tests passing)
+| Attribute | Details |
+|-----------|---------|
+| **Document Type** | Unified BRD-PRD |
+| **Version** | 2.0 |
+| **Status** | Draft |
+| **Project Sponsor** | Kriss Aseniero (kriss@casacolinacare.com) |
+| **Product Owner** | Ramon Aseniero (ramon@jairosoft.com) |
+| **Core Team** | @Ramon (Developer) |
+| **Target Release** | 2026-03-20 |
+| **Last Updated** | 2026-03-20 |
+| **Priority** | P0 — Fix immediately |
 
 ---
 
-## Part 2: Product Requirements (PRD)
+## Part I: Strategic Foundation (BRD)
 
-### 2.1 Problem Statement (Technical)
+### 1. Executive Summary
 
-`src/components/sections/cta-banner.tsx` hardcodes the tel href and display text
-to `+18008888888` / `+1 (800) 888-8888`. This placeholder was never replaced.
-The component is rendered on:
+The CTA (Call to Action) banner component displays a placeholder phone number `+1 (800) 888-8888` on 3 of 4 site pages (Home, About, FAQ). The correct business number is `+1 (808) 200-1840`. Visitors who call the displayed number reach a dead end — they cannot contact Casa Colina Care. This is a P0 user-facing data error that directly blocks the primary conversion path (phone inquiry). The fix is a single string replacement in one component file plus a regression test to prevent recurrence.
+
+### 2. Business Problem & Opportunity
+
+#### 2.1 Current State ("As-Is")
+
+The `CtaBanner` component (`src/components/sections/cta-banner.tsx`) hardcodes the placeholder phone number at lines 31 and 34. This component renders on every page that includes the "Schedule Your Visit Today" banner:
 
 - `src/app/page.tsx` (Home)
 - `src/app/about/page.tsx` (About)
 - `src/app/faq/page.tsx` (FAQ)
 
-The existing regression test `TC-009` (in `contact-page.test.tsx`) guards only
-the `/contact` page render tree, which does not include `CtaBanner`.
+The Contact page does NOT use this component — it has its own contact info section that was already corrected in PRD 004.
 
-### 2.2 User Stories
+**Quantitative Evidence:**
 
-#### US-001: Correct Phone Number in CTA Banner
+- 3 of 4 pages (75% of the site) display the wrong phone number
+- 100% of users on those pages see the wrong number in the primary CTA section
+- The `tel:` link `href="tel:+18008888888"` directs calls away from the business
+- Existing test TC-009 (contact page) does NOT cover the CTA banner component
 
-**As a** prospective resident's family member browsing the Casa Colina Care
-website,\
-**I want** the phone number in the "Schedule Your Visit" banner to be the real
-Casa Colina Care number,\
-**So that** I can call directly from any page without being misdirected.
+**Qualitative Evidence:**
 
-**Validates:** OBJ-01
+- A prospective resident's family member who dials the CTA number cannot reach Casa Colina Care
+- The error undermines trust in a high-stakes decision (residential elder care)
+- PRD 004 fixed phone numbers in footer, contact page, FAQ, and structured data — but missed the CTA banner
+
+#### 2.2 Root Cause Analysis
+
+1. **Why does the CTA banner show the wrong number?** — `cta-banner.tsx` line 31 has `href="tel:+18008888888"` and line 34 displays `+1 (800) 888-8888`
+2. **Why was it never updated?** — PRD 004 (contact info update) focused on footer, contact page, FAQ answer, and structured data — the CTA banner was not in scope
+3. **Why wasn't it caught?** — No unit test covers the CTA banner's phone number; existing regression tests only cover the contact page
+4. **Why is a placeholder there?** — The number was inherited from the initial site build (PRD 002) and never replaced
+
+### 3. Business Objectives & Success Metrics
+
+**THE GOLDEN THREAD STARTS HERE**
+
+| Objective ID | SMART Business Objective | KPI | Current | Target | Measurement |
+|---|---|---|---|---|---|
+| OBJ-005-01 | Ensure every phone number on the site routes callers to the correct Casa Colina Care business line | Pages displaying placeholder `+1 (800) 888-8888` | 3 | 0 | `grep -r '8008888888' src/` returns no results |
+| OBJ-005-02 | Prevent regression: once fixed, the wrong number must never reappear without a failing test | Automated test coverage for CTA banner phone number | 0 tests | 1 test file | `npm test -- --run` includes CTA banner phone assertions |
+
+### 4. Project Scope & Boundaries
+
+#### 4.1 In Scope
+
+- Fix phone number displayed and linked in `cta-banner.tsx`
+- Add a unit test covering the CTA banner phone number
+
+#### 4.2 Out of Scope (Critical for Scope Control)
+
+- **Centralizing business data into `constants.ts`** — tracked separately as Known Issue #4 in CLAUDE.md
+- **Email address in CTA banner** — already correct (`kriss@casacolinacare.com`)
+- **Changes to any other component or page** — footer, contact page, FAQ, structured data already fixed in PRD 004
+- **Adding `metadataBase` or OG images** — separate SEO concern
+- **Rate limiting on contact API** — separate security concern
+
+### 5. Stakeholder Analysis (RACI Matrix)
+
+| Stakeholder | Role | Requirements | Approval | UAT | Development |
+|---|---|---|---|---|---|
+| Kriss Aseniero | Business Owner / Sponsor | C | **A** | **A** | I |
+| Ramon Aseniero | Developer / Product Owner | **R** | C | C | **R** |
+| Site Visitors | Prospective families (35-65) | I | I | I | I |
+
+*R=Responsible, A=Accountable, C=Consulted, I=Informed*
+
+### 6. Assumptions, Constraints & Dependencies
+
+#### Assumptions
+
+- The correct phone number is `+1 (808) 200-1840` / `tel:+18082001840` (confirmed by all other data sources in the project)
+- No database, CMS, or external config is involved — this is a source code fix
+- The `CtaBanner` component accepts props but the phone number is hardcoded, not passed as a prop
+
+#### Constraints
+
+| ID | Constraint |
+|---|---|
+| TC-005-01 | Changes must not break existing build, lint, or type-check pipelines |
+| TC-005-02 | Same-day implementation and deployment |
+| TC-005-03 | $0 incremental cost — developer time only |
+
+#### Dependencies
+
+- No external dependencies — single file change plus new test file
+
+### 7. Financial Justification
+
+#### Cost-Benefit Analysis
+
+- **Estimated Costs:** $0 incremental (internal developer time, <15 minutes of work)
+- **Projected Benefits:** Restores phone inquiry conversion path on 75% of site pages; every lead that would have called the placeholder can now reach the business
+- **ROI:** Effectively infinite — fixing a blocking error at zero cost
+- **Payback Period:** Immediate upon deployment
+
+#### Risk Assessment
+
+| Risk ID | Risk Description | Likelihood (1-5) | Impact (1-5) | Mitigation Strategy |
+|---|---|---|---|---|
+| RISK-005-01 | Typo introduced during string replacement | 1 | 3 | Acceptance criteria specify exact string; new regression test catches errors |
+| RISK-005-02 | CTA banner props override the fix | 1 | 1 | Phone number is hardcoded in the component, not passed as a prop; no caller overrides it |
+
+---
+
+## Part II: Tactical Execution (PRD)
+
+### 8. Target Users & Personas
+
+**Primary Persona:** Site Visitors (Adult Children, 35-65)
+
+- **Goals:** Call Casa Colina Care to schedule a visit or ask about care options
+- **Pain Points:** The CTA banner phone number reaches a dead end, not the business
+- **Context:** Browsing Home, About, or FAQ pages and clicking the prominent "Schedule Your Visit" phone link
+
+### 9. User Stories & Functional Requirements
+
+**THE GOLDEN THREAD CONTINUES: Each story links to a business objective**
+
+#### Feature Area 1: Source Code Fix
+
+---
+
+### US-005-01: Correct Phone Number in CTA Banner
+**As a** prospective resident's family member browsing the Casa Colina Care website
+**I want** the phone number in the "Schedule Your Visit" banner to be the real Casa Colina Care number
+**So that** I can call directly from any page without being misdirected
+
+**Priority:** Must-Have (MoSCoW)
+**File:** `src/components/sections/cta-banner.tsx`
 
 **Acceptance Criteria:**
 
-- [ ] **AC-001-01:** The CTA banner on all pages (Home, About, FAQ) displays the
-      phone number `+1 (808) 200-1840`
-- [ ] **AC-001-02:** The `tel:` anchor in `cta-banner.tsx` has `href` value
-      `tel:+18082001840`
-- [ ] **AC-001-03:** The string `+1 (800) 888-8888` does not appear anywhere in
-      the rendered CTA banner
-- [ ] **AC-001-04:** The string `+18008888888` does not appear in any `href`
-      attribute in the rendered CTA banner
-- [ ] **AC-001-05:** TypeScript type-check passes (`npm run type-check`)
-- [ ] **AC-001-06:** All existing unit tests continue to pass
-      (`npm test -- --run`)
-
----
-
-#### US-002: Regression Test Guards CTA Banner Phone Number
-
-**As a** developer maintaining the Casa Colina Care codebase,\
-**I want** an automated test that asserts the CTA banner shows the correct phone
-number,\
-**So that** any future accidental reintroduction of a placeholder number is
-caught before merging.
-
-**Validates:** OBJ-02
-
-**Acceptance Criteria:**
-
-- [ ] **AC-002-01:** A new test TC-010 exists in `tests/unit/` that renders
-      `CtaBanner` in isolation and asserts `+1 (808) 200-1840` is present
-- [ ] **AC-002-02:** TC-010 asserts that `+1 (800) 888-8888` is NOT present in
-      the rendered output
-- [ ] **AC-002-03:** TC-010 asserts the `tel:` link has
-      `href="tel:+18082001840"`
-- [ ] **AC-002-04:** TC-010 is co-located in the existing unit test directory
-      `tests/unit/` (not colocated with source)
-- [ ] **AC-002-05:** TC-010 passes in CI (`npm test -- --run`)
-
----
-
-### 2.3 Functional Requirements
-
-| ID    | Requirement                                                                                          | Supports |
-| ----- | ---------------------------------------------------------------------------------------------------- | -------- |
-| FR-01 | `cta-banner.tsx` must render `+1 (808) 200-1840` as the phone display text                           | US-001   |
-| FR-02 | `cta-banner.tsx` must use `href="tel:+18082001840"` on the phone anchor element                      | US-001   |
-| FR-03 | A unit test file must render `<CtaBanner />` and assert display and `href` correctness               | US-002   |
-| FR-04 | The unit test must assert the old placeholder `+1 (800) 888-8888` is absent from the rendered output | US-002   |
-
-### 2.4 Non-Functional Requirements
-
-| ID     | Requirement                                              | Measurable Target                           |
-| ------ | -------------------------------------------------------- | ------------------------------------------- |
-| NFR-01 | Fix must not introduce any new ESLint warnings or errors | `npm run lint` exits with code 0            |
-| NFR-02 | Fix must not reduce the existing 28-test passing suite   | `npm test -- --run` shows 29+ tests passing |
-| NFR-03 | TypeScript strict mode must remain satisfied             | `npm run type-check` exits with code 0      |
-
-### 2.5 Out of Scope
-
-The following are explicitly out of scope for this fix and tracked separately:
-
-- Extracting phone/email/address into `src/lib/constants.ts` (P1 refactor)
-- Adding a `metadataBase` or OG images (P3 SEO)
-- Rate limiting on the contact API (P3 security)
-- Any changes to the Footer, Contact page, or structured data
-
----
-
-## Part 3: Gherkin Acceptance Criteria
-
-### Scenario: CTA Banner Shows Correct Phone Number
-
 ```gherkin
-Feature: CTA Banner Phone Number
+Scenario: CTA banner displays correct phone number
+  Given the CtaBanner component is rendered on any page
+  When I inspect the phone contact link
+  Then it displays "+1 (808) 200-1840"
+  And its href attribute is "tel:+18082001840"
 
-  Scenario: Correct number is displayed on all pages that include CTA banner
-    Given the CtaBanner component is rendered
-    When I inspect the phone contact link
-    Then it displays "+1 (808) 200-1840"
-    And its href attribute is "tel:+18082001840"
-    And the old placeholder "+1 (800) 888-8888" is not present
-    And the old href "tel:+18008888888" is not present
+Scenario: Old placeholder number is absent
+  Given the CtaBanner component is rendered
+  When I search the rendered output
+  Then the text "+1 (800) 888-8888" is not present
+  And no href contains "+18008888888"
 ```
 
-### Scenario: Regression Test Catches Wrong Number
+**Numbered Acceptance Criteria:**
+- [ ] AC-005-01: The CTA banner displays the phone number `+1 (808) 200-1840`
+- [ ] AC-005-02: The `tel:` anchor in `cta-banner.tsx` has `href` value `tel:+18082001840`
+- [ ] AC-005-03: The string `+1 (800) 888-8888` does not appear anywhere in the rendered CTA banner
+- [ ] AC-005-04: The string `+18008888888` does not appear in any `href` attribute in `cta-banner.tsx`
+- [ ] AC-005-05: Typecheck passes (`npm run type-check` exits 0)
+- [ ] AC-005-06: Lint passes (`npm run lint` exits 0)
 
-```gherkin
-  Scenario: Automated test catches reintroduction of placeholder number
-    Given a unit test renders <CtaBanner /> with default props
-    When the test suite runs
-    Then TC-010 passes with no assertion failures
-    And if "+1 (800) 888-8888" were reintroduced, TC-010 would fail
-```
+**Validates:** OBJ-005-01
 
 ---
 
-## Part 4: Test Cases
+#### Feature Area 2: Regression Test
 
-### TC-010: CTA Banner — Correct Phone Number
+### US-005-02: Regression Test Guards CTA Banner Phone Number
+**As a** developer maintaining the Casa Colina Care codebase
+**I want** an automated test that asserts the CTA banner shows the correct phone number
+**So that** any future accidental reintroduction of a placeholder number is caught before merging
 
-**Validates:** US-001 (AC-001-01, AC-001-02, AC-001-03, AC-001-04), US-002
-(AC-002-01, AC-002-02, AC-002-03)\
-**Test Type:** Unit\
-**Framework:** Vitest + React Testing Library\
+**Priority:** Must-Have (MoSCoW)
 **File:** `tests/unit/cta-banner.test.tsx`
 
-```typescript
-import { render, screen } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+**Acceptance Criteria:**
 
-import { CtaBanner } from '@/components/sections/cta-banner';
+```gherkin
+Scenario: Regression test catches correct number
+  Given a unit test renders <CtaBanner /> with default props
+  When the test suite runs
+  Then the test asserts "+1 (808) 200-1840" is present
+  And the test asserts the tel: href is "tel:+18082001840"
 
-describe('CtaBanner — Phone Number (US-001, US-002)', () => {
-  test('TC-010: phone link displays correct number and href', () => {
-    render(<CtaBanner />);
-    const phoneLink = screen.getByRole('link', { name: /808.*200.*1840/ });
-    expect(phoneLink).toHaveAttribute('href', 'tel:+18082001840');
-  });
+Scenario: Regression test catches old number absence
+  Given a unit test renders <CtaBanner /> with default props
+  When the test suite runs
+  Then the test asserts "+1 (800) 888-8888" is NOT present
+```
 
-  test('TC-010b: old placeholder number is not present', () => {
-    render(<CtaBanner />);
-    const body = document.body.textContent ?? '';
-    expect(body).not.toContain('(800) 888-8888');
-    expect(body).not.toContain('+18008888888');
-  });
-});
+**Numbered Acceptance Criteria:**
+- [ ] AC-005-07: A test file exists at `tests/unit/cta-banner.test.tsx` that renders `CtaBanner` and asserts `+1 (808) 200-1840` is present
+- [ ] AC-005-08: The test asserts that `+1 (800) 888-8888` is NOT present in the rendered output
+- [ ] AC-005-09: The test asserts the `tel:` link has `href="tel:+18082001840"`
+- [ ] AC-005-10: The test file is in the `tests/unit/` directory (not colocated with source)
+- [ ] AC-005-11: All unit tests pass (`npm test -- --run` exits 0)
+
+**Validates:** OBJ-005-02
+
+---
+
+### 10. Non-Functional Requirements (NFRs)
+
+**THE GOLDEN THREAD COMPLETES: NFRs trace to business objectives**
+
+| NFR ID | Category | Requirement | Business Objective Link | Test Method |
+|---|---|---|---|---|
+| NFR-005-01 | Build Integrity | `npm run build` exits with code 0 after all changes | OBJ-005-01 | CI pipeline |
+| NFR-005-02 | Code Quality | `npm run lint` exits with code 0 after all changes | OBJ-005-01 | CI pipeline |
+| NFR-005-03 | Type Safety | `npm run type-check` exits with code 0 after all changes | OBJ-005-01 | CI pipeline |
+
+### 11. User Interaction & Design
+
+**Current State (Before):**
+```
+CTA Banner → "Schedule Your Visit Today"
+Phone: +1 (800) 888-8888  ← PLACEHOLDER (wrong)
+Email: kriss@casacolinacare.com  ← correct
+```
+
+**Updated State (After):**
+```
+CTA Banner → "Schedule Your Visit Today"
+Phone: +1 (808) 200-1840  ← CORRECT
+Email: kriss@casacolinacare.com  ← unchanged
+```
+
+- No layout, styling, or visual changes — only the phone number string and href
+- The CTA banner appears on Home, About, and FAQ pages
+
+### 12. Technical Considerations
+
+**Architecture:** No architectural changes. This is a static string replacement in a shared section component.
+
+**File to Modify:**
+
+| # | File | Line | Change |
+|---|---|---|---|
+| 1 | `src/components/sections/cta-banner.tsx` | 31 | `href="tel:+18008888888"` → `href="tel:+18082001840"` |
+| 2 | `src/components/sections/cta-banner.tsx` | 34 | `+1 (800) 888-8888` → `+1 (808) 200-1840` |
+
+**File to Create:**
+
+| # | File | Purpose |
+|---|---|---|
+| 1 | `tests/unit/cta-banner.test.tsx` | Regression test asserting correct phone number and absence of placeholder |
+
+**Integration Points:** None. `CtaBanner` is a standalone presentational component with no API calls or external dependencies.
+
+### 13. Open Questions & Decision Log
+
+| Question/Topic | Date Raised | Decision | Rationale | Date Decided | Owner |
+|---|---|---|---|---|---|
+| Fix hardcoded value or centralize to constants.ts? | 2026-02-20 | Fix hardcoded value directly | Centralizing is a P1 refactor; P0 is to stop the error immediately | 2026-02-20 | Ramon |
+| Test location: colocated or tests/unit/? | 2026-02-20 | tests/unit/ | Project convention per AGENTS.md: tests never colocated | 2026-02-20 | Ramon |
+| Severity: P0 not P1 or P2? | 2026-02-20 | P0 | Wrong contact info on 75% of pages; lost leads = direct business harm | 2026-02-20 | Ramon |
+
+### 14. Release Plan & Milestones
+
+| Milestone | Target Date | Status | Dependencies |
+|---|---|---|---|
+| BRD_PRD Approved | 2026-03-20 | Draft | Business owner review |
+| Implementation | 2026-03-20 | Pending | BRD_PRD approval |
+| Build, Lint & Type-Check Verification | 2026-03-20 | Pending | Implementation |
+| Deploy to Production | 2026-03-20 | Pending | Verification |
+
+### 15. What We're NOT Doing (Out of Scope for This Release)
+
+- Centralizing phone/email/address into `src/lib/constants.ts` (Known Issue #4)
+- Adding `metadataBase` or OG images (separate SEO concern)
+- Rate limiting on contact API (separate security concern)
+- Changes to footer, contact page, FAQ, or structured data (already fixed in PRD 004)
+- Making the phone number a configurable prop on `CtaBanner`
+
+---
+
+## Testing Requirements
+
+### Test Cases — Unit Tests (Vitest + React Testing Library)
+
+Place test files in `/tests/unit/`. Run with `npm test -- --run`.
+
+---
+
+### TC-005-01: CTA banner displays correct phone number and href
+
+**Validates:** US-005-01, AC-005-01, AC-005-02, US-005-02, AC-005-07, AC-005-09
+**Test Type:** Unit
+**Framework:** Vitest + React Testing Library
+**Location:** `tests/unit/cta-banner.test.tsx`
+
+```gherkin
+Scenario: CTA banner phone link displays correct number and href
+  Given the CtaBanner component is rendered with default props
+  When I query the phone link
+  Then the link text contains '(808) 200-1840'
+  And the link href is 'tel:+18082001840'
 ```
 
 ---
 
-## Part 5: Implementation Checklist
+### TC-005-02: CTA banner does not contain old placeholder number
 
-### Developer Checklist
+**Validates:** US-005-01, AC-005-03, AC-005-04, US-005-02, AC-005-08
+**Test Type:** Unit
+**Framework:** Vitest + React Testing Library
+**Location:** `tests/unit/cta-banner.test.tsx`
 
-- [ ] Update `src/components/sections/cta-banner.tsx`:
-  - Change `href="tel:+18008888888"` → `href="tel:+18082001840"`
-  - Change display text `+1 (800) 888-8888` → `+1 (808) 200-1840`
-- [ ] Create `tests/unit/cta-banner.test.tsx` with TC-010 and TC-010b
-- [ ] Run `npm run lint -- --fix` — verify 0 errors
-- [ ] Run `npm run type-check` — verify passes
-- [ ] Run `npm test -- --run` — verify 29+ tests pass (was 28, +1 new test file
-      with 2 tests)
-
-### Definition of Done
-
-All of the following must be true before this ticket is closed:
-
-1. `+1 (808) 200-1840` appears in the CTA banner on Home, About, and FAQ pages
-2. `+1 (800) 888-8888` appears nowhere on the site
-3. `tel:+18082001840` is the `href` on the CTA phone link
-4. TC-010 and TC-010b pass in the unit test suite
-5. `npm run lint -- --fix && npm run type-check && npm test -- --run` all exit 0
+```gherkin
+Scenario: Old placeholder phone number is absent from CTA banner
+  Given the CtaBanner component is rendered with default props
+  When I search the rendered output
+  Then the text does not contain '(800) 888-8888'
+  And no href contains '+18008888888'
+```
 
 ---
 
-## Part 6: Traceability Matrix
+## Approval & Sign-Off
 
-| Business Objective | User Story | Acceptance Criteria                        | Test Case       |
-| ------------------ | ---------- | ------------------------------------------ | --------------- |
-| OBJ-01             | US-001     | AC-001-01, AC-001-02, AC-001-03, AC-001-04 | TC-010, TC-010b |
-| OBJ-02             | US-002     | AC-002-01, AC-002-02, AC-002-03            | TC-010, TC-010b |
+| Role | Name | Signature | Date |
+|---|---|---|---|
+| Business Owner / Sponsor | Kriss Aseniero | | |
+| Developer / Product Owner | Ramon Aseniero | | |
 
 ---
 
-## Decision Log
+## Glossary
 
-| Decision                                  | Rationale                                                                                                                 | Date       |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| Fix hardcoded value directly in component | Centralizing into `constants.ts` is a P1 effort; the P0 is to stop the user-facing error immediately with minimal risk    | 2026-02-20 |
-| Add test in `tests/unit/` (not colocated) | Project convention: all tests live in `tests/unit/` or `tests/e2e/`, never colocated with source files (per AGENTS.md §5) | 2026-02-20 |
-| Severity: P0 (not P1 or P2)               | Wrong contact info is displayed to users on 75% of pages; any lost lead is direct business harm                           | 2026-02-20 |
+| Term | Definition |
+|---|---|
+| CTA | Call to Action — the prominent banner section encouraging visitors to take action (call, visit, schedule) |
+| Golden Thread | Unbroken traceability chain from business objectives through user stories, acceptance criteria, and test cases |
+| RSC | React Server Component — the CtaBanner is an RSC (no client-side interactivity) |
+| MoSCoW | Prioritization framework: Must/Should/Could/Won't Have |
+| E.164 | International telephone numbering format (e.g., `+18082001840`) |
+
+---
+
+## Golden Thread Summary
+
+```
+OBJ-005-01: Every phone number routes to correct business line
+  └── US-005-01: Correct Phone Number in CTA Banner
+        ├── AC-005-01: CTA displays +1 (808) 200-1840
+        ├── AC-005-02: tel: href is tel:+18082001840
+        ├── AC-005-03: +1 (800) 888-8888 absent
+        ├── AC-005-04: +18008888888 absent from href
+        ├── AC-005-05: Typecheck passes
+        └── AC-005-06: Lint passes
+        Tests: TC-005-01, TC-005-02
+
+OBJ-005-02: Regression test prevents recurrence
+  └── US-005-02: Regression Test Guards CTA Banner
+        ├── AC-005-07: Test asserts correct number present
+        ├── AC-005-08: Test asserts old number absent
+        ├── AC-005-09: Test asserts tel: href correct
+        ├── AC-005-10: Test in tests/unit/ directory
+        └── AC-005-11: All unit tests pass
+        Tests: TC-005-01, TC-005-02
+```
