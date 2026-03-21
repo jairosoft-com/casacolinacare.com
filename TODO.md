@@ -24,3 +24,10 @@
 - [ ] Fix `ralph/` prefix in cc-gen-prd-task featureName — it bleeds into CLAUDE.md branch derivation (step 11 converts `/` to `-`, producing `ralph-` instead of clean feature names)
 - [x] Add per-AC `passes` tracking to Jodex CLAUDE.md — step 21 only flips story-level `passes: true` but never sets individual AC `passes: true` during execution
 - [x] Add story point estimation to cc-gen-prd-task — when prd.json is created, estimate story points for each user story based on complexity and AC count
+- [ ] Capture progress and lessons learned after every skill pipeline generation step. Each skill run should append to `prds/cc_gen_lessons_learned.txt` with:
+	- [ ] **cc-gen-brd-prd** — document gaps found, ID remapping, structural changes, clarifying question answers
+	- [ ] **cc-gen-tech-spec** — document PRD gaps identified, architectural questions asked, alternatives considered
+	- [ ] **cc-gen-prd-task** — document hour estimations rationale, quality gates added, AC count changes
+	- [ ] **cc-azure-board-sync** — document sync mode used, items created/updated/skipped, hierarchy link issues, existing ADO item detection
+	- [ ] **Jodex execution** — document iterations completed, branching strategy, state loss issues, ADO state transitions
+- [ ] Jodex should not execute if there is no `progress.txt` file in the PRD folder — require it as a prerequisite alongside `prd.json` and `CLAUDE.md` before starting the iteration loop
