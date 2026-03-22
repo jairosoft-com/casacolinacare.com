@@ -1,0 +1,173 @@
+{
+  "project": "CasaColinaCare",
+  "featureName": "cta-phone-fix",
+  "featureId": "005",
+  "description": "Fix placeholder phone number in CTA banner — replace +1 (800) 888-8888 with correct business number +1 (808) 200-1840 and add regression test",
+  "detailedPrdPath": "BRD_PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
+  "azureWorkItemId": 200138,
+  "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200138",
+  "azureOrganization": "jairo",
+  "azureProject": "CasaColinaCare.com",
+  "lastSyncedToAzure": "2026-03-21T00:30:26Z",
+  "userStories": [
+    {
+      "id": "US-005-01",
+      "title": "Correct Phone Number in CTA Banner",
+      "description": "As a prospective resident's family member browsing the Casa Colina Care website, I want the phone number in the 'Schedule Your Visit' banner to be the real Casa Colina Care number so that I can call directly from any page without being misdirected.",
+      "technicalSpecSection": "#31-us-005-01-correct-phone-number-in-cta-banner",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-005-01",
+          "text": "The CTA banner displays the phone number `+1 (808) 200-1840`",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201355,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201355"
+        },
+        {
+          "id": "AC-005-02",
+          "text": "The `tel:` anchor in `cta-banner.tsx` has `href` value `tel:+18082001840`",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201356,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201356"
+        },
+        {
+          "id": "AC-005-03",
+          "text": "The string `+1 (800) 888-8888` does not appear anywhere in the rendered CTA banner",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201357,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201357"
+        },
+        {
+          "id": "AC-005-04",
+          "text": "The string `+18008888888` does not appear in any `href` attribute in `cta-banner.tsx`",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201358,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201358"
+        },
+        {
+          "id": "AC-005-05",
+          "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201359,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201359"
+        },
+        {
+          "id": "AC-005-06",
+          "text": "Lint passes (`npm run lint` exits 0)",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201360,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201360"
+        },
+        {
+          "id": "AC-005-12",
+          "text": "Unit tests pass (`npm test -- --run` exits 0)",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201361,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201361"
+        },
+        {
+          "id": "AC-005-13",
+          "text": "E2E tests pass (`npm run test:e2e`)",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201362,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201362"
+        },
+        {
+          "id": "AC-005-14",
+          "text": "Verify in browser using dev-browser skill",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201363,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201363"
+        }
+      ],
+      "priority": 1,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.0,
+      "passes": true,
+      "notes": "",
+      "azureWorkItemId": 200139,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200139"
+    },
+    {
+      "id": "US-005-02",
+      "title": "Regression Test Guards CTA Banner Phone Number",
+      "description": "As a developer maintaining the Casa Colina Care codebase, I want an automated test that asserts the CTA banner shows the correct phone number so that any future accidental reintroduction of a placeholder number is caught before merging.",
+      "technicalSpecSection": "#32-us-005-02-regression-test-guards-cta-banner-phone-number",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-005-07",
+          "text": "A test file exists at `tests/unit/cta-banner.test.tsx` that renders `CtaBanner` and asserts `+1 (808) 200-1840` is present",
+          "passes": false,
+          "estimatedHours": 1,
+          "azureWorkItemId": 201364,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201364"
+        },
+        {
+          "id": "AC-005-08",
+          "text": "The test asserts that `+1 (800) 888-8888` is NOT present in the rendered output",
+          "passes": false,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201365,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201365"
+        },
+        {
+          "id": "AC-005-09",
+          "text": "The test asserts the `tel:` link has `href=\"tel:+18082001840\"`",
+          "passes": false,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201366,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201366"
+        },
+        {
+          "id": "AC-005-10",
+          "text": "The test file is in the `tests/unit/` directory (not colocated with source)",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201367,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201367"
+        },
+        {
+          "id": "AC-005-11",
+          "text": "All unit tests pass (`npm test -- --run` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201370,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201370"
+        },
+        {
+          "id": "AC-005-15",
+          "text": "Lint passes (`npm run lint` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201368,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201368"
+        },
+        {
+          "id": "AC-005-16",
+          "text": "Typecheck passes (`npm run type-check` exits 0)",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201369,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201369"
+        }
+      ],
+      "priority": 2,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.0,
+      "passes": false,
+      "notes": "",
+      "azureWorkItemId": 200140,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/200140"
+    }
+  ]
+}
