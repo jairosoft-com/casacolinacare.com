@@ -1,0 +1,261 @@
+# Comparison: cc-azure-board-sync/SKILL.md vs prds/008_logo_update/CLAUDE.md
+# Generated: 2026-03-14
+
+comparison:
+  overview: >
+    Both files deal with Azure DevOps work items, but at different layers:
+    one is an infrastructure skill (the toolbox), the other is an execution
+    agent (the worker using the toolbox). They overlap on ADO state updates,
+    which creates real conflicts.
+
+  cc-azure-board-sync_SKILL_md:
+    role: "Azure Boards Infrastructure Skill — the Synchronizer"
+    type: "User-invocable skill (/cc-azure-board-sync)"
+    invoked_by: "Human, manually"
+    phase: "Setup + maintenance (before and after coding)"
+    responsibilities:
+      - "Create Azure Feature, User Story, and Task work items from prd.json"
+      - "Parse markdown for Gherkin and business context"
+      - "Establish parent-child hierarchy in ADO"
+      - "Write azureWorkItemId back to prd.json"
+      - "State Sync mode: read passes flags, update ADO states"
+      - "Handle sync modes (Normal, Update, Force recreate, Partial, State Sync)"
+      - "Generate sync reports"
+    ado_state_logic:
+      approach: "Conservative, data-driven from prd.json passes flags"
+      reads_current_state: true
+      handles_regression: true
+      direction: "prd.json → ADO (one-way reconciliation)"
+      transitions:
+        tasks:
+          - "AC passes: true + New → Active → Closed (two updates)"
+          - "AC passes: true + Active → Closed"
+          - "AC passes: true + Closed → no change"
+          - "AC passes: false + Resolved/Closed → Active (reopen)"
+          - "AC passes: false + New/Active → no change"
+          - "Either + Removed → log warning, skip"
+        stories:
+          - "Story complete (passes + all ACs pass) + New → Active → Resolved (two updates)"
+          - "Story complete + Active → Resolved"
+          - "Story complete + Resolved → no change"
+          - "NOT complete + Resolved/Closed → Active (reopen — regression or new AC)"
+          - "NOT complete + New/Active → no change"
+          - "Any + Removed → log warning, skip"
+        feature:
+          - "All stories pass + New → Active → Resolved (two updates)"
+          - "All stories pass + Active → Resolved"
+          - "All stories pass + Resolved → no change"
+          - "NOT all stories pass + Resolved/Closed → Active (reopen)"
+          - "NOT all stories pass + New/Active → no change"
+          - "Any + Removed → log warning, skip"
+      estimates: false
+
+  jodex_CLAUDE_md:
+    role: "Jodex Coding Agent — the Builder"
+    type: "Agent prompt (driven by Jodex.toml loop)"
+    invoked_by: "Jodex runner, automatically per iteration"
+    phase: "Execution (during coding)"
+    responsibilities:
+      - "Implement code for one story per iteration"
+      - "Run quality gates"
+      - "Commit, push, open PRs"
+      - "Update ADO work item states at lifecycle points"
+      - "Set estimates on Tasks"
+      - "Flip passes: true on completed stories"
+    ado_state_logic:
+      approach: "Eager, lifecycle-driven (fire-and-forget at specific steps)"
+      reads_current_state: "true (Feature cross-check at stop condition)"
+      handles_regression: false
+      direction: "Agent actions → ADO (imperative updates)"
+      transitions:
+        - "Step 7: Story → Active (always, when picked)"
+        - "Step 7: Feature → Active (if still New, when picking first story)"
+        - "Step 14: Tasks → Active + Original Estimate (always, before impl)"
+        - "Step 20: Tasks → Closed + Completed Work (only on success)"
+        - "Step 23: Story → Resolved (only on success)"
+        - "Stop condition: Feature → Resolved (when ALL stories pass + ADO cross-check)"
+      estimates: true
+
+conflicts:
+  - id: 1
+    severity: "high"
+    status: "RESOLVED"
+    area: "Overlapping ADO state management"
+    detail: >
+      Both files independently update the same ADO work items using the same
+      MCP tool (mcp__azure-devops__wit_update_work_item). The sync skill
+      reads current ADO state before deciding; the agent prompt blindly sets
+      states at fixed steps. If both run against the same prd.json, they can
+      fight over state. The real risk is ORDERING: if the user runs State
+      Sync mid-iteration while Jodex is working, they could close Tasks that
+      Jodex hasn't verified yet.
+    resolution: >
+      Established ownership boundary: Jodex owns in-flight state transitions
+      during active iteration. cc-azure-board-sync owns post-hoc reconciliation
+      after iterations complete. Both files now cross-reference each other and
+      State Sync warns against running mid-iteration. Also resolves conflict #5
+      (no cross-reference).
+
+  - id: 2
+    severity: "high"
+    status: "RESOLVED"
+    area: "Inconsistent close conditions — skill will undo agent's work"
+    detail: >
+      The skill closes Tasks when AC passes: true. The agent closes Tasks
+      when "all quality checks pass" (step 19) — regardless of individual
+      AC passes flags. The agent doesn't even SET per-AC passes: true
+      (only story-level). So after Jodex runs: all Tasks are Closed in ADO,
+      but AC passes flags in prd.json are still false. If the user then runs
+      State Sync: the skill reads passes: false, sees Tasks as Closed, and
+      REOPENS them to Active. This creates a direct conflict where the skill
+      undoes the agent's work.
+    resolution: >
+      Jodex CLAUDE.md now includes step 19 (Update per-AC passes in prd.json)
+      which sets passes: true on each acceptance criterion after quality checks
+      pass. This runs before closing Tasks (step 20) and before setting story-
+      level passes: true (step 22), ensuring prd.json reflects verified state.
+      State Sync will now read AC passes: true and keep Tasks Closed.
+
+  - id: 3
+    severity: "medium"
+    status: "RESOLVED"
+    area: "Estimate handling split"
+    detail: >
+      The agent sets OriginalEstimate (step 14), CompletedWork, and
+      RemainingWork (step 20) on Tasks. The skill explicitly does NOT
+      handle estimates (States only). This means if the user only uses
+      State Sync (never runs Jodex), Tasks get no estimates. Not a conflict
+      per se, but a split responsibility that could confuse users expecting
+      State Sync to be a complete reconciliation.
+    resolution: >
+      SKILL.md Step 5.5 now includes an explicit Scope paragraph documenting
+      that State Sync is state-only and does not touch estimate fields. Step 7
+      (Sync Report) adds an estimates_missing count that warns when Tasks are
+      closed without OriginalEstimate set, directing users to run Jodex or set
+      estimates manually. The split is intentional and now clearly documented.
+
+  - id: 4
+    severity: "medium"
+    status: "RESOLVED (by conflict #2 fix)"
+    area: "Story resolve conditions differ"
+    detail: >
+      The agent resolves the Story when passes: true is set (step 22) —
+      no further check. The skill resolves the Story only when passes: true
+      AND all ACs have passes: true. These are different conditions. After
+      Jodex runs: story passes: true, but ACs may not have passes: true —
+      agent says Resolved, skill would say "not yet."
+    resolution: >
+      Step 19 now sets per-AC passes: true before step 22 sets story-level
+      passes: true. Step 22 explicitly depends on all ACs having passes: true
+      (set in step 19). This aligns with the skill's requirement that all ACs
+      must pass before the story can be Resolved.
+
+  - id: 5
+    severity: "low"
+    status: "RESOLVED (by conflict #1 fix)"
+    area: "No cross-reference between them"
+    detail: >
+      Neither file mentions the other. The agent doesn't know the skill
+      exists. The skill doesn't know the agent modifies ADO state. A future
+      developer or the agent itself has no way to discover the overlap
+      without reading both files.
+    resolution: >
+      Both files now cross-reference each other via the ownership boundary
+      paragraphs added as part of conflict #1 resolution.
+
+  - id: 6
+    severity: "medium"
+    status: "RESOLVED"
+    area: "State Sync skips intermediate ADO transitions"
+    detail: >
+      The skill's transition table uses "Any state → Closed/Resolved" which
+      assumes direct jumps. ADO process templates require intermediate states
+      (New → Active → Closed, New → Active → Resolved). When items are in
+      New state and passes: true, the direct transition is rejected by ADO.
+      Jodex avoids this because it follows the full lifecycle (steps 7/14
+      activate, steps 20/23 close/resolve). But State Sync runs post-hoc
+      and encounters items in any state.
+    resolution: >
+      SKILL.md Step 5.5 transition tables now include per-state rows with
+      explicit two-step transitions (New → Active → Closed/Resolved). Added
+      implementation guidance for sequential updates and handling of
+      Removed/unrecognized states.
+
+  - id: 7
+    severity: "medium"
+    status: "RESOLVED"
+    area: "Feature work item state never updated"
+    detail: >
+      No Feature transition table existed in SKILL.md Step 5.5. No Feature
+      rows existed in Jodex CLAUDE.md state machine. Feature stayed "New"
+      forever while children progressed to Resolved/Closed. Neither system
+      managed the Feature lifecycle.
+    resolution: >
+      SKILL.md Step 5.5 now includes a Feature transition table (derived from
+      "all stories pass?") with reopen support. Processing order updated to
+      Tasks → Stories → Feature. Jodex CLAUDE.md state machine now includes
+      Feature rows: New → Active (step 7), Active → Resolved (stop condition),
+      Resolved → Active (State Sync reopen). Step 7 activates the Feature
+      alongside the first story. A new "Resolving the Feature" subsection
+      handles the stop condition.
+
+  - id: 8
+    severity: "low"
+    status: "RESOLVED"
+    area: "lastSyncedToAzure not updated in State Sync mode"
+    detail: >
+      Step 6 only wrote prd.json for create/update modes. In State Sync mode,
+      the lastSyncedToAzure timestamp stayed stale (e.g., 2026-03-09 after a
+      sync on 2026-03-14) because no prd.json write was triggered.
+    resolution: >
+      SKILL.md Step 6 now includes a State Sync clause: "Even though no new
+      items are created, update lastSyncedToAzure to the current timestamp
+      after completing state transitions."
+
+  - id: 9
+    severity: "low"
+    status: "RESOLVED"
+    area: "Comparison YAML transitions lists are stale"
+    detail: >
+      Lines 29-34 (skill transitions) still showed old "Any state" wording
+      instead of per-state two-step tables. Lines 55-58 (Jodex transitions)
+      did not include Feature activation or resolution.
+    resolution: >
+      Skill transitions section now uses structured per-state rows for tasks,
+      stories, and features matching the current SKILL.md tables. Jodex
+      transitions now include Feature activation (step 7) and Feature
+      resolution (stop condition).
+
+  - id: 10
+    severity: "high"
+    status: "RESOLVED"
+    area: "Feature resolved despite incomplete ADO children"
+    detail: >
+      State Sync derived Feature completion from prd.json alone ("all user
+      stories have passes: true"). But ADO may have more child stories than
+      prd.json tracks — e.g., Feature 200724 had 4 ADO children but prd.json
+      only contained 1 (US-008-01). State Sync resolved the Feature based on
+      the 1 passing story, ignoring 3 siblings (US-008-02, 03, 04) still in
+      New state. The Feature had to be manually reopened.
+    resolution: >
+      Both SKILL.md Step 5.5 and Jodex CLAUDE.md now include an ADO cross-check
+      before resolving a Feature: read its ADO children via expand: relations,
+      check that ALL child User Stories are Resolved or Closed, not just those
+      in prd.json. "All stories pass?" requires BOTH prd.json + ADO checks to
+      be true. If prd.json says complete but ADO has non-terminal children, a
+      warning is logged and the Feature is NOT resolved. In Jodex, the agent
+      still replies COMPLETE (prd.json scope is done) but leaves the Feature
+      in Active state with the blockers logged to progress.txt.
+
+summary: >
+  All ten conflicts are now RESOLVED. The core tension — dual ownership
+  of ADO state — is addressed through clear ownership boundaries (#1, #5),
+  per-AC passes tracking in Jodex (#2, #4), explicit documentation of
+  the estimate handling split (#3), intermediate-aware state transitions
+  in State Sync (#6), Feature lifecycle coverage in both systems (#7),
+  lastSyncedToAzure updates in State Sync mode (#8), this comparison
+  file reflecting current per-state transition tables (#9), and ADO
+  cross-check before Feature resolution (#10). Jodex owns in-flight
+  state transitions and estimates during execution. State Sync owns
+  post-hoc state reconciliation with two-step transitions, ADO-aware
+  Feature management, and missing-estimate warnings.
