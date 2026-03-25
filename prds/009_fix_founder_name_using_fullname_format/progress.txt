@@ -506,3 +506,15 @@ Started: 2026-02-09
   - The founder name is hardcoded in `src/app/about/page.tsx` team array (line ~43), not in constants.ts
   - The negative test for "Kriss Aseniero" uses queryAllByText with a custom matcher because "Mari Kriss C. Aseniero" contains "Kriss Aseniero" as a substring
 ---
+
+## 2026-03-25T04:28:00Z - US-009-02
+- Verified regression tests for founder name format already exist in tests/unit/about-page.test.tsx (implemented during US-009-01)
+- Test 1: asserts "Mari Kriss C. Aseniero" is present in rendered output (AC-009-08)
+- Test 2: asserts no text node contains "Kriss Aseniero" without "Mari" prefix using custom queryAllByText matcher (AC-009-09)
+- Test 3: asserts old name "Kriss Judd" is not present
+- All 176 tests pass (20 test files), lint and type-check clean
+- Files changed: prd.json (AC passes + story passes updated), progress.txt
+- **Learnings for future iterations:**
+  - When US-009-01 updates source + tests together, US-009-02 (regression test story) may already be satisfied — verify before writing duplicate tests
+  - The custom queryAllByText matcher pattern is needed when the full name contains the old name as a substring
+---

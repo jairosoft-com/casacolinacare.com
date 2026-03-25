@@ -93,7 +93,7 @@
         {
           "id": "AC-009-08",
           "text": "GIVEN a unit test for the About page, WHEN the test runs, THEN it asserts that the rendered output contains \"Mari Kriss C. Aseniero\"",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 201673,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201673"
@@ -101,7 +101,7 @@
         {
           "id": "AC-009-09",
           "text": "GIVEN a unit test for the About page, WHEN the test runs, THEN it asserts that the rendered output does NOT contain \"Kriss Aseniero\" without the full name prefix",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 1,
           "azureWorkItemId": 201674,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201674"
@@ -109,7 +109,7 @@
         {
           "id": "AC-009-10",
           "text": "GIVEN the new test, WHEN npm test -- --run is executed, THEN the test passes",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 201675,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201675"
@@ -118,7 +118,7 @@
       "priority": 2,
       "storyPoints": 2,
       "totalEstimatedHours": 1.75,
-      "passes": false,
+      "passes": true,
       "notes": "TECH_SPEC specifies a custom queryAllByText matcher function for AC-009-09 since 'Mari Kriss C. Aseniero' contains the substring 'Kriss Aseniero' — simple queryByText won't work for the negative assertion"
     }
   ]
