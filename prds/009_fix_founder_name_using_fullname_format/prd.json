@@ -1,0 +1,125 @@
+{
+  "project": "CasaColinaCare.com",
+  "featureName": "jodex/fix-founder-name-using-fullname-format",
+  "featureId": "009",
+  "description": "Fix founder name from 'Kriss Aseniero' to full legal name 'Mari Kriss C. Aseniero' across all site references and add regression test to prevent reversion",
+  "detailedPrdPath": "BRD_PRD.md",
+  "technicalSpecPath": "TECH_SPEC.md",
+  "azureWorkItemId": 201663,
+  "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201663",
+  "lastSyncedToAzure": "2026-03-25T04:12:16Z",
+  "azureOrganization": "jairo",
+  "azureProject": "CasaColinaCare.com",
+  "userStories": [
+    {
+      "id": "US-009-01",
+      "title": "Display Founder Full Name in Team Section",
+      "description": "As a prospective family member visiting the About Us page, I want to see the founder's complete legal name \"Mari Kriss C. Aseniero\" so that I can trust the credibility and professionalism of the care facility",
+      "technicalSpecSection": "#31-us-009-01-display-founder-full-name-in-team-section",
+      "azureWorkItemId": 201664,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201664",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-009-01",
+          "text": "GIVEN the About Us page is loaded, WHEN the user views the team section, THEN the founder's name displays as \"Mari Kriss C. Aseniero\"",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201666,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201666"
+        },
+        {
+          "id": "AC-009-02",
+          "text": "GIVEN the About Us page is loaded, WHEN the user reads the founder's bio, THEN the bio text references \"Mari Kriss C. Aseniero\" (not just \"Kriss\")",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201667,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201667"
+        },
+        {
+          "id": "AC-009-03",
+          "text": "GIVEN a codebase search for the string \"Kriss Aseniero\" (without \"Mari\"), WHEN the search runs across all source files, THEN zero matches are returned (excluding test files that validate this condition and PRD files)",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201668,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201668"
+        },
+        {
+          "id": "AC-009-04",
+          "text": "GIVEN the About Us page is viewed on mobile (375px), tablet (768px), and desktop (1280px), WHEN the founder's full name is displayed, THEN no text overflow, truncation, or layout breakage occurs",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201669,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201669"
+        },
+        {
+          "id": "AC-009-05",
+          "text": "GIVEN the codebase after changes, WHEN npm run lint is executed, THEN it passes with zero errors",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201670,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201670"
+        },
+        {
+          "id": "AC-009-06",
+          "text": "GIVEN the codebase after changes, WHEN npm run type-check is executed, THEN it passes with zero errors",
+          "passes": true,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201671,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201671"
+        },
+        {
+          "id": "AC-009-07",
+          "text": "GIVEN the codebase after changes, WHEN npm test -- --run is executed, THEN all existing unit tests pass",
+          "passes": true,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201672,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201672"
+        }
+      ],
+      "priority": 1,
+      "storyPoints": 3,
+      "totalEstimatedHours": 3.0,
+      "passes": true,
+      "notes": "TECH_SPEC TC-009-02: existing test at tests/unit/about-page.test.tsx asserts old name 'Kriss Aseniero' and will fail after source change — must update test assertions to satisfy AC-009-07"
+    },
+    {
+      "id": "US-009-02",
+      "title": "Regression Test for Founder Name Format",
+      "description": "As a developer maintaining the site, I want a regression test that verifies the founder's name uses the full name format so that future changes don't accidentally revert to the incomplete name",
+      "technicalSpecSection": "#32-us-009-02-regression-test-for-founder-name-format",
+      "azureWorkItemId": 201665,
+      "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201665",
+      "acceptanceCriteria": [
+        {
+          "id": "AC-009-08",
+          "text": "GIVEN a unit test for the About page, WHEN the test runs, THEN it asserts that the rendered output contains \"Mari Kriss C. Aseniero\"",
+          "passes": false,
+          "estimatedHours": 0.5,
+          "azureWorkItemId": 201673,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201673"
+        },
+        {
+          "id": "AC-009-09",
+          "text": "GIVEN a unit test for the About page, WHEN the test runs, THEN it asserts that the rendered output does NOT contain \"Kriss Aseniero\" without the full name prefix",
+          "passes": false,
+          "estimatedHours": 1,
+          "azureWorkItemId": 201674,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201674"
+        },
+        {
+          "id": "AC-009-10",
+          "text": "GIVEN the new test, WHEN npm test -- --run is executed, THEN the test passes",
+          "passes": false,
+          "estimatedHours": 0.25,
+          "azureWorkItemId": 201675,
+          "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/201675"
+        }
+      ],
+      "priority": 2,
+      "storyPoints": 2,
+      "totalEstimatedHours": 1.75,
+      "passes": false,
+      "notes": "TECH_SPEC specifies a custom queryAllByText matcher function for AC-009-09 since 'Mari Kriss C. Aseniero' contains the substring 'Kriss Aseniero' — simple queryByText won't work for the negative assertion"
+    }
+  ]
+}
