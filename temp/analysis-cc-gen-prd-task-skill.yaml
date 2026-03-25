@@ -1,0 +1,82 @@
+skill: "cc-gen-prd-task"
+name: "Jodex PRD Converter"
+trigger_phrases:
+  - "convert this prd"
+  - "turn this into jodex format"
+  - "create prd.json from this"
+  - "jodex json"
+
+purpose: |
+  Converts a human-readable requirements document (PRD.md or BRD_PRD.md)
+  into a machine-readable prd.json that Jodex (the autonomous AI agent)
+  uses for execution.
+
+responsibilities:
+  input:
+    - "Reads a PRD.md or BRD_PRD.md from a feature folder"
+    - "Preserves folder-based IDs (e.g., US-007-01, AC-007-01)"
+    - "Resolves TECH_SPEC.md section anchors per story"
+  output:
+    - "Writes prd.json in the same feature folder"
+    - "One feature = one prd.json (1:1 mapping)"
+  core_transformation:
+    from: "Prose requirements in markdown"
+    to: "Structured JSON with stories, ACs, priorities, and pass/fail flags"
+
+  key_fields_emitted:
+    - "project, featureName, featureId, description"
+    - "detailedPrdPath → source document name"
+    - "technicalSpecPath → TECH_SPEC.md (if available)"
+    - "userStories[] → id, title, description, acceptanceCriteria[], priority, passes, notes"
+    - "acceptanceCriteria[] → id, text, passes (all default false)"
+
+rules:
+  story_sizing:
+    constraint: "Each story must fit in ONE Jodex iteration (one context window)"
+    detail: "Jodex spawns a fresh agent instance per iteration with no memory"
+    guideline: "If you can't describe the change in 2-3 sentences, split it"
+
+  story_ordering:
+    principle: "Dependencies first — no story depends on a later story"
+    sequence: "Schema → Backend logic → UI components → Dashboard/summary views"
+
+  acceptance_criteria:
+    rule: "Must be verifiable, not vague"
+    mandatory_quality_checks:
+      - "Lint passes"
+      - "Typecheck passes"
+      - "Unit tests pass"
+    conditional_checks:
+      - "E2E tests pass (for testable logic)"
+      - "Verify in browser using dev-browser skill (for UI changes)"
+
+  branch_prefix: "jodex/"
+  id_preservation: "IDs from source document preserved exactly — never regenerated"
+
+  archiving:
+    trigger: "Existing prd.json with different branchName"
+    action: "Archive to archive/YYYY-MM-DD-feature-name/ before overwriting"
+    automation: "jodex.sh script handles this automatically"
+
+what_it_does_NOT_do:
+  - "Does NOT create the PRD — only converts an existing one"
+  - "Does NOT execute stories — Jodex agent does that downstream"
+  - "Does NOT sync to Azure DevOps — cc-azure-board-sync handles that"
+  - "Does NOT generate TECH_SPEC.md — cc-gen-tech-spec handles that"
+  # Story point and hour estimation added — see Hour Estimation section in SKILL.md
+
+pipeline_position:
+  upstream:
+    - "cc-gen-prd or cc-gen-prd-lite → writes PRD.md"
+    - "cc-gen-brd-prd → writes BRD_PRD.md"
+    - "cc-gen-tech-spec → writes TECH_SPEC.md"
+  this_skill: "cc-gen-prd-task → writes prd.json"
+  downstream:
+    - "cc-azure-board-sync → creates ADO work items from prd.json"
+    - "Jodex agent (jodex.sh) → executes stories from prd.json"
+
+rename_status:
+  ralph_references_remaining: 0
+  branding: "Fully renamed to Jodex"
+  amp_references_remaining: 0
+  generalized_to: "agent instance"

@@ -40,9 +40,9 @@ const values = [
 
 const team = [
   {
-    name: 'Kriss Aseniero',
+    name: 'Mari Kriss C. Aseniero',
     role: 'Founder & Director',
-    bio: 'With years of experience in senior care and a deep love for the Hawaii Kai community, Kriss founded Casa Colina Care to provide a home where every resident is treated like family.',
+    bio: 'With years of experience in senior care and a deep love for the Hawaii Kai community, Mari Kriss C. Aseniero founded Casa Colina Care to provide a home where every resident is treated like family.',
   },
   {
     name: 'Care Team Member',
