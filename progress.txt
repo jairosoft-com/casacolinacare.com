@@ -425,3 +425,97 @@ Started: 2026-02-09
   - E2E font verification: use `page.evaluate(el => getComputedStyle(el).fontFamily)` to check computed font, then assert `toLowerCase().toContain('playfair')`
   - Mobile nav E2E: must set viewport to 375px width AND click the menu button before the SheetTitle is accessible
 ---
+
+## [PRD-006] 2026-03-20 07:08 - US-006-02 Update Documentation References
+- Replaced 'Kriss Judd' with 'Kriss Aseniero' in all documentation files
+- Deleted `memory/people/kriss-judd.md`, created `memory/people/kriss-aseniero.md`
+- Updated CLAUDE.md People table, memory/glossary.md Nicknames table, memory/projects/casacolinacare-website.md Key People
+- Verified `grep -r 'Kriss Judd' CLAUDE.md memory/` returns no results
+- All quality gates passed: lint (no errors), typecheck (clean), 169 unit tests
+- ADO: all 8 Tasks closed, User Story 200270 Resolved
+- Files changed:
+  - `CLAUDE.md` (modified — People table name update)
+  - `memory/people/kriss-judd.md` (deleted)
+  - `memory/people/kriss-aseniero.md` (new — renamed with updated heading)
+  - `memory/glossary.md` (modified — Nicknames table update)
+  - `memory/projects/casacolinacare-website.md` (modified — Key People update)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-02 all AC passes: true, story passes: true)
+- **Learnings for future iterations:**
+  - Documentation-only stories don't require source code changes — only markdown/memory files
+  - `git rm` is needed for tracked file deletions (not just filesystem delete)
+  - The memory/people/ directory stores per-person profiles — rename the file when a person's name changes
+---
+## [PRD-006] 2026-03-20 07:04 - US-006-01 Update Founder Name in About Page Team Section
+- Changed `name: 'Kriss Judd'` to `name: 'Kriss Aseniero'` in `team` array at index 0 in `src/app/about/page.tsx` (line 43)
+- Created unit test `tests/unit/about-page.test.tsx` (2 tests: correct name renders, old name absent)
+- Created E2E test `tests/e2e/about-founder.spec.ts` (1 test: correct name visible, old name hidden)
+- All quality gates passed: lint (no errors), typecheck (clean), 171 unit tests, 16 E2E tests
+- Browser verified via dev-browser: "Kriss Aseniero" displayed in team section at 1280px desktop
+- ADO: all 8 Tasks closed, User Story 200269 Resolved
+- Files changed:
+  - `src/app/about/page.tsx` (modified — name string replacement)
+  - `tests/unit/about-page.test.tsx` (new)
+  - `tests/e2e/about-founder.spec.ts` (new)
+  - `prds/006_about_founder_name/prd.json` (updated — US-006-01 all AC passes: true, story passes: true)
+- **Note:** TECH_SPEC.md and BRD_PRD.md describe broader scope (US-006-02 documentation updates) but execution limited to prd.json US-006-01 this iteration.
+- **Learnings for future iterations:**
+  - About page team data is an inline `team` array in the page component — not extracted to a shared data file
+  - The About page is a server component (RSC) — no `'use client'` needed for the team section
+  - Simple string replacement in static data arrays requires no schema or type changes
+---
+
+
+## 2026-03-20T18:36 - US-005-02
+- Implemented regression test for CTA banner phone number at `tests/unit/cta-banner.test.tsx`
+- Test verifies: correct phone `+1 (808) 200-1840` present, old placeholder `+1 (800) 888-8888` absent, `tel:` href is `tel:+18082001840`
+- Also applied phone number fix to `cta-banner.tsx` on this branch (branched from main where US-005-01 fix hasn't merged yet)
+- Files changed: `tests/unit/cta-banner.test.tsx` (new), `src/components/sections/cta-banner.tsx` (phone fix), `prds/005_cta_phone_fix/prd.json` (passes: true)
+- All quality gates passed: lint, typecheck, 175/175 unit tests
+- ADO: Story 200140 Resolved, all 7 tasks Closed
+- **Learnings for future iterations:**
+  - When branching from main for a dependent story (US-005-02 depends on US-005-01), the prerequisite fix may not be on main yet — include it on the new branch
+  - Follow existing test patterns in `tests/unit/footer.test.tsx` for phone number regression tests (same assertions style)
+  - CtaBanner is an RSC — test renders fine without 'use client' in test environment
+---
+
+## [PRD-005] 2026-03-21 - US-005-01: Correct Phone Number in CTA Banner
+- Replaced placeholder phone number `+1 (800) 888-8888` / `tel:+18008888888` with correct business number `+1 (808) 200-1840` / `tel:+18082001840` in CTA banner component
+- Files changed:
+  - `src/components/sections/cta-banner.tsx` (modified — phone number and tel: href updated)
+  - `prds/005_cta_phone_fix/prd.json` (AC passes updated)
+- All quality gates passed: lint, typecheck, 171 unit tests, 16 E2E tests
+- Browser verification confirmed via dev-browser skill on localhost:3000
+- ADO work items updated: Feature 200138 → Active, Story 200139 → Resolved, all 9 Tasks → Closed
+- **Learnings for future iterations:**
+  - Turbopack dev server may cache RSC output — restart dev server (kill + npm run dev) to see changes in browser verification
+  - The CTA banner is used on Home, About, and FAQ pages via `<CtaBanner />` — phone number is hardcoded in the component, not passed as a prop
+  - `section.bg-primary` selector matches multiple sections (Hero + CTA) — use heading text to identify the correct CTA section in browser tests
+---
+## 2026-03-25 - US-009-01
+- Updated founder name from "Kriss Aseniero" to "Mari Kriss C. Aseniero" in team section
+- Updated founder bio to reference full name instead of "Kriss"
+- Updated unit test assertions to validate new name and negative check for old name
+- Grep audit confirmed zero "Kriss Aseniero" matches in src/
+- All quality gates passed: lint, type-check, 176 tests (20 files)
+- Files changed:
+  - `src/app/about/page.tsx` (name + bio fields in team array)
+  - `tests/unit/about-page.test.tsx` (updated assertions for US-009-01)
+  - `prds/009_fix_founder_name_using_fullname_format/prd.json` (AC passes)
+- ADO: Feature 201663 Active, Story 201664 Resolved, Tasks 201666-201672 Closed
+- AC-009-04 (visual breakpoint check): team card uses text-center with responsive grid, no truncation — manual browser verification recommended
+- **Learnings for future iterations:**
+  - The founder name is hardcoded in `src/app/about/page.tsx` team array (line ~43), not in constants.ts
+  - The negative test for "Kriss Aseniero" uses queryAllByText with a custom matcher because "Mari Kriss C. Aseniero" contains "Kriss Aseniero" as a substring
+---
+
+## 2026-03-25T04:28:00Z - US-009-02
+- Verified regression tests for founder name format already exist in tests/unit/about-page.test.tsx (implemented during US-009-01)
+- Test 1: asserts "Mari Kriss C. Aseniero" is present in rendered output (AC-009-08)
+- Test 2: asserts no text node contains "Kriss Aseniero" without "Mari" prefix using custom queryAllByText matcher (AC-009-09)
+- Test 3: asserts old name "Kriss Judd" is not present
+- All 176 tests pass (20 test files), lint and type-check clean
+- Files changed: prd.json (AC passes + story passes updated), progress.txt
+- **Learnings for future iterations:**
+  - When US-009-01 updates source + tests together, US-009-02 (regression test story) may already be satisfied — verify before writing duplicate tests
+  - The custom queryAllByText matcher pattern is needed when the full name contains the old name as a substring
+---
