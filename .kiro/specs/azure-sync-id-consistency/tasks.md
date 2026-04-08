@@ -71,17 +71,17 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - **Property 7: Global Sequential Numbering for Acceptance Criteria**
   - **Validates: Requirements 3.5**
 
-- [~] 3.4 Write property test for Acceptance Criteria feature number consistency
+- [ ] 3.4 Write property test for Acceptance Criteria feature number consistency
   - **Property 8: Acceptance Criteria Feature Number Consistency**
   - **Validates: Requirements 3.6, 6.3, 6.4**
 
-- [~] 3.5 Write unit tests for Acceptance Criteria ID generation
+- [ ] 3.5 Write unit tests for Acceptance Criteria ID generation
   - Test global sequential numbering with multiple user stories
   - Test feature number preservation with leading zeros
   - Test sequence number zero-padding
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
 
-- [~] 4. Implement feature number consistency validation
+- [ ] 4. Implement feature number consistency validation
   - Add consistency validation in Step 2 after parsing all IDs
   - Compare all User Story IDs against folder path feature number
   - Compare all Acceptance Criteria IDs against folder path feature number
@@ -90,17 +90,17 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Continue processing after logging warnings
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-- [~] 4.1 Write property test for mismatch count reporting
+- [ ] 4.1 Write property test for mismatch count reporting
   - **Property 9: Mismatch Count Reporting**
   - **Validates: Requirements 6.6**
 
-- [~] 4.2 Write unit tests for feature number consistency validation
+- [ ] 4.2 Write unit tests for feature number consistency validation
   - Test all IDs match folder path (valid case)
   - Test some IDs mismatch (warning case)
   - Test mismatch count accuracy
   - _Requirements: 6.2, 6.3, 6.4, 6.5, 6.6_
 
-- [~] 5. Update work item title generation
+- [ ] 5. Update work item title generation
   - Modify Step 3 (Map Requirements to Work Items) to use new ID format
   - Update Feature work item titles to use new format
   - Update User Story work item titles to use new format (US-{feature_number}-{seq})
@@ -108,7 +108,7 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Ensure titles remain under 255 character limit
   - _Requirements: 2.1, 3.1_
 
-- [~] 6. Update JSON metadata file update logic
+- [ ] 6. Update JSON metadata file update logic
   - Modify Step 6.5 (Update JSON Metadata File) to preserve new ID format
   - Ensure User Story `id` fields are preserved exactly (e.g., US-006-01)
   - Ensure Acceptance Criteria IDs are preserved when converting to objects
@@ -116,30 +116,30 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Maintain all existing fields during JSON update
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-- [~] 6.1 Write property test for JSON ID preservation
+- [ ] 6.1 Write property test for JSON ID preservation
   - **Property 11: JSON ID Preservation During Update**
   - **Validates: Requirements 8.1**
 
-- [~] 6.2 Write property test for Azure work item ID addition to user stories
+- [ ] 6.2 Write property test for Azure work item ID addition to user stories
   - **Property 12: Azure Work Item ID Addition to User Stories**
   - **Validates: Requirements 8.2**
 
-- [~] 6.3 Write property test for Azure work item ID addition to acceptance criteria
+- [ ] 6.3 Write property test for Azure work item ID addition to acceptance criteria
   - **Property 13: Azure Work Item ID Addition to Acceptance Criteria**
   - **Validates: Requirements 8.3**
 
-- [~] 6.4 Write property test for JSON field preservation
+- [ ] 6.4 Write property test for JSON field preservation
   - **Property 14: JSON Field Preservation During Update**
   - **Validates: Requirements 8.5**
 
-- [~] 6.5 Write unit tests for JSON metadata update
+- [ ] 6.5 Write unit tests for JSON metadata update
   - Test JSON transformation with new ID format
   - Test acceptance criteria string to object conversion
   - Test field preservation (priority, technicalSpecSection, etc.)
   - Test 2-space indentation formatting
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-- [~] 7. Update error messages throughout the skill
+- [ ] 7. Update error messages throughout the skill
   - Update folder path validation error messages with expected pattern
   - Update User Story ID validation error messages with expected format
   - Update Acceptance Criteria ID validation error messages with expected format
@@ -148,18 +148,18 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Include actionable guidance in all error messages
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-- [~] 7.1 Write property test for invalid ID error messages
+- [ ] 7.1 Write property test for invalid ID error messages
   - **Property 10: Invalid ID Error Messages**
   - **Validates: Requirements 7.2, 7.3**
 
-- [~] 7.2 Write unit tests for error message content
+- [ ] 7.2 Write unit tests for error message content
   - Verify error messages contain expected pattern
   - Verify error messages contain actual value
   - Verify error messages contain specific issue description
   - Verify error messages contain actionable guidance
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [~] 8. Update all examples in the skill document
+- [ ] 8. Update all examples in the skill document
   - Update Example 1 (Basic BRD/PRD Sync) to use new ID format
   - Update Example 2 (Handling Errors) to use new ID format
   - Update Example 3 (JSON File Transformation) to use new ID format
@@ -169,19 +169,19 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Ensure all examples show folder path with feature number
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-- [~] 9. Remove Business Objective ID parsing references
+- [ ] 9. Remove Business Objective ID parsing references
   - Remove references to Business Objective ID parsing (OBJ-{feature_number}-{seq})
   - Update documentation to clarify one PRD maps to one feature
   - Simplify Feature work item creation logic
   - _Requirements: 5.6_
 
-- [~] 10. Checkpoint - Ensure all tests pass
+- [ ] 10. Checkpoint - Ensure all tests pass
   - Run all property-based tests with fast-check
   - Run all unit tests with Vitest
   - Verify all tests pass
   - Ask the user if questions arise
 
-- [~] 11. Integration testing and validation
+- [ ] 11. Integration testing and validation
   - Test complete workflow with sample PRD using new ID format
   - Verify folder path validation works correctly
   - Verify User Story IDs are parsed correctly
@@ -192,7 +192,7 @@ This implementation updates the cc-azure-board-sync skill to use the consistent 
   - Verify error messages are clear and actionable
   - _Requirements: All requirements_
 
-- [~] 12. Final checkpoint - Ensure all tests pass
+- [ ] 12. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise
 
 ## Notes
