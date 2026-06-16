@@ -2,7 +2,7 @@
 
 ## Document Metadata
 
-- **Feature ID**: 008
+	- **Feature ID**: 008
 - **Feature Name**: logo_update
 - **Document Type**: BRD_PRD
 - **Generated Date**: 2026-03-09
@@ -57,9 +57,9 @@ The website logo is rendered as plain text "Casa Colina Care" using the default 
 
 **THE GOLDEN THREAD STARTS HERE**
 
-| Objective ID | SMART Business Objective | Key Performance Indicator (KPI) | Current Baseline | Target | Measurement Method |
-|---|---|---|---|---|---|
-| OBJ-008-01 | Achieve 100% typographic consistency between logo and headings across all pages within 1 sprint | Font family match ratio (logo vs. headings) | 0% (logo uses Inter, headings use Playfair Display) | 100% (all logo instances use Playfair Display) | Visual inspection + automated test |
+| Objective ID | SMART Business Objective                                                                        | Key Performance Indicator (KPI)             | Current Baseline                                    | Target                                         | Measurement Method                 |
+| ------------ | ----------------------------------------------------------------------------------------------- | ------------------------------------------- | --------------------------------------------------- | ---------------------------------------------- | ---------------------------------- |
+| OBJ-008-01   | Achieve 100% typographic consistency between logo and headings across all pages within 1 sprint | Font family match ratio (logo vs. headings) | 0% (logo uses Inter, headings use Playfair Display) | 100% (all logo instances use Playfair Display) | Visual inspection + automated test |
 
 ### 4. Project Scope & Boundaries
 
