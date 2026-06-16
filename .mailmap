@@ -1,0 +1,16 @@
+# Git identity consolidation (see `git help shortlog` → MAPPING AUTHORS).
+# Folds Ramon Aseniero's multiple commit identities into one canonical name+email.
+# Canonical email is raseniero@gmail.com — his established git/GitHub identity (157 commits).
+# The Vercel deploy bot is intentionally left unmapped.
+
+# Normalize display-name casing for the canonical git email
+# (most commits were authored as lowercase "ramon aseniero").
+Ramon Aseniero <raseniero@gmail.com>
+
+# Project-bootstrap commits made before git identity was configured
+# (default Next.js / git placeholder). All from 2025-07-18, authored by Ramon.
+Ramon Aseniero <raseniero@gmail.com> Your Name <your.email@example.com>
+
+# Other known Ramon emails (his ADO work + personal accounts) — fold in if ever used to commit.
+Ramon Aseniero <raseniero@gmail.com> <ramon@jairosoft.com>
+Ramon Aseniero <raseniero@gmail.com> <raseniero@hotmail.com>
