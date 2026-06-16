@@ -35,6 +35,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -173,3 +174,29 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Backup files
 *.bak
 *.orig
+
+# Scratch / generated analysis
+/temp/
+
+# Claude Code git worktrees
+.claude/worktrees/
+
+# Next.js / compiler caches
+.turbo/
+.swc/
+
+# Test coverage artifacts
+.vitest/
+.nyc_output/
+
+# Codex local config
+.codex/
+
+# One-off local artifacts
+developer-productivity-report.jsx
+
+# Jodex / Ralph — explicit lowercase (case-sensitive on Linux)
+jodex
+**/jodex
+**/ralph
+**/ralph.d
