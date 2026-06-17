@@ -8,4 +8,12 @@ test.describe('About Page — Founder Name (US-006-01)', () => {
     await expect(page.getByText('Kriss Aseniero')).toBeVisible();
     await expect(page.getByText('Kriss Judd')).toBeHidden();
   });
+
+  test('displays correct founder title "Founder & CEO" (US-206771)', async ({
+    page,
+  }) => {
+    await page.goto('/about');
+    await expect(page.getByText('Founder & CEO')).toBeVisible();
+    await expect(page.getByText('Founder & Director')).toBeHidden();
+  });
 });
