@@ -69,7 +69,7 @@
         {
           "id": "AC-010-01",
           "text": "The bio text in team[0].bio (src/app/about/page.tsx:45) uses 'Kriss' instead of 'Mari Kriss C. Aseniero' in the prose sentence — verified by unit test in tests/unit/app/about/page.test.tsx asserting bio contains 'Kriss' and does not contain 'Mari Kriss C. Aseniero'",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 1,
           "azureWorkItemId": 202505,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202505"
@@ -77,7 +77,7 @@
         {
           "id": "AC-010-02",
           "text": "The team[0].name field ('Mari Kriss C. Aseniero') remains unchanged — verified by unit test in tests/unit/app/about/page.test.tsx asserting team[0].name === 'Mari Kriss C. Aseniero'",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 202506,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202506"
@@ -85,7 +85,7 @@
         {
           "id": "AC-010-03",
           "text": "The rendered About page displays 'Kriss founded Casa Colina Care...' in the bio paragraph (browser-verified using dev-browser skill)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 202507,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202507"
@@ -93,7 +93,7 @@
         {
           "id": "AC-010-04",
           "text": "npm run lint -- --fix passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 202508,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202508"
@@ -101,7 +101,7 @@
         {
           "id": "AC-010-05",
           "text": "npm run type-check passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 202509,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202509"
@@ -109,7 +109,7 @@
         {
           "id": "AC-010-06",
           "text": "npm test -- --run passes with no regressions (includes new unit tests for FOUNDER_NICKNAME export and bio text content)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 202510,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202510"
@@ -118,7 +118,7 @@
       "priority": 2,
       "storyPoints": 3,
       "totalEstimatedHours": 2.75,
-      "passes": false,
+      "passes": true,
       "notes": ""
     }
   ]
