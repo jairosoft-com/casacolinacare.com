@@ -29,6 +29,10 @@ Use `"Closed"` as the terminal state value for both User Stories and Tasks.
 - `"Closed"` succeeds and sets `System.Reason` to `"Acceptance tests pass"` for Stories and `"Completed"` for Tasks
 - Confirmed on Tasks #206772, #206773 and Story #206771 (2026-06-17)
 
+## Related
+
+- [[Vercel Project casacolinacare-com]]
+
 ## Sources
 
 - Session: Story #206771 implementation (2026-06-17)
