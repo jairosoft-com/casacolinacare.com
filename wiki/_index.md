@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
-updated: 2026-06-16
-page_count: 0
+updated: 2026-06-17
+page_count: 5
 ---
 
 # Wiki Index
@@ -12,7 +12,8 @@ _No ideas yet._
 
 ## Concepts
 
-_No concepts yet._
+- [[Squash Merge Makes Branch Cleanup Require Force Delete]]
+- [[GitHub Auto-Update Branch Can Break TypeScript Build]]
 
 ## Entities
 
@@ -36,11 +37,12 @@ _No projects yet._
 
 ## Decisions
 
-_No decisions yet._
+- [[ADO Work Item Terminal State Is Closed Not Done]]
 
 ## Code
 
-_No code pages yet._
+- [[Vercel Project casacolinacare-com]]
+- [[git worktree remove Requires --force for Claude Code Worktrees]]
 
 ## Sources
 
