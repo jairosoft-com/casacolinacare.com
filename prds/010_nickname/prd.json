@@ -22,7 +22,7 @@
         {
           "id": "AC-010-07",
           "text": "src/lib/constants.ts exports FOUNDER_NICKNAME = 'Kriss'",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 202500,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202500"
@@ -30,7 +30,7 @@
         {
           "id": "AC-010-08",
           "text": "src/app/about/page.tsx imports FOUNDER_NICKNAME from src/lib/constants.ts and uses it in the bio string (no hardcoded nickname string in component)",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.5,
           "azureWorkItemId": 202501,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202501"
@@ -38,7 +38,7 @@
         {
           "id": "AC-010-09",
           "text": "npm run lint -- --fix passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 202502,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202502"
@@ -46,7 +46,7 @@
         {
           "id": "AC-010-10",
           "text": "npm run type-check passes with no errors",
-          "passes": false,
+          "passes": true,
           "estimatedHours": 0.25,
           "azureWorkItemId": 202503,
           "azureWorkItemUrl": "https://dev.azure.com/jairo/CasaColinaCare.com/_workitems/edit/202503"
@@ -55,7 +55,7 @@
       "priority": 1,
       "storyPoints": 2,
       "totalEstimatedHours": 1.5,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {
