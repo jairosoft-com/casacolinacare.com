@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { SectionHeading } from '@/components/shared/section-heading';
+import { FOUNDER_NICKNAME } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -41,8 +42,8 @@ const values = [
 const team = [
   {
     name: 'Mari Kriss C. Aseniero',
-    role: 'Founder & Director',
-    bio: 'With years of experience in senior care and a deep love for the Hawaii Kai community, Mari Kriss C. Aseniero founded Casa Colina Care to provide a home where every resident is treated like family.',
+    role: 'Founder & CEO',
+    bio: `With years of experience in senior care and a deep love for the Hawaii Kai community, ${FOUNDER_NICKNAME} founded Casa Colina Care to provide a home where every resident is treated like family.`,
   },
   {
     name: 'Care Team Member',
