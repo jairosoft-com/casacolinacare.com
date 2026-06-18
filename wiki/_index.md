@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
-updated: 2026-06-17
-page_count: 5
+updated: 2026-06-18
+page_count: 8
 ---
 
 # Wiki Index
@@ -43,6 +43,9 @@ _No projects yet._
 
 - [[Vercel Project casacolinacare-com]]
 - [[git worktree remove Requires --force for Claude Code Worktrees]]
+- [[ADO MCP wit_add_work_item_comment Parameter Names]]
+- [[RTL queryByText Regression Guards Must Target Unique Strings]]
+- [[RTL getAllByRole Returns All Headings Across Full Page Not Just Section]]
 
 ## Sources
 
