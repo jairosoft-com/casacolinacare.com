@@ -66,12 +66,9 @@ next-env.d.ts
 .cursor/
 
 # IDE - Claude
-/.claude/data/
-/.claude/skills/dev-browser/
-/.claude/settings.local.json
 **/.claude/data/
-**/.claude/skills/dev-browser/
 **/.claude/settings.local.json
+**/.claude/skills/dev-browser/
 
 # IDE - IntelliJ
 .idea/
