@@ -46,8 +46,8 @@ const team = [
     bio: `With years of experience in senior care and a deep love for the Hawaii Kai community, ${FOUNDER_NICKNAME} founded Casa Colina Care to provide a home where every resident is treated like family.`,
   },
   {
-    name: 'Care Team Member',
-    role: 'Lead Caregiver',
+    name: 'Aileen Jordan, RN',
+    role: 'Registered Nurse',
     bio: 'Our lead caregiver brings compassion and expertise to every interaction, ensuring each resident receives personalized attention and support.',
   },
   {
