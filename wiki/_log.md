@@ -4,6 +4,16 @@ title: Wiki Log
 
 # Wiki Log
 
+## 2026-06-19 — Insights (Session: Story #206950)
+
+- **Operation**: insights
+- **Source**: jx-kb:insights from conversation session
+- **Pages added**: 1
+  - `code/EnterWorktree path Switches Active Session Between Worktrees.md`
+- **Pages updated**: 2
+  - `code/ADO MCP wit_add_work_item_comment Parameter Names.md` — added background-session `project` param requirement
+  - `code/Vercel Project casacolinacare-com.md` — added deployment monitoring workflow
+
 ## 2026-06-17 — Insights (Session: Story #206771)
 
 - **Operation**: insights

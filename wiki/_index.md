@@ -1,7 +1,7 @@
 ---
 title: Wiki Index
-updated: 2026-06-18
-page_count: 8
+updated: 2026-06-19
+page_count: 9
 ---
 
 # Wiki Index
@@ -46,6 +46,7 @@ _No projects yet._
 - [[ADO MCP wit_add_work_item_comment Parameter Names]]
 - [[RTL queryByText Regression Guards Must Target Unique Strings]]
 - [[RTL getAllByRole Returns All Headings Across Full Page Not Just Section]]
+- [[EnterWorktree path Switches Active Session Between Worktrees]]
 
 ## Sources
 
