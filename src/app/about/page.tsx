@@ -51,8 +51,8 @@ const team = [
     bio: 'Our lead caregiver brings compassion and expertise to every interaction, ensuring each resident receives personalized attention and support.',
   },
   {
-    name: 'Care Team Member',
-    role: 'Activities Coordinator',
+    name: 'Nieves Esperanza, CNA',
+    role: 'Certified Nursing Assistant',
     bio: 'Dedicated to enriching the lives of our residents through engaging activities, social events, and meaningful daily experiences.',
   },
 ];

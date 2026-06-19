@@ -57,3 +57,29 @@ describe('About Page — Lead Nurse Card (AB#206841)', () => {
     ).toBeInTheDocument();
   });
 });
+
+describe('About Page — CNA Card (AB#206950)', () => {
+  test('AC-1: renders "Nieves Esperanza, CNA" as 3rd card heading', () => {
+    render(<AboutPage />);
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Nieves Esperanza, CNA' }),
+    ).toBeInTheDocument();
+  });
+
+  test('AC-1: renders "Certified Nursing Assistant" as 3rd card role', () => {
+    render(<AboutPage />);
+    expect(screen.getByText('Certified Nursing Assistant')).toBeInTheDocument();
+  });
+
+  test('AC-2: does not render old name "Care Team Member" (regression guard)', () => {
+    render(<AboutPage />);
+    expect(screen.queryByText('Care Team Member')).not.toBeInTheDocument();
+  });
+
+  test('AC-2: does not render old role "Activities Coordinator" (regression guard)', () => {
+    render(<AboutPage />);
+    expect(
+      screen.queryByText('Activities Coordinator'),
+    ).not.toBeInTheDocument();
+  });
+});
