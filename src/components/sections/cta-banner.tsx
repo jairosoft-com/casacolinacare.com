@@ -28,10 +28,10 @@ export function CtaBanner({
         )}
         <div className="mt-8 flex flex-col items-center justify-center gap-4 text-primary-foreground/90 sm:flex-row sm:gap-8">
           <a
-            href="tel:+18082001840"
+            href="tel:+18084441168"
             className="transition-colors hover:text-primary-foreground"
           >
-            +1 (808) 200-1840
+            +1 (808) 444-1168
           </a>
           <a
             href="mailto:kriss@casacolinacare.com"

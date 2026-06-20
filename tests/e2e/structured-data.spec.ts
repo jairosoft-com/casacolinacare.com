@@ -10,7 +10,7 @@ test.describe('Schema.org Structured Data', () => {
     const jsonLd = JSON.parse(scriptContent!);
 
     // Telephone
-    expect(jsonLd.telephone).toBe('+18082001840');
+    expect(jsonLd.telephone).toBe('+18084441168');
 
     // Fax number
     expect(jsonLd.faxNumber).toBe('+18086701163');

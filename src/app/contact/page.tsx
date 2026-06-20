@@ -69,10 +69,10 @@ export default function ContactPage() {
                   <div>
                     <p className="font-medium">Phone</p>
                     <a
-                      href="tel:+18082001840"
+                      href="tel:+18084441168"
                       className="text-muted-foreground transition-colors hover:text-primary"
                     >
-                      +1 (808) 200-1840
+                      +1 (808) 444-1168
                     </a>
                   </div>
                 </div>

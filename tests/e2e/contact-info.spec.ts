@@ -9,9 +9,9 @@ test.describe('Contact Page — Phone, Fax, and Address', () => {
     page,
   }) => {
     const main = page.locator('main');
-    const phoneLink = main.locator('a[href="tel:+18082001840"]');
+    const phoneLink = main.locator('a[href="tel:+18084441168"]');
     await expect(phoneLink).toBeVisible();
-    await expect(phoneLink).toContainText('+1 (808) 200-1840');
+    await expect(phoneLink).toContainText('+1 (808) 444-1168');
   });
 
   test('TC-016: fax is visible but not clickable (not a link)', async ({

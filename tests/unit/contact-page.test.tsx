@@ -8,9 +8,9 @@ describe('Contact Page — Phone, Fax, and Address (US-002)', () => {
     render(<ContactPage />);
   });
 
-  test('TC-004: phone link href is tel:+18082001840', () => {
-    const phoneLink = screen.getByRole('link', { name: /808.*200.*1840/ });
-    expect(phoneLink).toHaveAttribute('href', 'tel:+18082001840');
+  test('TC-004: phone link href is tel:+18084441168', () => {
+    const phoneLink = screen.getByRole('link', { name: /808.*444.*1168/ });
+    expect(phoneLink).toHaveAttribute('href', 'tel:+18084441168');
   });
 
   test('TC-005: fax renders as plain text, not a link', () => {

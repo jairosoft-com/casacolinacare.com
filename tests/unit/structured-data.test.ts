@@ -3,8 +3,8 @@ import { describe, expect, test } from 'vitest';
 import { jsonLd } from '@/lib/structured-data';
 
 describe('Schema.org Structured Data', () => {
-  test('telephone is +18082001840', () => {
-    expect(jsonLd.telephone).toBe('+18082001840');
+  test('telephone is +18084441168', () => {
+    expect(jsonLd.telephone).toBe('+18084441168');
   });
 
   test('telephone is not the old value', () => {

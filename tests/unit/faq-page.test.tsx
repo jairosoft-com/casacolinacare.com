@@ -24,7 +24,7 @@ describe('FAQ Page — Location & Phone Updates (US-004)', () => {
       ?.questions.find(q =>
         q.question.includes('How do I begin the admissions process'),
       )?.answer;
-    expect(admissionsAnswer).toContain('+1 (808) 200-1840');
+    expect(admissionsAnswer).toContain('+1 (808) 444-1168');
   });
 
   test('TC-F03: marketing Hawaii Kai references are preserved', () => {
