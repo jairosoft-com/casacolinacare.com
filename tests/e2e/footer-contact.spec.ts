@@ -9,9 +9,9 @@ test.describe('Footer — Phone, Fax, and Address (US-003)', () => {
     page,
   }) => {
     const footer = page.getByRole('contentinfo');
-    const phoneLink = footer.locator('a[href="tel:+18082001840"]');
+    const phoneLink = footer.locator('a[href="tel:+18084441168"]');
     await expect(phoneLink).toBeVisible();
-    await expect(phoneLink).toContainText('+1 (808) 200-1840');
+    await expect(phoneLink).toContainText('+1 (808) 444-1168');
   });
 
   test('TC-029: footer fax is visible but not a link', async ({ page }) => {

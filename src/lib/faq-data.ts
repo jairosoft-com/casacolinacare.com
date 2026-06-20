@@ -35,7 +35,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: 'How do I begin the admissions process?',
         answer:
-          'The first step is to schedule a consultation by calling us at +1 (808) 200-1840, emailing kriss@casacolinacare.com, or filling out our contact form. We\u2019ll arrange a visit so you can tour our home and meet our team.',
+          'The first step is to schedule a consultation by calling us at +1 (808) 444-1168, emailing kriss@casacolinacare.com, or filling out our contact form. We\u2019ll arrange a visit so you can tour our home and meet our team.',
       },
       {
         question: 'What should I expect during a tour or consultation?',

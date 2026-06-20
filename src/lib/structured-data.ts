@@ -4,7 +4,7 @@ export const jsonLd = {
   name: 'Casa Colina Care',
   description: 'Compassionate care home in Hawaii Kai, Hawaii',
   url: 'https://casacolinacare.com',
-  telephone: '+18082001840',
+  telephone: '+18084441168',
   faxNumber: '+18086701163',
   email: 'kriss@casacolinacare.com',
   address: {
