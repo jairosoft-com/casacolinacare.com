@@ -5,7 +5,7 @@ test.describe('About Page — Founder Name (US-006-01)', () => {
     page,
   }) => {
     await page.goto('/about');
-    await expect(page.getByText('Kriss Aseniero')).toBeVisible();
+    await expect(page.getByText('Mari Kriss C. Aseniero')).toBeVisible();
     await expect(page.getByText('Kriss Judd')).toBeHidden();
   });
 
