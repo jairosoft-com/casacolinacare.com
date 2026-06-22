@@ -47,6 +47,7 @@ Before writing `.not.toBeInTheDocument()` for a string, grep the component for t
 ## Related
 
 - [[RTL getAllByRole Returns All Headings Across Full Page Not Just Section]]
+- [[Playwright getByText Fails When Middle Initial Interrupts Name Substring]]
 
 ## Sources
 
