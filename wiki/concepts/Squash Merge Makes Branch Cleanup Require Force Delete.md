@@ -44,6 +44,8 @@ The B5 "already merged" check (`git merge-base --is-ancestor`) will return false
 ## Related
 
 - [[git worktree remove Requires --force for Claude Code Worktrees]]
+- [[After Squash Merge New Commits Need Cherry-Pick to Fresh Branch]]
+- [[gh pr merge Fails When Main Branch Is Checked Out in Another Worktree]]
 
 ## Sources
 
